@@ -45,6 +45,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
@@ -107,7 +108,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 		setUpActionBar();
 		onFormulaChangedListener = (OnFormulaChangedListener) ((ScriptActivity) getActivity())
 				.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
@@ -116,6 +116,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
 	}
 
 	private void setUpActionBar() {
@@ -237,7 +238,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 
 		setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
 
-		setHasOptionsMenu(true);
+		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
 		setUpActionBar();
 
 		return fragmentView;
