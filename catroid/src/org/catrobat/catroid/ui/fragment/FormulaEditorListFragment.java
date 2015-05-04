@@ -177,19 +177,15 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 	}
 
 	@Override
-	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
-		Log.i("info", "onKey() in FE-ListFragment! keyCode: " + keyCode);
-		boolean returnValue = false;
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
-				FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager()
-						.beginTransaction();
-				fragTransaction.hide(this);
-				fragTransaction.show(getActivity().getSupportFragmentManager().findFragmentByTag(
-						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
-				fragTransaction.commit();
-				return true;
+	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager()
+					.beginTransaction();
+			fragTransaction.hide(this);
+			fragTransaction.show(getActivity().getSupportFragmentManager().findFragmentByTag(
+					FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+			fragTransaction.commit();
+			return true;
 		}
 		return false;
 	}

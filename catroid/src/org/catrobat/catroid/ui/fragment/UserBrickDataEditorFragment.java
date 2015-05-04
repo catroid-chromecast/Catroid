@@ -346,6 +346,7 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 			menu.getItem(index).setVisible(false);
 		}
 
+		//May produce NullPointerException because of setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		getSupportActivity().getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));

@@ -38,6 +38,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,16 +49,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-<<<<<<< HEAD:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorDataFragment.java
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
-=======
->>>>>>> 0ea07d09441de54ebca83b73d5d0ef735a64b2ea:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorVariableListFragment.java
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -73,14 +64,10 @@ import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.utils.Utils;
 
-<<<<<<< HEAD:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorDataFragment.java
-public class FormulaEditorDataFragment extends SherlockListFragment implements Dialog.OnKeyListener,
+
+public class FormulaEditorDataFragment extends BaseListFragment implements Dialog.OnKeyListener,
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
-=======
-public class FormulaEditorVariableListFragment extends BaseListFragment implements Dialog.OnKeyListener,
-		UserVariableAdapter.OnCheckedChangeListener, UserVariableAdapter.OnListItemClickListener,
-		NewVariableDialogListener {
->>>>>>> 0ea07d09441de54ebca83b73d5d0ef735a64b2ea:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorVariableListFragment.java
+
 
 	public static final String USER_DATA_TAG = "userDataFragment";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
@@ -126,12 +113,9 @@ public class FormulaEditorVariableListFragment extends BaseListFragment implemen
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (!inContextMode) {
 			super.onCreateContextMenu(menu, view, menuInfo);
-<<<<<<< HEAD:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorDataFragment.java
-			getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_formulaeditor_userlist, menu);
+
+			getActivity().getMenuInflater().inflate(R.menu.context_menu_formulaeditor_userlist, menu);
 			menu.findItem(R.id.context_formula_editor_userlist_delete).setVisible(true);
-=======
-			getActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
->>>>>>> 0ea07d09441de54ebca83b73d5d0ef735a64b2ea:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorVariableListFragment.java
 		}
 	}
 
@@ -227,16 +211,11 @@ public class FormulaEditorVariableListFragment extends BaseListFragment implemen
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-<<<<<<< HEAD:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorDataFragment.java
+
 				NewDataDialog dialog = new NewDataDialog(NewDataDialog.DialogType.SHOW_LIST_CHECKBOX);
 				dialog.addUserListDialogListener(FormulaEditorDataFragment.this);
 				dialog.addVariableDialogListener(FormulaEditorDataFragment.this);
-				dialog.show(getSherlockActivity().getSupportFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
-=======
-				NewVariableDialog dialog = new NewVariableDialog();
-				dialog.addVariableDialogListener(FormulaEditorVariableListFragment.this);
-				dialog.show(fragmentActivity.getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
->>>>>>> 0ea07d09441de54ebca83b73d5d0ef735a64b2ea:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorVariableListFragment.java
+				dialog.show(getActivity().getSupportFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
 	}
@@ -315,13 +294,10 @@ public class FormulaEditorVariableListFragment extends BaseListFragment implemen
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-<<<<<<< HEAD:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorDataFragment.java
+
 		DataContainer dataContainer = currentProject.getDataContainer();
-		adapter = dataContainer.createDataAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);
-=======
-		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
-		adapter = userVariableContainer.createUserVariableAdapter(getActivity(), userBrickId, currentSprite, inUserBrick);
->>>>>>> 0ea07d09441de54ebca83b73d5d0ef735a64b2ea:catroid/src/org/catrobat/catroid/ui/fragment/FormulaEditorVariableListFragment.java
+		adapter = dataContainer.createDataAdapter(getActivity(), userBrickId, currentSprite, inUserBrick);
+
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);

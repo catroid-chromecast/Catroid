@@ -40,6 +40,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -64,6 +66,8 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
 import org.catrobat.catroid.utils.ToastUtil;
+
+
 
 public class FormulaEditorFragment extends BaseFragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -359,7 +363,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 
 		menu.findItem(R.id.menu_undo).setVisible(true);
 		menu.findItem(R.id.menu_redo).setVisible(true);
-
 		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
 
@@ -552,10 +555,8 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		return super.onOptionsItemSelected(item);
 	}
 
-
-	private void showFormulaEditorVariableListFragment(String tag, int actionbarResId) {
+	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
@@ -572,9 +573,8 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
-
-		((FormulaEditorVariableListFragment) fragment).setAddButtonListener(getSupportActivity());
-		((FormulaEditorVariableListFragment) fragment).showFragment(context);
+		((FormulaEditorDataFragment) fragment).setAddButtonListener(getSupportActivity());
+		((FormulaEditorDataFragment) fragment).showFragment(context);
 	}
 
 
@@ -636,22 +636,32 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		}
 
 		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
-/*<<<<<<< HEAD
-		BottomBar.hideBottomBar(getSherlockActivity());
+
+		BottomBar.hideBottomBar(getActivity());
 		filterVariableDeleted.addAction(ScriptActivity.ACTION_USERLIST_DELETED);
 		getActivity().registerReceiver(variableOrUserListDeletedReceiver, filterVariableDeleted);
 	}
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
-		getSherlockActivity().invalidateOptionsMenu();
+		getActivity().invalidateOptionsMenu();
 
-		ImageButton backspaceEditText = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_edit_field_clear);
-		ImageButton backspaceOnKeyboard = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
-=======*/
-		getActivity().registerReceiver(variableDeletedReceiver, filterVariableDeleted);
-		BottomBar.hideBottomBar(getSupportActivity());
+		ImageButton backspaceEditText = (ImageButton) getActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspaceOnKeyboard = (ImageButton) getActivity().findViewById(R.id.formula_editor_keyboard_delete);
+		if (!formulaEditorEditText.isThereSomethingToDelete()) {
+			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
+			backspaceEditText.setEnabled(false);
+			backspaceOnKeyboard.setAlpha(255 / 3);
+			backspaceOnKeyboard.setEnabled(false);
+		} else {
+			backspaceEditText.setImageResource(R.drawable.icon_backspace);
+			backspaceEditText.setEnabled(true);
+			backspaceOnKeyboard.setAlpha(255);
+			backspaceOnKeyboard.setEnabled(true);
+		}
 	}
 
+	//???
+/*
 	public void updateButtonViewOnKeyboard() {
 
 		ImageButton undo = (ImageButton) getSupportActivity().findViewById(R.id.formula_editor_keyboard_undo);
@@ -685,6 +695,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
 		}
-	}
+	}*/
 
 }

@@ -29,9 +29,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import android.util.Log;
-
 import android.support.v7.app.ActionBar;
+
+import android.util.Log;
 
 import android.view.KeyEvent;
 import android.view.Menu;
