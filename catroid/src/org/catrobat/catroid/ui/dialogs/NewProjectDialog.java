@@ -43,6 +43,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
@@ -57,12 +58,14 @@ public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
+	public static final String SHARED_PREFERENCES_LANDSCAPE_PROJECT = "shared_preferences_landscape_project";
 
 	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
+	private CheckBox landscapeProjectCheckBox;
 	private SharedPreferences sharedPreferences;
 
 	private boolean openendFromProjectList = false;
@@ -141,12 +144,31 @@ public class NewProjectDialog extends DialogFragment {
 		emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
 		emptyProjectCheckBox.setChecked(shouldBeEmpty);
 
+		boolean shouldBeLandscape = sharedPreferences.getBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, false);
+		landscapeProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_landscape_checkbox);
+		if (emptyProjectCheckBox.isChecked()) {
+			landscapeProjectCheckBox.setVisibility(View.VISIBLE);
+		}
+		landscapeProjectCheckBox.setChecked(shouldBeLandscape);
+
+		emptyProjectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (b) {
+					landscapeProjectCheckBox.setVisibility(View.VISIBLE);
+				} else {
+					landscapeProjectCheckBox.setVisibility(View.GONE);
+				}
+			}
+		});
+
 		return newProjectDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
+		boolean shouldBeLandscape = landscapeProjectCheckBox.isChecked();
 		if (getActivity() == null) {
 			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
@@ -163,7 +185,7 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
@@ -175,6 +197,7 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
+		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, shouldBeLandscape).commit();
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
