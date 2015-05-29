@@ -88,8 +88,8 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		script.addBrick(new NoteBrick(noteFormula));
 
 		sprite.addScript(script);
-		// NullPointerException
-		//project.addSprite(sprite);
+		// NullPointerException ???
+		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);

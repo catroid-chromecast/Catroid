@@ -643,10 +643,10 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 	}
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
-		getActivity().invalidateOptionsMenu();
+		getSupportActivity().invalidateOptionsMenu();
 
-		ImageButton backspaceEditText = (ImageButton) getActivity().findViewById(R.id.formula_editor_edit_field_clear);
-		ImageButton backspaceOnKeyboard = (ImageButton) getActivity().findViewById(R.id.formula_editor_keyboard_delete);
+		ImageButton backspaceEditText = (ImageButton) getSupportActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspaceOnKeyboard = (ImageButton) getSupportActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
 			backspaceEditText.setEnabled(false);

@@ -215,7 +215,7 @@ public class FormulaEditorDataFragment extends BaseListFragment implements Dialo
 				NewDataDialog dialog = new NewDataDialog(NewDataDialog.DialogType.SHOW_LIST_CHECKBOX);
 				dialog.addUserListDialogListener(FormulaEditorDataFragment.this);
 				dialog.addVariableDialogListener(FormulaEditorDataFragment.this);
-				dialog.show(getActivity().getSupportFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
+				dialog.show(fragmentActivity.getSupportFragmentManager(), NewDataDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
 	}

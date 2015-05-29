@@ -40,3 +40,24 @@ public class BaseListFragment extends ListFragment {
 		return getSupportActivity().getSupportActionBar();
 	}
 }
+
+//deprecated
+/*
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+
+/**
+ + * Created by illya on 10/11/14.
+ + *//*
+public class BaseListFragment extends ListFragment {
+
+protected ActionBarActivity getSupportActivity() {
+		return (ActionBarActivity) getActivity();
+	}
+
+		protected ActionBar getSupportActionBar() {
+				return getSupportActivity().getSupportActionBar();
+			}
+	}
+	*/

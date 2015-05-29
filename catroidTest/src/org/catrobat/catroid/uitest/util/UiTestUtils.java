@@ -1819,7 +1819,7 @@ public final class UiTestUtils {
 	}
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
-		//solo.waitForView(solo.getView(android.R.id.list));
+		solo.waitForView(solo.getView(android.R.id.list));
 		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
 		for (int position = 0; position < textViews.size(); position++) {
 			TextView view = textViews.get(position);
