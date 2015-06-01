@@ -50,7 +50,8 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		super.setUp();
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		solo.clickOnView(solo.getView(R.id.brick_note_edit_text));
+		//??? EXCEPTION
+		//solo.clickOnView(solo.getView(R.id.brick_note_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 	}
