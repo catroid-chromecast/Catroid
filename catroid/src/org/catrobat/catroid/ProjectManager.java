@@ -241,12 +241,16 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+			if (landscape) {
+				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
+			} else {
+				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+			}
 		} else {
 			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 		}

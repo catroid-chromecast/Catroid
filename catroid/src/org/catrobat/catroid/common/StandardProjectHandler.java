@@ -555,12 +555,24 @@ public final class StandardProjectHandler {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		Project emptyProject = new Project(context, projectName);
+		Project emptyProject = new Project(context, projectName, false);
 		emptyProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
 
 		return emptyProject;
+	}
+
+	public static Project createAndSaveLandscapeProject(String projectName, Context context) {
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		}
+		Project landscapeProject = new Project(context, projectName, true);
+		landscapeProject.setDeviceData(context);
+		StorageHandler.getInstance().saveProject(landscapeProject);
+		ProjectManager.getInstance().setProject(landscapeProject);
+
+		return landscapeProject;
 	}
 
 	private static int calculateValueRelativeToScaledBackground(int value) {
