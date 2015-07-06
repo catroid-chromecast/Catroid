@@ -22,25 +22,26 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
@@ -85,13 +86,9 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		}
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
-
+		
 		setNXTSensors();
-
-		ActionBar actionBar = getSupportActionBar();
-
-		actionBar.setTitle(R.string.preference_title);
-		actionBar.setHomeButtonEnabled(true);
+		updateActionBar();
 
 		screen = getPreferenceScreen();
 
@@ -105,6 +102,19 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+	}
+
+	@SuppressLint({"NewApi", "AppCompatMethod"})
+	private void updateActionBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			//No ActionBar for v10
+			ActionBar actionBar = getActionBar();
+
+			if (actionBar != null) {
+				actionBar.setTitle(R.string.preference_title);
+				actionBar.setHomeButtonEnabled(true);
+			}
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
