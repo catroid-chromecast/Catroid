@@ -856,6 +856,7 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
+    <string name="media_route_menu_title">chromecast title</string>
     <!-- -->
 
 </resources>

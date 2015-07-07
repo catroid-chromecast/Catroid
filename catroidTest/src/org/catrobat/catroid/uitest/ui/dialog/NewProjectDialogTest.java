@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui.dialog;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -219,6 +220,52 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
 
 		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
+		assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnButton(solo.getString(R.string.cancel_button));
+		assertTrue("Checkbox state should not be saved when canceling dialog",
+				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
+	}
+
+	public void testCreateLandscapeProject() {
+		//TODO: adapt for landscape project
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
+		//if checkbox empty != checked : assert checkbox landscape not visible
+		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
+		CheckBox landscapeProjectCheckBox = (CheckBox) solo.getView(R.id.project_landscape_checkbox);
+		if (emptyProjectCheckBox.isChecked()) {
+			assertEquals("Landscape checkbox should be visible", landscapeProjectCheckBox.getVisibility(), View.VISIBLE);
+			solo.clickOnCheckBox(0);
+			assertEquals("Landscape checkbox should now be invisible (gone)", landscapeProjectCheckBox.getVisibility(), View.GONE);
+		} else {
+			assertEquals("Landscape checkbox should be invisible (gone)",landscapeProjectCheckBox.getVisibility(), View.GONE);
+			solo.clickOnCheckBox(0);
+			assertEquals("Landscape checkbox should now be visible", landscapeProjectCheckBox.getVisibility(), View.VISIBLE);
+		}
+		//click checkbox empty : assert checkbox landscape is visible
+		//click again : assert lsc not visible again
+		
+		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.clickOnButton(solo.getString(R.string.ok));
+
+		UiTestUtils.waitForText(solo, solo.getString(R.string.background));
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		assertNotNull("Empty project shouldn't be null", project);
+		assertEquals("Just background object should exist", 1, project.getSpriteList().size());
+		assertEquals("Just background object should exist", solo.getString(R.string.background), project
+				.getSpriteList().get(0).getName());
+
+		assertTrue("Checkbox state should be saved",
+				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
+
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
+
+
 		assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
 
 		solo.clickOnCheckBox(0);

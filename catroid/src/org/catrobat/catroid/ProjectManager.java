@@ -251,8 +251,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
 			}
-
-
 		} else {
 			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 		}
