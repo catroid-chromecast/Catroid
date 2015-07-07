@@ -33,6 +33,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,8 @@ import android.view.View;
 
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
+import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,7 +53,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.cast.CastRemoteDisplayActivity;
+import org.catrobat.catroid.ui.cast.PresentationService;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -126,11 +129,39 @@ public class ProjectActivity extends BaseActivity {
 			String routeId = info.getId();
 
 			if (mSelectedDevice != null) {
-				Intent intent = new Intent(ProjectActivity.this,
-						CastRemoteDisplayActivity.class);
-				intent.putExtra(INTENT_EXTRA_CAST_DEVICE, mSelectedDevice);
-				startActivity(intent);
+				startCastService();
 			}
+		}
+
+		private void startCastService() {
+			Intent intent = new Intent(ProjectActivity.this,
+					ProjectActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			PendingIntent notificationPendingIntent = PendingIntent.getActivity(
+					ProjectActivity.this, 0, intent, 0);
+
+			CastRemoteDisplayLocalService.NotificationSettings settings =
+					new CastRemoteDisplayLocalService.NotificationSettings.Builder()
+							.setNotificationPendingIntent(notificationPendingIntent).build();
+
+			CastRemoteDisplayLocalService.startService(ProjectActivity.this,
+					PresentationService.class, REMOTE_DISPLAY_APP_ID,
+					mSelectedDevice, settings,
+					new CastRemoteDisplayLocalService.Callbacks() {
+						@Override
+						public void onRemoteDisplaySessionStarted(
+								CastRemoteDisplayLocalService service) {
+						}
+
+						@Override
+						public void onRemoteDisplaySessionError(Status errorReason) {
+							int code = errorReason.getStatusCode();
+							//initError();
+
+							mSelectedDevice = null;
+							ProjectActivity.this.finish();
+						}
+					});
 		}
 
 		@Override
