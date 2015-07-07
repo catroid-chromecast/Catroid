@@ -30,6 +30,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -299,6 +300,10 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
+
+		if(ProjectManager.getInstance().graphic == null)
+			ProjectManager.getInstance().graphic = Gdx.app.getGraphics();
+
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {

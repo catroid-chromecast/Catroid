@@ -129,6 +129,10 @@ public class ProjectActivity extends BaseActivity {
 			String routeId = info.getId();
 
 			if (mSelectedDevice != null) {
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+				Intent intent = new Intent(getApplication(), PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+
 				startCastService();
 			}
 		}

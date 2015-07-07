@@ -1,5 +1,6 @@
 package org.catrobat.catroid.ui.cast;
 
+import com.badlogic.gdx.Graphics;
 import com.google.android.gms.cast.CastPresentation;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 
@@ -13,6 +14,7 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -48,7 +50,6 @@ public class PresentationService extends CastRemoteDisplayLocalService {
 
     private void dismissPresentation() {
         if (mPresentation != null) {
-            mMediaPlayer.stop();
             mPresentation.dismiss();
             mPresentation = null;
         }
@@ -107,8 +108,16 @@ public class PresentationService extends CastRemoteDisplayLocalService {
             firstScreenSurfaceView.setZOrderMediaOverlay(true);
             // Enable anti-aliasing
             firstScreenSurfaceView.setEGLConfigChooser(new CustomConfigChooser());
-            mCubeRenderer = new CubeRenderer();
-            firstScreenSurfaceView.setRenderer(mCubeRenderer);
+            //mCubeRenderer = new CubeRenderer();
+            ProjectManager pm = ProjectManager.getInstance();
+            GLSurfaceView.Renderer graphic = (GLSurfaceView.Renderer) ProjectManager.getInstance().graphic;
+
+            while(graphic == null) {
+                if (graphic != null)
+                    firstScreenSurfaceView.setRenderer(graphic);
+                graphic = (GLSurfaceView.Renderer) ProjectManager.getInstance().graphic;
+            }
+            firstScreenSurfaceView.setRenderer(graphic);
         }
 
         /**

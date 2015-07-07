@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
