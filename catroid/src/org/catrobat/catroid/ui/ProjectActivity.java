@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.cast.CastRemoteDisplayActivity;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -63,6 +65,8 @@ public class ProjectActivity extends BaseActivity {
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
+	private final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
+	public static final String INTENT_EXTRA_CAST_DEVICE = "CastDevice";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,7 @@ public class ProjectActivity extends BaseActivity {
 
         mMediaRouteSelector = new MediaRouteSelector.Builder()
                 .addControlCategory(
-                        CastMediaControlIntent.categoryForCast("CEBB9229"))
+                        CastMediaControlIntent.categoryForCast(REMOTE_DISPLAY_APP_ID))
                 .build();
         mMediaRouter = MediaRouter.getInstance(getApplicationContext());
 
@@ -120,6 +124,13 @@ public class ProjectActivity extends BaseActivity {
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
 			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
 			String routeId = info.getId();
+
+			if (mSelectedDevice != null) {
+				Intent intent = new Intent(ProjectActivity.this,
+						CastRemoteDisplayActivity.class);
+				intent.putExtra(INTENT_EXTRA_CAST_DEVICE, mSelectedDevice);
+				startActivity(intent);
+			}
 		}
 
 		@Override
