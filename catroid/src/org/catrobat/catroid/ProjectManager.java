@@ -246,7 +246,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			if (landscape) {
+			if(chromecast) {
+				project = StandardProjectHandler.createAndSaveChromecastProject(projectName, context);
+			} if (landscape) {
 				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
 			} else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
