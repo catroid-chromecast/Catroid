@@ -149,7 +149,7 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
-	StageListener() {
+	public StageListener() {
 	}
 
 	@Override
@@ -300,9 +300,6 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-
-		if(ProjectManager.getInstance().graphic == null)
-			ProjectManager.getInstance().graphic = Gdx.app.getGraphics();
 
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

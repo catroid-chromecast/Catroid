@@ -79,7 +79,9 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
-		initialize(stageListener, new AndroidApplicationConfiguration());
+		ProjectManager.getInstance().view = initializeForView(stageListener, new AndroidApplicationConfiguration());
+		//initialize(stageListener, new AndroidApplicationConfiguration());
+
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();

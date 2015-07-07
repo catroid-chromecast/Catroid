@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
@@ -76,7 +77,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean asynchronTask = true;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
-	public Graphics graphic;
+	public View view;
 
 	private ProjectManager() {
 	}
