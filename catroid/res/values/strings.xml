@@ -859,4 +859,11 @@
     <string name="media_route_menu_title">chromecast title</string>
     <!-- -->
 
+    <!-- Tab strings -->
+    <string name="tab_device">Device</string>
+    <string name="tab_cast">Cast</string>
+    <!-- -->
+
+
+
 </resources>

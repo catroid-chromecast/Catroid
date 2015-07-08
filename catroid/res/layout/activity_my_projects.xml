@@ -52,4 +52,15 @@
         android:layout_above="@id/bottom_bar"
         class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignBottom="@+id/fragment_projects_list"
+        android:layout_toEndOf="@+id/progress_circle"
+        android:layout_toRightOf="@+id/progress_circle">
+
+    </LinearLayout>
+
 </RelativeLayout >

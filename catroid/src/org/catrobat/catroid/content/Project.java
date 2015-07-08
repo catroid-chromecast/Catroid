@@ -58,7 +58,7 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<Setting>();;
 	
-	public Project(Context context, String name, boolean landscape) {
+	public Project(Context context, String name, boolean landscape, boolean chromecast) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
@@ -70,6 +70,7 @@ public class Project implements Serializable {
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			Utils.updateScreenWidthAndHeight(context);
 		}
+
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
@@ -88,7 +89,7 @@ public class Project implements Serializable {
 	}
 
 	public Project(Context context, String name) {
-		new Project(context, name, false);
+		new Project(context, name, false, false);
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
