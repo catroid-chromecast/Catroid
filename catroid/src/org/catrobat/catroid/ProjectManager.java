@@ -264,6 +264,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentScript = null;
 	}
 
+	public void initializeNewProject(String projectName, Context context, boolean empty)
+			throws IllegalArgumentException, IOException {
+		initializeNewProject(projectName, context, empty, false);
+	}
+
 	public Project getCurrentProject() {
 		return project;
 	}

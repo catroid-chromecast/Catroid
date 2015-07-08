@@ -88,7 +88,7 @@ public class Project implements Serializable {
 	}
 
 	public Project(Context context, String name) {
-		new Project(context, name, false);
+		this(context, name, false);
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
