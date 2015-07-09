@@ -33,7 +33,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -192,7 +191,9 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.show_details:
-				handleShowDetails(!spritesListFragment.getShowDetails(), item);
+				//handleShowDetails(!spritesListFragment.getShowDetails(), item);
+				Intent intent = new Intent(ProjectActivity.this, CastProjectActivity.class);
+				startActivity(intent);
 				break;
 
 			case R.id.copy:
