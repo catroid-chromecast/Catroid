@@ -72,6 +72,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
 
+	private boolean isChromecastProject = false;
+
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
@@ -246,13 +248,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			if(chromecast) {
-				project = StandardProjectHandler.createAndSaveChromecastProject(projectName, context);
-			} if (landscape) {
+			if (landscape && !chromecast) {
 				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
-			} else {
+			} else if ( (landscape && chromecast) || chromecast) {
+				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
+			 } else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
-			}
+			 }
 		} else {
 			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
 		}
@@ -270,6 +272,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentSprite = null;
 
 		this.project = project;
+	}
+
+	public void setChromecastProject() {
+		this.isChromecastProject = true;
 	}
 
 	//@Deprecated
