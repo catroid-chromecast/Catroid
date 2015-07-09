@@ -175,6 +175,9 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.CastProjectActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name="org.catrobat.catroid.ui.cast.PresentationService"
             android:exported="false"/>
