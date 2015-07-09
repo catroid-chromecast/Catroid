@@ -194,7 +194,4 @@ public class XmlHeader implements Serializable {
 		this.isPhiroProProject = isPhiroProProject;
 	}
 
-	public boolean getChromecastPro() { return this.isChromecastPro; }
-
-	public void setChromecastPro(boolean chromecastPro) { this.isChromecastPro = chromecastPro; }
 }

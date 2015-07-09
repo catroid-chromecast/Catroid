@@ -294,11 +294,4 @@ public class Project implements Serializable {
 		xmlHeader.setPhiroProProject(isPhiroProProject);
 	}
 
-	public void setChromecastProject() {
-		xmlHeader.setChromecastPro(true);
-	}
-
-	public boolean getChromecastProject() {
-		return xmlHeader.getChromecastPro();
-	}
 }
