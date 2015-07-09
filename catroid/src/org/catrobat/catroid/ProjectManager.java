@@ -57,6 +57,7 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.cast.GdxCast;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -78,6 +79,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 	public View view;
+	public GdxCast gdxCast = new GdxCast();
+	public GdxCast gdxDevice = new GdxCast();
 
 	private ProjectManager() {
 	}

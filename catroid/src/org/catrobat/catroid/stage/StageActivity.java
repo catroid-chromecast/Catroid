@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -38,16 +39,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.ui.cast.GdxCast;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
-public class StageActivity extends com.badlogic.gdx.backends.android.AndroidApplicationBaCast {
+public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
 	private boolean resizePossible;
@@ -87,6 +90,22 @@ public class StageActivity extends com.badlogic.gdx.backends.android.AndroidAppl
 
 		//ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
 		initialize(stageListener, new AndroidApplicationConfiguration());
+
+		ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
+		ProjectManager.getInstance().gdxDevice.app = Gdx.app;
+		ProjectManager.getInstance().gdxDevice.audio = Gdx.audio;
+		ProjectManager.getInstance().gdxDevice.files = Gdx.files;
+		//ProjectManager.getInstance().gdxDevice.gl = Gdx.gl;
+		//ProjectManager.getInstance().gdxDevice.gl20 = Gdx.gl20;
+		ProjectManager.getInstance().gdxDevice.gl30 = Gdx.gl30;
+		ProjectManager.getInstance().gdxDevice.graphics = Gdx.graphics;
+		ProjectManager.getInstance().gdxDevice.input = Gdx.input;
+		ProjectManager.getInstance().gdxDevice.net = Gdx.net;
+
+		GdxCast cast = ProjectManager.getInstance().gdxCast;
+		GdxCast devi = ProjectManager.getInstance().gdxDevice;
+
+		stageListener.mGdx = devi;
 
 		if (droneConnection != null) {
 			try {

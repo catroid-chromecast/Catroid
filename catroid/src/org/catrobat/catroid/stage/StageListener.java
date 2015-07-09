@@ -62,6 +62,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.ui.cast.GdxCast;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -149,11 +150,14 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
+	public GdxCast mGdx;
+
 	public StageListener() {
 	}
 
 	@Override
 	public void create() {
+
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.getData().setScale(1.2f);
@@ -190,13 +194,13 @@ public class StageListener implements ApplicationListener {
 			InputMultiplexer multiplexer = new InputMultiplexer();
 			multiplexer.addProcessor(camController);
 			multiplexer.addProcessor(stage);
-			Gdx.input.setInputProcessor(multiplexer);
+			mGdx.input.setInputProcessor(multiplexer);
 			fpsLogger = new FPSLogger();
 		} else {
-			Gdx.input.setInputProcessor(stage);
+			mGdx.input.setInputProcessor(stage);
 		}
 
-		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
+		axes = new Texture(mGdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
@@ -301,8 +305,11 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void render() {
 
-		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if(mGdx == null)
+			return;
+
+		mGdx.gl.glClearColor(1f, 1f, 1f, 1f);
+		mGdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -358,7 +365,7 @@ public class StageListener implements ApplicationListener {
 			firstStart = false;
 		}
 		if (!paused) {
-			float deltaTime = Gdx.graphics.getDeltaTime();
+			float deltaTime = mGdx.graphics.getDeltaTime();
 
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
@@ -554,7 +561,7 @@ public class StageListener implements ApplicationListener {
 			centerSquareBitmap = Bitmap.createBitmap(fullScreenBitmap, 0, 0, screenshotWidth, screenshotHeight);
 		}
 
-		FileHandle image = Gdx.files.absolute(pathForScreenshot + fileName);
+		FileHandle image = mGdx.files.absolute(pathForScreenshot + fileName);
 		OutputStream stream = image.write(false);
 		try {
 			new File(pathForScreenshot + Constants.NO_MEDIA_FILE).createNewFile();

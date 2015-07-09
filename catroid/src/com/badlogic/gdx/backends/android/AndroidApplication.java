@@ -379,11 +379,13 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		return clipboard;
 	}
 
+
 	@Override
 	public void postRunnable (Runnable runnable) {
 		synchronized (runnables) {
 			runnables.add(runnable);
 			Gdx.graphics.requestRendering();
+
 		}
 	}
 

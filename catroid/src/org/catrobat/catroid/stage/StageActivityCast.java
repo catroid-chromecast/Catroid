@@ -29,6 +29,8 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.android.AndroidApplicationBaCast;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import org.catrobat.catroid.ProjectManager;
@@ -36,6 +38,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -45,7 +48,7 @@ import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
-public class StageActivityCast extends StageActivity {
+public class StageActivityCast extends AndroidApplicationBaCast {
 	public static final String TAG = StageActivityCast.class.getSimpleName();
 	public static StageListener stageListener;
 	private boolean resizePossible;
@@ -77,7 +80,6 @@ public class StageActivityCast extends StageActivity {
 			droneConnection = new DroneConnection(this);
 		}
 		stageListener = new StageListener();
-		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
 		AndroidApplicationConfiguration configOriginal = new AndroidApplicationConfiguration();
@@ -86,6 +88,18 @@ public class StageActivityCast extends StageActivity {
 		//configNew = (pakk.com.badlogic.gdx.backends.android.AndroidApplicationConfiguration)configOriginal;
 
 		ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
+		ProjectManager.getInstance().gdxCast.app = Gdx.app;
+		ProjectManager.getInstance().gdxCast.audio = Gdx.audio;
+		ProjectManager.getInstance().gdxCast.files = Gdx.files;
+		//ProjectManager.getInstance().gdxCast.gl = Gdx.gl;
+		//ProjectManager.getInstance().gdxCast.gl20 = Gdx.gl20;
+		ProjectManager.getInstance().gdxCast.gl30 = Gdx.gl30;
+		ProjectManager.getInstance().gdxCast.graphics = Gdx.graphics;
+		ProjectManager.getInstance().gdxCast.input = Gdx.input;
+		ProjectManager.getInstance().gdxCast.net = Gdx.net;
+
+		stageListener.mGdx = ProjectManager.getInstance().gdxCast;
+
 		//initialize(stageListener, new AndroidApplicationConfiguration());
 
 		if (droneConnection != null) {
@@ -106,9 +120,9 @@ public class StageActivityCast extends StageActivity {
 	@Override
 	public void onBackPressed() {
 		//pause();
-		stageDialog.show();
+		//stageDialog.show();
 
-		Intent intent = new Intent(StageActivityCast.this, StageActivityCast.class);
+		Intent intent = new Intent(StageActivityCast.this, StageActivity.class);
 		startActivity(intent);
 	}
 
