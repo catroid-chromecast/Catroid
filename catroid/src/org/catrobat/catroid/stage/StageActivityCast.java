@@ -29,8 +29,6 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import org.catrobat.catroid.ProjectManager;
@@ -47,8 +45,8 @@ import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
-public class StageActivity extends com.badlogic.gdx.backends.android.AndroidApplicationBaCast {
-	public static final String TAG = StageActivity.class.getSimpleName();
+public class StageActivityCast extends StageActivity {
+	public static final String TAG = StageActivityCast.class.getSimpleName();
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
@@ -63,6 +61,8 @@ public class StageActivity extends com.badlogic.gdx.backends.android.AndroidAppl
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+
+		// TODO make own class cast not extended from stage
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
@@ -85,8 +85,8 @@ public class StageActivity extends com.badlogic.gdx.backends.android.AndroidAppl
 
 		//configNew = (pakk.com.badlogic.gdx.backends.android.AndroidApplicationConfiguration)configOriginal;
 
-		//ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
-		initialize(stageListener, new AndroidApplicationConfiguration());
+		ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
+		//initialize(stageListener, new AndroidApplicationConfiguration());
 
 		if (droneConnection != null) {
 			try {
@@ -105,8 +105,11 @@ public class StageActivity extends com.badlogic.gdx.backends.android.AndroidAppl
 
 	@Override
 	public void onBackPressed() {
-		pause();
+		//pause();
 		stageDialog.show();
+
+		Intent intent = new Intent(StageActivityCast.this, StageActivityCast.class);
+		startActivity(intent);
 	}
 
 	public void manageLoadAndFinish() {
