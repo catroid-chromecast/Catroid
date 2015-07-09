@@ -46,7 +46,7 @@ public class CastProjectActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 			SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
-			transaction.replace(R.id.sample_content_fragment, fragment);
+			transaction.replace(R.id.sliding_tabs_placeholder, fragment);
 			transaction.commit();
 		}
 	}
