@@ -46,6 +46,8 @@ public class XmlHeader implements Serializable {
 
 	private boolean isPhiroProProject = false;
 
+	private boolean isChromecastPro = false;
+
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
 	private int applicationBuildNumber = 0;
@@ -191,4 +193,8 @@ public class XmlHeader implements Serializable {
 	public void setPhiroProProject(boolean isPhiroProProject) {
 		this.isPhiroProProject = isPhiroProProject;
 	}
+
+	public boolean getChromecastPro() { return this.isChromecastPro; }
+
+	public void setChromecastPro(boolean chromecastPro) { this.isChromecastPro = chromecastPro; }
 }
