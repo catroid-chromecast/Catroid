@@ -572,6 +572,8 @@ public final class StandardProjectHandler {
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
 
+		setChromecastProject();
+
 		return emptyProject;
 	}
 
