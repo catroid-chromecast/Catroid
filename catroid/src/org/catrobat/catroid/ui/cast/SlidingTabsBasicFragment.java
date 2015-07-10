@@ -38,7 +38,7 @@ public class SlidingTabsBasicFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cast_fragment, container, false);
+		return inflater.inflate(R.layout.sliding_tab_basic_fragment, container, false);
 	}
 
 	@Override
@@ -46,9 +46,11 @@ public class SlidingTabsBasicFragment extends Fragment {
 		mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
 		mViewPager.setAdapter(new SamplePagerAdapter());
 
-		mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
+		mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tab_layout);
 		mSlidingTabLayout.setViewPager(mViewPager);
 	}
+
+	public SlidingTabLayout getSlidingTabLayout() { return mSlidingTabLayout; }
 
 	class SamplePagerAdapter extends PagerAdapter {
 

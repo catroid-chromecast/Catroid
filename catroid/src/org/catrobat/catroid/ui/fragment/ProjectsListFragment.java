@@ -56,9 +56,8 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.CastProjectActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectEditListener;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
@@ -444,6 +443,7 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 	@Override
 	public void onProjectEdit(int position) {
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		//TODO (davidwittenbrink): if chromecastproject use CastProjectActivity.class
 		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, (adapter.getItem(position)).projectName);
 		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 

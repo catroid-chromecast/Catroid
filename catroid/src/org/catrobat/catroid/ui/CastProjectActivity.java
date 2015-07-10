@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
@@ -71,12 +70,6 @@ public class CastProjectActivity extends ProjectActivity {
 				.build();
 		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
 
-		if (savedInstanceState == null) {
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
-			transaction.replace(R.id.sliding_tabs_placeholder, fragment);
-			transaction.commit();
-		}
 	}
 
 	@Override
@@ -110,6 +103,20 @@ public class CastProjectActivity extends ProjectActivity {
 			return;
 		}
 		super.handlePlayButton(view);
+	}
+
+	@Override
+	public void handleAddButton(View view) {
+		int tabIndex = ((SlidingTabsBasicFragment) getSupportFragmentManager().findFragmentById(R.id.sliding_tabs_basic_fragment))
+				.getSlidingTabLayout().getSlidingTabStrip().getSelectedPosition();
+
+		//TODO (davidwittenbrink): Remove hardcoded tab values
+		if (tabIndex == 0) {
+			Toast.makeText(this, "Adding object to device", Toast.LENGTH_SHORT).show();
+		} else if (tabIndex == 1) {
+			Toast.makeText(this, "Adding object to cast", Toast.LENGTH_SHORT).show();
+		}
+		super.handleAddButton(view);
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {

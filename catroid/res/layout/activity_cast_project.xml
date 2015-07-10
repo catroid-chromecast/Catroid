@@ -44,15 +44,23 @@
     android:layout_height="match_parent"
     android:id="@+id/sample_main_layout">
 
-    <FrameLayout
-        android:id="@+id/sliding_tabs_placeholder"
-        android:layout_weight="2"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0px" />
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/bottom_bar"
+            layout="@layout/bottom_bar"/>
 
-    <include
-        android:id="@+id/bottom_bar_cast"
-        layout="@layout/bottom_bar_cast"/>
+        <fragment
+            android:id="@+id/sliding_tabs_basic_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="org.catrobat.catroid.ui.cast.SlidingTabsBasicFragment"
+            android:layout_above="@+id/bottom_bar">
+        </fragment>
+    </RelativeLayout>
+
+
 
 </LinearLayout>
 

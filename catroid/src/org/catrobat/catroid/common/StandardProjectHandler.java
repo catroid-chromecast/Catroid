@@ -575,13 +575,7 @@ public final class StandardProjectHandler {
 	}
 
 	public static Project createAndSaveChromecastProject(String projectName, Context context) {
-		if (StorageHandler.getInstance().projectExists(projectName)) {
-			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
-		}
-		Project emptyProject = new Project(context, projectName, true);
-		emptyProject.setDeviceData(context);
-		StorageHandler.getInstance().saveProject(emptyProject);
-		ProjectManager.getInstance().setProject(emptyProject);
+		Project emptyProject = createAndSaveLandscapeProject(projectName, context);
 		ProjectManager.getInstance().setChromecastProject(true);
 		return emptyProject;
 	}

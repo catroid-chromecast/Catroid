@@ -145,7 +145,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	public void handleContinueButton() {
 		Intent intent;
-		if(ProjectManager.getInstance().getChromecastProject()) {
+		if(ProjectManager.getInstance().isChromecastProject()) {
 			intent = new Intent(this, CastProjectActivity.class);
 		} else {
 			intent = new Intent(this, ProjectActivity.class);
@@ -164,12 +164,9 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) { //TODO: Unterscheiden zwischen Cast und normalem Projekt
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
 		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
-			Intent intent;
-
-				intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
-
+			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
 	}

@@ -211,13 +211,14 @@ public class NewProjectDialog extends DialogFragment {
 
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, shouldBeLandscape).commit();
+		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_CHROMECAST_PROJECT, shouldBeChromecast).commit();
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent;
-		if(ProjectManager.getInstance().getChromecastProject())
+		if(shouldBeChromecast)
 		{
 			intent = new Intent(getActivity(), CastProjectActivity.class);
-		}else {
+		} else {
 			intent = new Intent(getActivity(), ProjectActivity.class);
 		}
 		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);

@@ -251,7 +251,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (empty) {
 			if (landscape && !chromecast) {
 				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
-			} else if ( (landscape && chromecast) || chromecast) {
+			} else if (chromecast) {
 				project = StandardProjectHandler.createAndSaveChromecastProject(projectName, context);
 			 } else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
@@ -279,7 +279,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.isChromecastProject = bool;
 	}
 
-	public boolean getChromecastProject() {
+	public boolean isChromecastProject() {
+		//TODO: do we really need this?
 		return this.isChromecastProject;
 	}
 
