@@ -58,7 +58,7 @@ public class Project implements Serializable {
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<Setting>();;
 	
-	public Project(Context context, String name, boolean landscape, boolean chromecast) {
+	public Project(Context context, String name, boolean landscape) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
 
@@ -89,7 +89,7 @@ public class Project implements Serializable {
 	}
 
 	public Project(Context context, String name) {
-		new Project(context, name, false, false);
+		new Project(context, name, false);
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
@@ -294,11 +294,4 @@ public class Project implements Serializable {
 		xmlHeader.setPhiroProProject(isPhiroProProject);
 	}
 
-	public void setChromecastProject() {
-		xmlHeader.setChromecastPro(true);
-	}
-
-	public boolean getChromecastProject() {
-		return xmlHeader.getChromecastPro();
-	}
 }
