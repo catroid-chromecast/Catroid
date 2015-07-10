@@ -22,26 +22,16 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.MediaRouteActionProvider;
-import android.support.v7.media.MediaRouteSelector;
-import android.support.v7.media.MediaRouter;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.google.android.gms.cast.CastDevice;
-import com.google.android.gms.cast.CastMediaControlIntent;
-import com.google.android.gms.cast.CastRemoteDisplayLocalService;
-import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -52,7 +42,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.cast.PresentationService;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -63,24 +52,11 @@ public class ProjectActivity extends BaseActivity {
 
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
-	private MediaRouter mMediaRouter;
-	private MediaRouteSelector mMediaRouteSelector;
-	private CastDevice mSelectedDevice;
-	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
-	private final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
-	public static final String INTENT_EXTRA_CAST_DEVICE = "CastDevice";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
-
-        mMediaRouteSelector = new MediaRouteSelector.Builder()
-                .addControlCategory(
-                        CastMediaControlIntent.categoryForCast(REMOTE_DISPLAY_APP_ID))
-                .build();
-        mMediaRouter = MediaRouter.getInstance(getApplicationContext());
-
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
@@ -90,9 +66,6 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback,
-				MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
 
 		String programName;
 		Bundle bundle = getIntent().getExtras();
@@ -120,80 +93,23 @@ public class ProjectActivity extends BaseActivity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
-		@Override
-		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
-			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
-			String routeId = info.getId();
-
-			if (mSelectedDevice != null) {
-				startCastService();
-			}
-		}
-
-		private void startCastService() {
-			Intent intent = new Intent(ProjectActivity.this,
-					ProjectActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent notificationPendingIntent = PendingIntent.getActivity(
-					ProjectActivity.this, 0, intent, 0);
-
-			CastRemoteDisplayLocalService.NotificationSettings settings =
-					new CastRemoteDisplayLocalService.NotificationSettings.Builder()
-							.setNotificationPendingIntent(notificationPendingIntent).build();
-
-			CastRemoteDisplayLocalService.startService(ProjectActivity.this,
-					PresentationService.class, REMOTE_DISPLAY_APP_ID,
-					mSelectedDevice, settings,
-					new CastRemoteDisplayLocalService.Callbacks() {
-						@Override
-						public void onRemoteDisplaySessionStarted(
-								CastRemoteDisplayLocalService service) {
-						}
-
-						@Override
-						public void onRemoteDisplaySessionError(Status errorReason) {
-							int code = errorReason.getStatusCode();
-							//initError();
-
-							mSelectedDevice = null;
-							ProjectActivity.this.finish();
-						}
-					});
-		}
-
-		@Override
-		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
-			//teardown();
-			mSelectedDevice = null;
-		}
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-
-			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
-			MediaRouteActionProvider mediaRouteActionProvider =
-					(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
-			mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
             return true;
 		}
 		return false;
 	}
 
-
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.show_details:
-				//handleShowDetails(!spritesListFragment.getShowDetails(), item);
-				Intent intent = new Intent(ProjectActivity.this, CastProjectActivity.class);
-				startActivity(intent);
+				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
 
 			case R.id.copy:
@@ -223,12 +139,6 @@ public class ProjectActivity extends BaseActivity {
 
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onStop() {
-		mMediaRouter.removeCallback(mMediaRouterCallback);
-		super.onStop();
 	}
 
 	@Override

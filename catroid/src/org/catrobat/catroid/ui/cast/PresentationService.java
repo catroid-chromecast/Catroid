@@ -1,17 +1,15 @@
 package org.catrobat.catroid.ui.cast;
 
-import com.google.android.gms.cast.CastPresentation;
-import com.google.android.gms.cast.CastRemoteDisplayLocalService;
-
 import android.content.Context;
-import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.google.android.gms.cast.CastPresentation;
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 
 import org.catrobat.catroid.R;
 
@@ -28,7 +26,6 @@ public class PresentationService extends CastRemoteDisplayLocalService {
 
     // First screen
     private CastPresentation mPresentation;
-    private MediaPlayer mMediaPlayer;
     private CubeRenderer mCubeRenderer;
 
     @Override
@@ -48,7 +45,6 @@ public class PresentationService extends CastRemoteDisplayLocalService {
 
     private void dismissPresentation() {
         if (mPresentation != null) {
-            mMediaPlayer.stop();
             mPresentation.dismiss();
             mPresentation = null;
         }

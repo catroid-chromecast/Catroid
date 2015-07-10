@@ -38,7 +38,7 @@ public class SlidingTabsBasicFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.cast_fragment_sample, container, false);
+		return inflater.inflate(R.layout.cast_fragment, container, false);
 	}
 
 	@Override
@@ -74,12 +74,12 @@ public class SlidingTabsBasicFragment extends Fragment {
 			View view;
 			switch (position) {
 				case 0:
-					view = getActivity().getLayoutInflater().inflate(R.layout.cast_pager_item_device,
+					view = getActivity().getLayoutInflater().inflate(R.layout.cast_pager_item_large_screen,
 							container, false);
 					container.addView(view);
 					break;
 				case 1:
-					view = getActivity().getLayoutInflater().inflate(R.layout.cast_pager_item_cast,
+					view = getActivity().getLayoutInflater().inflate(R.layout.cast_pager_item_small_screen,
 							container, false);
 					container.addView(view);
 					break;

@@ -106,12 +106,15 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 	public boolean isLoading = false;
 
 	private boolean fragmentStartedFirstTime = true;
+	public boolean isBigScreenFragment = false;
+	//CastSpritesListFragment changes this to true
+	// if we need to load the sprites for the larges screen.
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-
 		programName = getActivity().getIntent().getStringExtra(Constants.PROJECTNAME_TO_LOAD);
 	}
 
@@ -707,3 +710,4 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 	}
 
 }
+

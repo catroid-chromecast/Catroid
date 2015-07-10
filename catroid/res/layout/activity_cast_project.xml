@@ -50,5 +50,9 @@
         android:layout_width="match_parent"
         android:layout_height="0px" />
 
+    <include
+        android:id="@+id/bottom_bar_cast"
+        layout="@layout/bottom_bar_cast"/>
+
 </LinearLayout>
 

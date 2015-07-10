@@ -8,10 +8,10 @@
     android:gravity="center">
 
     <fragment
-        android:id="@+id/device_pager_fragment"
+        android:id="@+id/cast_pager_fragment_big_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="org.catrobat.catroid.ui.fragment.SpritesListFragment"
+        class="org.catrobat.catroid.ui.fragment.CastSpritesListFragment"
         tools:layout="@layout/fragment_sprites_list"/>
 
 
