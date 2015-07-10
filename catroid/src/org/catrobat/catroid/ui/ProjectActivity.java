@@ -191,9 +191,7 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.show_details:
-				//handleShowDetails(!spritesListFragment.getShowDetails(), item);
-				Intent intent = new Intent(ProjectActivity.this, CastProjectActivity.class);
-				startActivity(intent);
+				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
 
 			case R.id.copy:

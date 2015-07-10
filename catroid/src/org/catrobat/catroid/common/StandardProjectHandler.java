@@ -555,7 +555,7 @@ public final class StandardProjectHandler {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		Project emptyProject = new Project(context, projectName, false, false);
+		Project emptyProject = new Project(context, projectName, false);
 		emptyProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
@@ -567,12 +567,22 @@ public final class StandardProjectHandler {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
-		Project emptyProject = new Project(context, projectName, true, false);
+		Project emptyProject = new Project(context, projectName, true);
 		emptyProject.setDeviceData(context);
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
-		ProjectManager.getInstance().setChromecastProject();
+		return emptyProject;
+	}
 
+	public static Project createAndSaveChromecastProject(String projectName, Context context) {
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		}
+		Project emptyProject = new Project(context, projectName, true);
+		emptyProject.setDeviceData(context);
+		StorageHandler.getInstance().saveProject(emptyProject);
+		ProjectManager.getInstance().setProject(emptyProject);
+		ProjectManager.getInstance().setChromecastProject(true);
 		return emptyProject;
 	}
 

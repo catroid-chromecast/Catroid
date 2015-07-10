@@ -56,6 +56,7 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.CastProjectActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
@@ -442,7 +443,7 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 
 	@Override
 	public void onProjectEdit(int position) {
-		Intent intent = new Intent(getActivity(), CastProjectActivity.class);
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
 		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, (adapter.getItem(position)).projectName);
 		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 

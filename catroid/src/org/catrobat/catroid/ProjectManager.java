@@ -246,12 +246,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape, boolean chromecast)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
+		ProjectManager.getInstance().setChromecastProject(false);
 
 		if (empty) {
 			if (landscape && !chromecast) {
 				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
 			} else if ( (landscape && chromecast) || chromecast) {
-				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
+				project = StandardProjectHandler.createAndSaveChromecastProject(projectName, context);
 			 } else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
 			 }
@@ -274,8 +275,12 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.project = project;
 	}
 
-	public void setChromecastProject() {
-		this.isChromecastProject = true;
+	public void setChromecastProject(boolean bool) {
+		this.isChromecastProject = bool;
+	}
+
+	public boolean getChromecastProject() {
+		return this.isChromecastProject;
 	}
 
 	//@Deprecated

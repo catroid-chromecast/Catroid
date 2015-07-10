@@ -49,6 +49,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.CastProjectActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -180,7 +181,7 @@ public class NewProjectDialog extends DialogFragment {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 		boolean shouldBeLandscape = landscapeProjectCheckBox.isChecked();
-		boolean shouldBeChromecast = landscapeProjectCheckBox.isChecked();
+		boolean shouldBeChromecast = chromecastProjectCheckBox.isChecked();
 		if (getActivity() == null) {
 			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
@@ -212,8 +213,13 @@ public class NewProjectDialog extends DialogFragment {
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, shouldBeLandscape).commit();
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
+		Intent intent;
+		if(ProjectManager.getInstance().getChromecastProject())
+		{
+			intent = new Intent(getActivity(), CastProjectActivity.class);
+		}else {
+			intent = new Intent(getActivity(), ProjectActivity.class);
+		}
 		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
 
 		if (isOpenendFromProjectList()) {
