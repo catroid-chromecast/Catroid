@@ -58,6 +58,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.ui.cast.GdxCast;
+import org.catrobat.catroid.ui.cast.PresentationService;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -81,6 +82,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public View view;
 	public GdxCast gdxCast = new GdxCast();
 	public GdxCast gdxDevice = new GdxCast();
+	public PresentationService.FirstScreenPresentation presentation;
 
 	private ProjectManager() {
 	}

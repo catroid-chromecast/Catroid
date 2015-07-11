@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.profiling.GL20Profiler;
 
+import org.catrobat.catroid.ProjectManager;
+
 /**
  * Created by Paul on 09.07.2015.
  */
@@ -30,5 +32,17 @@ public class GdxCast {
     public GdxCast() {
         this.gl20 = new AndroidGL20();
         this.gl = this.gl20;
+    }
+
+    public void setGdx() {
+        Gdx.app = this.app;
+        Gdx.audio = this.audio;
+        Gdx.files = this.files;
+        Gdx.gl = this.gl;
+        Gdx.gl20 = this.gl20;
+        Gdx.gl30 = this.gl30;
+        Gdx.graphics = this.graphics;
+        Gdx.input = this.input;
+        Gdx.net = this.net;
     }
 }

@@ -22,14 +22,12 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -39,12 +37,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
-import org.catrobat.catroid.ui.cast.GdxCast;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -83,29 +79,8 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
-		AndroidApplicationConfiguration configOriginal = new AndroidApplicationConfiguration();
-		//pakk.com.badlogic.gdx.backends.android.AndroidApplicationConfiguration configNew = new pakk.com.badlogic.gdx.backends.android.AndroidApplicationConfiguration();
-
-		//configNew = (pakk.com.badlogic.gdx.backends.android.AndroidApplicationConfiguration)configOriginal;
-
-		//ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
+		//ProjectManager.getInstance().view = initializeForView(stageListener, new AndroidApplicationConfiguration());
 		initialize(stageListener, new AndroidApplicationConfiguration());
-
-		ProjectManager.getInstance().view = initializeForView(stageListener, configOriginal);
-		ProjectManager.getInstance().gdxDevice.app = Gdx.app;
-		ProjectManager.getInstance().gdxDevice.audio = Gdx.audio;
-		ProjectManager.getInstance().gdxDevice.files = Gdx.files;
-		//ProjectManager.getInstance().gdxDevice.gl = Gdx.gl;
-		//ProjectManager.getInstance().gdxDevice.gl20 = Gdx.gl20;
-		ProjectManager.getInstance().gdxDevice.gl30 = Gdx.gl30;
-		ProjectManager.getInstance().gdxDevice.graphics = Gdx.graphics;
-		ProjectManager.getInstance().gdxDevice.input = Gdx.input;
-		ProjectManager.getInstance().gdxDevice.net = Gdx.net;
-
-		GdxCast cast = ProjectManager.getInstance().gdxCast;
-		GdxCast devi = ProjectManager.getInstance().gdxDevice;
-
-		stageListener.mGdx = devi;
 
 		if (droneConnection != null) {
 			try {
@@ -156,7 +131,7 @@ public class StageActivity extends AndroidApplication {
 		SensorHandler.startSensorListener(this);
 		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
-		//LedUtil.resumeLed();
+		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
 		super.onResume();
 

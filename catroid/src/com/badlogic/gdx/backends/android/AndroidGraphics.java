@@ -62,7 +62,7 @@ public class AndroidGraphics implements Graphics, Renderer {
 	 * kill the current process to avoid ANR */
 	static volatile boolean enforceContinuousRendering = false;
 
-	final View view;
+	public View view;
 	int width;
 	int height;
 	AndroidApplicationBase app;

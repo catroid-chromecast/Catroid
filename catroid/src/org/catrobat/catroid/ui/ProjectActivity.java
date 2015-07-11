@@ -240,9 +240,9 @@ public class ProjectActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(ProjectActivity.this, StageActivityCast.class);
-			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
-			startActivity(intent);
+//			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
+//			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+//			startActivity(intent);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();

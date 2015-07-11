@@ -43,6 +43,7 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -98,7 +99,7 @@ public class StageActivityCast extends AndroidApplicationBaCast {
 		ProjectManager.getInstance().gdxCast.input = Gdx.input;
 		ProjectManager.getInstance().gdxCast.net = Gdx.net;
 
-		stageListener.mGdx = ProjectManager.getInstance().gdxCast;
+		//stageListener.mGdx = ProjectManager.getInstance().gdxCast;
 
 		//initialize(stageListener, new AndroidApplicationConfiguration());
 
@@ -122,7 +123,7 @@ public class StageActivityCast extends AndroidApplicationBaCast {
 		//pause();
 		//stageDialog.show();
 
-		Intent intent = new Intent(StageActivityCast.this, StageActivity.class);
+		Intent intent = new Intent(StageActivityCast.this, MainMenuActivity.class);
 		startActivity(intent);
 	}
 
@@ -163,6 +164,9 @@ public class StageActivityCast extends AndroidApplicationBaCast {
 		}
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+
+//		Intent intent = new Intent(StageActivityCast.this, StageActivity.class);
+//		startActivity(intent);
 	}
 
 	public void pause() {
