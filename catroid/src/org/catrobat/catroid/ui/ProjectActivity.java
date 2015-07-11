@@ -130,10 +130,6 @@ public class ProjectActivity extends BaseActivity {
 			String routeId = info.getId();
 
 			if (mSelectedDevice != null) {
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-				Intent intent = new Intent(getApplication(), PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-
 				startCastService();
 			}
 		}
@@ -240,9 +236,9 @@ public class ProjectActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-//			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
-//			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
-//			startActivity(intent);
+			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
+			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+			startActivity(intent);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();

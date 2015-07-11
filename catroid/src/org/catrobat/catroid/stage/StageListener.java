@@ -181,6 +181,7 @@ public class StageListener implements ApplicationListener {
 			sprite.resume();
 		}
 
+		// TODO is this a problem ???
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
 				maximizeViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
@@ -204,7 +205,7 @@ public class StageListener implements ApplicationListener {
 
 	}
 
-	void activityResume() {
+	public void activityResume() {
 		if (!paused) {
 			FaceDetectionHandler.resumeFaceDetection();
 		}
@@ -215,7 +216,7 @@ public class StageListener implements ApplicationListener {
 		FaceDetectionHandler.pauseFaceDetection();
 	}
 
-	void menuResume() {
+	public void menuResume() {
 		if (reloadProject) {
 			return;
 		}
@@ -359,6 +360,7 @@ public class StageListener implements ApplicationListener {
 		}
 		if (!paused) {
 			float deltaTime = Gdx.graphics.getDeltaTime();
+			deltaTime = 0.2f;
 
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
@@ -369,6 +371,8 @@ public class StageListener implements ApplicationListener {
 			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
 			 * future EMMA - update will fix the bugs.
 			 */
+
+			//MAybe here is problem!!!
 			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
 				stage.act(deltaTime);
 			} else {
