@@ -31,6 +31,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.backends.android.AndroidGraphics;
+import com.badlogic.gdx.backends.android.surfaceview.FillResolutionStrategy;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -58,6 +60,9 @@ public class StageActivity extends AndroidApplication {
 
 	private StageAudioFocus stageAudioFocus;
 
+	AndroidGraphics mGraphic;
+	private AndroidApplicationConfiguration mConfig;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,7 +85,12 @@ public class StageActivity extends AndroidApplication {
 		calculateScreenSizes();
 
 		//ProjectManager.getInstance().view = initializeForView(stageListener, new AndroidApplicationConfiguration());
-		initialize(stageListener, new AndroidApplicationConfiguration());
+		mConfig = new AndroidApplicationConfiguration();
+		initialize(stageListener, mConfig);
+		//mGraphic = new AndroidGraphics(this, new AndroidApplicationConfiguration(), mConfig.resolutionStrategy == null ? new FillResolutionStrategy()
+		//		: mConfig.resolutionStrategy);
+
+		stageListener.mGdx.setMgdxFromGdx();
 
 		if (droneConnection != null) {
 			try {

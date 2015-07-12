@@ -36,13 +36,25 @@ public class GdxCast {
 
     public void setGdx() {
         Gdx.app = this.app;
-        Gdx.audio = this.audio;
-        Gdx.files = this.files;
+        //Gdx.audio = this.audio;
+        //Gdx.files = this.files;
         Gdx.gl = this.gl;
         Gdx.gl20 = this.gl20;
         Gdx.gl30 = this.gl30;
         Gdx.graphics = this.graphics;
-        Gdx.input = this.input;
-        Gdx.net = this.net;
+        //Gdx.input = this.input;
+        //Gdx.net = this.net;
+    }
+
+    public void setMgdxFromGdx() {
+        this.app = Gdx.app;
+        this.audio = Gdx.audio;
+        this.files = Gdx.files;
+        //this.gl = Gdx.gl;
+        //this.gl20 = Gdx.gl20;
+        this.gl30 = Gdx.gl30;
+        this.graphics = Gdx.graphics;
+        this.input = Gdx.input;
+        this.net = Gdx.net;
     }
 }

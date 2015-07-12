@@ -66,15 +66,15 @@ public class CastAndroidInterface extends CastRemoteDisplayLocalService implemen
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         init(listener, config, false);
 
-        ProjectManager.getInstance().gdxCast.app = Gdx.app;
-        ProjectManager.getInstance().gdxCast.audio = Gdx.audio;
-        ProjectManager.getInstance().gdxCast.files = Gdx.files;
-        //ProjectManager.getInstance().gdxCast.gl = Gdx.gl;
-        //ProjectManager.getInstance().gdxCast.gl20 = Gdx.gl20;
-        ProjectManager.getInstance().gdxCast.gl30 = Gdx.gl30;
-        ProjectManager.getInstance().gdxCast.graphics = Gdx.graphics;
-        ProjectManager.getInstance().gdxCast.input = Gdx.input;
-        ProjectManager.getInstance().gdxCast.net = Gdx.net;
+//        ProjectManager.getInstance().gdxCast.app = Gdx.app;
+//        ProjectManager.getInstance().gdxCast.audio = Gdx.audio;
+//        ProjectManager.getInstance().gdxCast.files = Gdx.files;
+//        //ProjectManager.getInstance().gdxCast.gl = Gdx.gl;
+//        //ProjectManager.getInstance().gdxCast.gl20 = Gdx.gl20;
+//        ProjectManager.getInstance().gdxCast.gl30 = Gdx.gl30;
+//        ProjectManager.getInstance().gdxCast.graphics = Gdx.graphics;
+//        ProjectManager.getInstance().gdxCast.input = Gdx.input;
+//        ProjectManager.getInstance().gdxCast.net = Gdx.net;
     }
 
     /** This method has to be called in the {@link Activity#onCreate(Bundle)} method. It sets up all the things necessary to get

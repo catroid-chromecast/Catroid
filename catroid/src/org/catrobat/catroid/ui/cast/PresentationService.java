@@ -213,13 +213,15 @@ public class PresentationService extends CastAndroidInterface {
         //ProjectManager.getInstance().view = initializeForView(stageListener, new AndroidApplicationConfiguration());
         //initialize(stageListener, new AndroidApplicationConfiguration());
 
-        mGgraphics = new AndroidGraphics(this, new AndroidApplicationConfiguration(), config.resolutionStrategy == null ? new FillResolutionStrategy()
-                : config.resolutionStrategy);
+        //mGgraphics = new AndroidGraphics(this, new AndroidApplicationConfiguration(), config.resolutionStrategy == null ? new FillResolutionStrategy()
+        //        : config.resolutionStrategy);
 
-        Gdx.graphics = mGgraphics;
+        //Gdx.graphics = mGgraphics;
 
 
         initialize((StageListener) listener);
+        stageListener.mGdx.setMgdxFromGdx();
+        mGgraphics = (AndroidGraphics) Gdx.graphics;
 
         if (droneConnection != null) {
             try {

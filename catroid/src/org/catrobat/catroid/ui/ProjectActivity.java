@@ -131,6 +131,10 @@ public class ProjectActivity extends BaseActivity {
 
 			if (mSelectedDevice != null) {
 				startCastService();
+
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 			}
 		}
 
