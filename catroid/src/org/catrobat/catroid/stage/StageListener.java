@@ -305,67 +305,69 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void render() {
 
-		this.mGdx.setGdx();
+		synchronized (ProjectManager.getInstance().mutex) {
 
-		mGdx.gl.glClearColor(1f, 1f, 1f, 1f);
-		mGdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (reloadProject) {
-			int spriteSize = sprites.size();
-			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).pause();
-			}
-			stage.clear();
-			SoundManager.getInstance().clear();
+			this.mGdx.setGdx();
 
-			Sprite sprite;
-			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-			}
-			for (int i = 0; i < spriteSize; i++) {
-				sprite = sprites.get(i);
-				sprite.resetSprite();
-				sprite.look.createBrightnessContrastShader();
-				stage.addActor(sprite.look);
-				sprite.pause();
-			}
-			stage.addActor(passepartout);
+			mGdx.gl.glClearColor(1f, 1f, 1f, 1f);
+			mGdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			if (reloadProject) {
+				int spriteSize = sprites.size();
+				for (int i = 0; i < spriteSize; i++) {
+					sprites.get(i).pause();
+				}
+				stage.clear();
+				SoundManager.getInstance().clear();
 
-			paused = true;
-			firstStart = true;
-			reloadProject = false;
-			synchronized (stageDialog) {
-				stageDialog.notify();
-			}
-		}
+				Sprite sprite;
+				if (spriteSize > 0) {
+					sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				}
+				for (int i = 0; i < spriteSize; i++) {
+					sprite = sprites.get(i);
+					sprite.resetSprite();
+					sprite.look.createBrightnessContrastShader();
+					stage.addActor(sprite.look);
+					sprite.pause();
+				}
+				stage.addActor(passepartout);
 
-		batch.setProjectionMatrix(camera.combined);
-
-		if (firstStart) {
-			int spriteSize = sprites.size();
-			if (spriteSize > 0) {
-				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-			}
-			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
-			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
-				Sprite sprite = sprites.get(currentSprite);
-				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
-				if (!sprite.getLookDataList().isEmpty()) {
-					sprite.look.setLookData(sprite.getLookDataList().get(0));
+				paused = true;
+				firstStart = true;
+				reloadProject = false;
+				synchronized (stageDialog) {
+					stageDialog.notify();
 				}
 			}
 
-			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
-				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
-				Map<String, List<String>> notifyMap = new HashMap<String, List<String>>();
-				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
-				scriptActions.putAll(notifyMap);
+			batch.setProjectionMatrix(camera.combined);
+
+			if (firstStart) {
+				int spriteSize = sprites.size();
+				if (spriteSize > 0) {
+					sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+				}
+				Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
+				for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
+					Sprite sprite = sprites.get(currentSprite);
+					sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
+					if (!sprite.getLookDataList().isEmpty()) {
+						sprite.look.setLookData(sprite.getLookDataList().get(0));
+					}
+				}
+
+				if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
+					List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
+					Map<String, List<String>> notifyMap = new HashMap<String, List<String>>();
+					notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
+					scriptActions.putAll(notifyMap);
+				}
+				precomputeActionsForBroadcastEvents(scriptActions);
+				firstStart = false;
 			}
-			precomputeActionsForBroadcastEvents(scriptActions);
-			firstStart = false;
-		}
-		if (!paused) {
-			float deltaTime = mGdx.graphics.getDeltaTime();
-			//deltaTime = 0.2f;
+			if (!paused) {
+				float deltaTime = mGdx.graphics.getDeltaTime();
+				//deltaTime = 0.2f;
 
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
@@ -377,58 +379,59 @@ public class StageListener implements ApplicationListener {
 			 * future EMMA - update will fix the bugs.
 			 */
 
-			//MAybe here is problem!!!
-			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
-				stage.act(deltaTime);
-			} else {
-				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
-				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
-				while (deltaTime > 0f) {
-					stage.act(optimizedDeltaTime);
-					deltaTime -= optimizedDeltaTime;
-				}
-				long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
-				if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
-					deltaActionTimeDivisor += 1f;
-					deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
+				//MAybe here is problem!!!
+				if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
+					stage.act(deltaTime);
 				} else {
-					deltaActionTimeDivisor -= 1f;
-					deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
+					float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
+					long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
+					while (deltaTime > 0f) {
+						stage.act(optimizedDeltaTime);
+						deltaTime -= optimizedDeltaTime;
+					}
+					long executionTimeOfActionsUpdate = SystemClock.uptimeMillis() - timeBeforeActionsUpdate;
+					if (executionTimeOfActionsUpdate <= ACTIONS_COMPUTATION_TIME_MAXIMUM) {
+						deltaActionTimeDivisor += 1f;
+						deltaActionTimeDivisor = Math.min(DELTA_ACTIONS_DIVIDER_MAXIMUM, deltaActionTimeDivisor);
+					} else {
+						deltaActionTimeDivisor -= 1f;
+						deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
+					}
 				}
 			}
-		}
 
-		if (!finished) {
-			stage.draw();
-		}
-
-		if (makeAutomaticScreenshot) {
-			if (skipFirstFrameForAutomaticScreenshot) {
-				skipFirstFrameForAutomaticScreenshot = false;
-			} else {
-				thumbnail = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
-						screenshotHeight, true);
-				makeAutomaticScreenshot = false;
+			if (!finished) {
+				stage.draw();
 			}
-		}
 
-		if (makeScreenshot) {
-			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
-					true);
-			makeScreenshot = false;
-		}
+			if (makeAutomaticScreenshot) {
+				if (skipFirstFrameForAutomaticScreenshot) {
+					skipFirstFrameForAutomaticScreenshot = false;
+				} else {
+					thumbnail = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
+							screenshotHeight, true);
+					makeAutomaticScreenshot = false;
+				}
+			}
 
-		if (axesOn && !finished) {
-			drawAxes();
-		}
+			if (makeScreenshot) {
+				screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
+						true);
+				makeScreenshot = false;
+			}
 
-		if (DEBUG) {
-			fpsLogger.log();
-		}
+			if (axesOn && !finished) {
+				drawAxes();
+			}
 
-		if (makeTestPixels) {
-			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
-			makeTestPixels = false;
+			if (DEBUG) {
+				fpsLogger.log();
+			}
+
+			if (makeTestPixels) {
+				testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
+				makeTestPixels = false;
+			}
 		}
 	}
 

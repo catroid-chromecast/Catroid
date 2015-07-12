@@ -83,6 +83,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public GdxCast gdxCast = new GdxCast();
 	public GdxCast gdxDevice = new GdxCast();
 	public PresentationService.FirstScreenPresentation presentation;
+	public final Object mutex = new Object();
 
 	private ProjectManager() {
 	}

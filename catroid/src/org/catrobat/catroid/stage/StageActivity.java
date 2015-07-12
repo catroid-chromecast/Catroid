@@ -31,6 +31,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.backends.android.AndroidGL20;
 import com.badlogic.gdx.backends.android.AndroidGraphics;
 import com.badlogic.gdx.backends.android.surfaceview.FillResolutionStrategy;
 
@@ -90,6 +91,9 @@ public class StageActivity extends AndroidApplication {
 		//mGraphic = new AndroidGraphics(this, new AndroidApplicationConfiguration(), mConfig.resolutionStrategy == null ? new FillResolutionStrategy()
 		//		: mConfig.resolutionStrategy);
 
+		AndroidGL20 gl20 = new AndroidGL20();
+		stageListener.mGdx.gl = gl20;
+		stageListener.mGdx.gl20 = gl20;
 		stageListener.mGdx.setMgdxFromGdx();
 
 		if (droneConnection != null) {
