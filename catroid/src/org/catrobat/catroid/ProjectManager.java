@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -73,6 +74,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean asynchronTask = true;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
+
+	private View mView;
 
 	private ProjectManager() {
 	}
@@ -545,5 +548,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			StorageHandler.getInstance().saveProject(project);
 			return null;
 		}
+	}
+
+	public View getView() {
+		return mView;
+	}
+
+	public void setView(View view) {
+		this.mView = view;
 	}
 }
