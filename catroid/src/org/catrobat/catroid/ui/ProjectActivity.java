@@ -248,11 +248,11 @@ public class ProjectActivity extends BaseActivity {
 			String routeId = info.getId();
 
 			if (mSelectedDevice != null) {
-				startCastService();
-
 				ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
 				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+
+				startCastService();
 			}
 		}
 
@@ -263,13 +263,9 @@ public class ProjectActivity extends BaseActivity {
 			PendingIntent notificationPendingIntent = PendingIntent.getActivity(
 					ProjectActivity.this, 0, intent, 0);
 
-			CastRemoteDisplayLocalService.NotificationSettings settings =
-					new CastRemoteDisplayLocalService.NotificationSettings.Builder()
+			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService.NotificationSettings.Builder()
 							.setNotificationPendingIntent(notificationPendingIntent).build();
-
-			CastRemoteDisplayLocalService.startService(ProjectActivity.this,
-					CastService.class, REMOTE_DISPLAY_APP_ID,
-					mSelectedDevice, settings,
+			CastRemoteDisplayLocalService.startService(ProjectActivity.this, CastService.class, REMOTE_DISPLAY_APP_ID, mSelectedDevice, settings,
 					new CastRemoteDisplayLocalService.Callbacks() {
 						@Override
 						public void onRemoteDisplaySessionStarted(
