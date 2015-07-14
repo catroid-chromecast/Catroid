@@ -136,6 +136,12 @@ public class Look extends Image {
 		return false;
 	}
 
+	public boolean doOnClick() {
+
+		sprite.createWhenScriptActionSequence("Tapped");
+		return  true;
+	}
+
 	public void createBrightnessContrastShader() {
 		shader = new BrightnessContrastShader();
 		shader.setBrightness(brightness);

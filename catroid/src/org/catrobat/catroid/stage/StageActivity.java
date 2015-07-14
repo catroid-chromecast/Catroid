@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -36,6 +37,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -61,6 +64,8 @@ public class StageActivity extends AndroidApplication {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.activity_stage_gamepad);
+
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
@@ -78,7 +83,9 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		ProjectManager.getInstance().setView(initializeForView(stageListener, new AndroidApplicationConfiguration()));
+		//initialize(stageListener, config);
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -245,5 +252,11 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public int getLogLevel() {
 		return 0;
+	}
+
+	public void handleGamepadAButton(View view) {
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(3);
+		if (sprite != null)
+			sprite.look.doOnClick();
 	}
 }
