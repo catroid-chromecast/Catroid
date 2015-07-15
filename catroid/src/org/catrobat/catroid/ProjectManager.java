@@ -72,6 +72,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
+	private boolean isChromecastProject = false;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -244,13 +245,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape, boolean chromecast)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			if (landscape) {
+			if (landscape && !chromecast) {
 				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
+			} else if (chromecast) {
+				project = StandardProjectHandler.createAndSaveChromecastProject(projectName, context);
 			} else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
 			}
@@ -262,10 +265,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentScript = null;
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty)
-			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, false);
-	}
+//	public void initializeNewProject(String projectName, Context context, boolean empty)
+//			throws IllegalArgumentException, IOException {
+//		initializeNewProject(projectName, context, empty, false);
+//	}
 
 	public Project getCurrentProject() {
 		return project;
@@ -276,6 +279,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentSprite = null;
 
 		this.project = project;
+	}
+
+	public void setChromecastProject(boolean bool) {
+		this.isChromecastProject = true;
+	}
+
+	public boolean isChromecastProject() {
+		return this.isChromecastProject;
 	}
 
 	//@Deprecated
