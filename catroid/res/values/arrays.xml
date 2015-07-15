@@ -23,6 +23,15 @@
   -->
 <resources>
 
+    <string-array name="gamepad_buttons_array">
+        <item>A</item>
+        <item>B</item>
+        <item>UP</item>
+        <item>DOWN</item>
+        <item>LEFT</item>
+        <item>RIGHT</item>
+    </string-array>
+
     <!-- Mindroid motors spinner -->
     <string-array name="nxt_motor_chooser" >
         <item >@string/nxt_motor_a</item >
@@ -95,5 +104,4 @@
         <item>@string/phiro_sensor_bottom_left</item>
         <item>@string/phiro_sensor_bottom_right</item>
     </string-array>
-
 </resources>

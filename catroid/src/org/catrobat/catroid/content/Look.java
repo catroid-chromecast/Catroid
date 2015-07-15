@@ -136,9 +136,9 @@ public class Look extends Image {
 		return false;
 	}
 
-	public boolean doOnClick() {
+	public boolean doOnClick(String buttonType) {
 
-		sprite.createWhengamepadButtonScriptActionSequence("A");
+		sprite.createWhengamepadButtonScriptActionSequence(buttonType);
 		return  true;
 	}
 

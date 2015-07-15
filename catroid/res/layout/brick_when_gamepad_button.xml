@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_gamepad_button_layout"
-        style="@style/BrickContainer.Script.Small"
+        style="@style/BrickContainer.Script.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -50,19 +50,16 @@
             android:text="@string/brick_when_gamepad_button" >
         </TextView >
 
-        <!--
-    inactive - to be revived when there are more actions for the spinner 
+
 	<Spinner
-		android:id="@+id/brick_when_spinner"
+		android:id="@+id/brick_when_gamepad_button_spinner"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
 		android:clickable="false"
 		android:focusable="false"
-		
 	/>
-        -->
 
     </org.catrobat.catroid.ui.BrickLayout >
 

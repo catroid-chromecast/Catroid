@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -254,8 +255,42 @@ public class StageActivity extends AndroidApplication {
 		return 0;
 	}
 
-	public void handleGamepadAButton(View view) {
+	public void handleGamepadButton(View view) {
 
-		stageListener.gamepadPressed();
+		ImageButton button = (ImageButton) view;
+
+		switch (button.getId())
+		{
+			case R.id.gamepadButtonA:
+				button.setImageResource(R.drawable.gamepad_button_a_pressed);
+				stageListener.gamepadPressed("A");
+				button.setImageResource(R.drawable.gamepad_button_a_unpressed);
+				break;
+			case R.id.gamepadButtonB:
+				button.setImageResource(R.drawable.gamepad_button_b_pressed);
+				stageListener.gamepadPressed("B");
+				button.setImageResource(R.drawable.gamepad_button_b_unpressed);
+				break;
+			case R.id.gamepadButtonUp:
+				button.setImageResource(R.drawable.gamepad_pad_up_pressed);
+				stageListener.gamepadPressed("UP");
+				button.setImageResource(R.drawable.gamepad_pad_up_unpressed);
+				break;
+			case R.id.gamepadButtonDown:
+				button.setImageResource(R.drawable.gamepad_pad_down_pressed);
+				stageListener.gamepadPressed("DOWN");
+				button.setImageResource(R.drawable.gamepad_pad_down_unpressed);
+				break;
+			case R.id.gamepadButtonLeft:
+				button.setImageResource(R.drawable.gamepad_pad_left_pressed);
+				stageListener.gamepadPressed("LEFT");
+				button.setImageResource(R.drawable.gamepad_pad_left_unpressed);
+				break;
+			case R.id.gamepadButtonRight:
+				button.setImageResource(R.drawable.gamepad_pad_right_pressed);
+				stageListener.gamepadPressed("RIGHT");
+				button.setImageResource(R.drawable.gamepad_pad_right_unpressed);
+				break;
+		}
 	}
 }

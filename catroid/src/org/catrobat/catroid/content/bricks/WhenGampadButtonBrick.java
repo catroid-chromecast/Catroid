@@ -23,9 +23,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.drm.DrmStore;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -33,16 +37,25 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
-import org.catrobat.catroid.content.WhenScript;
 
 import java.util.List;
 
 public class WhenGampadButtonBrick extends ScriptBrick {
-	protected WhenGamepadButtonScript whenVirtualButtonScript;
-	private static final long serialVersionUID = 1L;
 
-	public WhenGampadButtonBrick(WhenGamepadButtonScript whenVirtualButtonScript) {
-		this.whenVirtualButtonScript = whenVirtualButtonScript;
+	protected WhenGamepadButtonScript whenGamepadButtonScript;
+	private static final long serialVersionUID = 1L;
+	private static final String UP = "UP";
+	private static final String DOWN = "DOWN";
+	private static final String LEFT = "LEFT";
+	private static final String RIGHT = "RIGHT";
+	private static final String A = "A";
+	private static final String B = "B";
+	private static final String[] ACTIONS = { UP, DOWN, LEFT, RIGHT, A, B };
+	private String action;
+	private int actionPosition;
+
+	public WhenGampadButtonBrick(WhenGamepadButtonScript whenGamepadButtonScript) {
+		this.whenGamepadButtonScript = whenGamepadButtonScript;
 	}
 
 	@Override
@@ -53,7 +66,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		WhenGampadButtonBrick copyBrick = (WhenGampadButtonBrick) clone();
-		copyBrick.whenVirtualButtonScript = whenVirtualButtonScript;
+		copyBrick.whenGamepadButtonScript = whenGamepadButtonScript;
 		return copyBrick;
 	}
 
@@ -64,9 +77,41 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
-
 		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
 
+		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
+
+		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
+				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);
+		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		actionSpinner.setAdapter(arrayAdapter);
+		actionSpinner.setClickable(true);
+		actionSpinner.setFocusable(true);
+
+		actionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				String actionChosen = actionSpinner.getSelectedItem().toString();
+
+				// TODO check is action right
+				action = actionChosen;
+				actionPosition = position;
+				if (whenGamepadButtonScript == null) {
+					whenGamepadButtonScript = new WhenGamepadButtonScript(actionChosen);
+				} else {
+					whenGamepadButtonScript.setAction(actionChosen);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+
+		actionSpinner.setSelection(actionPosition);
+		actionSpinner.setFocusable(false);
 		return view;
 	}
 
@@ -97,11 +142,11 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	@Override
 	public Script getScriptSafe() {
-		if (whenVirtualButtonScript == null) {
-			whenVirtualButtonScript = new WhenGamepadButtonScript();
+		if (whenGamepadButtonScript == null) {
+			whenGamepadButtonScript = new WhenGamepadButtonScript();
 		}
 
-		return whenVirtualButtonScript;
+		return whenGamepadButtonScript;
 	}
 
 	@Override

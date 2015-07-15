@@ -34,7 +34,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/gamepadButtonA"
     android:nestedScrollingEnabled="true"
-    android:onClick="handleGamepadButtonA"
+    android:onClick="handleGamepadButton"
     android:src="@drawable/gamepad_button_a_unpressed"
     android:layout_marginLeft="60dp"
     android:layout_marginStart="60dp"
@@ -54,7 +54,9 @@
     android:layout_centerVertical="true"
     android:layout_toRightOf="@+id/gamepadButtonA"
     android:layout_toEndOf="@+id/gamepadButtonA"
-        android:background="@null" />
+        android:background="@null"
+        android:nestedScrollingEnabled="false"
+        android:onClick="handleGamepadButton" />
 
 
     <ImageView
@@ -79,7 +81,8 @@
         android:layout_marginEnd="78dp"
         android:layout_above="@+id/gamepadButtonRight"
         android:layout_toLeftOf="@+id/gamepadButtonA"
-        android:layout_toStartOf="@+id/gamepadButtonA" />
+        android:layout_toStartOf="@+id/gamepadButtonA"
+        android:onClick="handleGamepadButton" />
 
 
     <ImageButton
@@ -90,7 +93,8 @@
     android:background="@null"
         android:layout_below="@+id/gamepadButtonRight"
         android:layout_alignLeft="@+id/gamepadButtonUp"
-        android:layout_alignStart="@+id/gamepadButtonUp" />
+        android:layout_alignStart="@+id/gamepadButtonUp"
+        android:onClick="handleGamepadButton" />
 
     <ImageButton
     android:layout_width="wrap_content"
@@ -100,7 +104,8 @@
     android:src="@drawable/gamepad_pad_right_unpressed"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/gamepadButtonDown"
-        android:layout_toEndOf="@+id/gamepadButtonDown" />
+        android:layout_toEndOf="@+id/gamepadButtonDown"
+        android:onClick="handleGamepadButton" />
 
     <ImageButton
     android:layout_width="wrap_content"
@@ -110,6 +115,7 @@
     android:src="@drawable/gamepad_pad_left_unpressed"
         android:layout_below="@+id/gamepadButtonUp"
         android:layout_toLeftOf="@+id/gamepadButtonDown"
-        android:layout_toStartOf="@+id/gamepadButtonDown" />
+        android:layout_toStartOf="@+id/gamepadButtonDown"
+        android:onClick="handleGamepadButton" />
 
 </RelativeLayout>

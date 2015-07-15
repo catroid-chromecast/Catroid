@@ -31,15 +31,15 @@ import java.util.List;
 public class WhenGamepadButtonScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private static final String UP = "Up";
-	private static final String DOWN = "Down";
-	private static final String LEFT = "Left";
-	private static final String RIGHT = "Right";
+	private transient int position;
+	private static final String UP = "UP";
+	private static final String DOWN = "DOWN";
+	private static final String LEFT = "LEFT";
+	private static final String RIGHT = "RIGHT";
 	private static final String A = "A";
 	private static final String B = "B";
 	private static final String[] ACTIONS = { UP, DOWN, LEFT, RIGHT, A, B };
 	private String action;
-	private transient int position;
 
 	public WhenGamepadButtonScript() {
 		super();
@@ -51,15 +51,20 @@ public class WhenGamepadButtonScript extends Script {
 		this.brick = brick;
 	}
 
+	public WhenGamepadButtonScript(String actionChosen) {
+		super();
+		this.position = 0;
+		this.action = actionChosen;
+	}
+
 	@Override
 	protected Object readResolve() {
 		super.readResolve();
 		return this;
 	}
 
-	public void setAction(int position) {
-		this.position = position;
-		this.action = ACTIONS[position];
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 	public String getAction() {
