@@ -103,6 +103,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenGampadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -167,6 +168,7 @@ public class CategoryBricksFactory {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
 		controlBrickList.add(new WhenBrick(null));
+		controlBrickList.add(new WhenGampadButtonBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
 		final String broadcastMessage = MessageContainer.getFirst(context);

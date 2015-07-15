@@ -254,9 +254,8 @@ public class StageActivity extends AndroidApplication {
 		return 0;
 	}
 
-	public void handleGamepadButtonA(View view) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(3);
-		if (sprite != null)
-			sprite.look.doOnClick();
+	public void handleGamepadAButton(View view) {
+
+		stageListener.gamepadPressed();
 	}
 }

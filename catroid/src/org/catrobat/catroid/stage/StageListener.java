@@ -651,4 +651,10 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
+	public void gamepadPressed() {
+
+		for (Sprite sprite : sprites) {
+			sprite.look.doOnClick();
+		}
+	}
 }

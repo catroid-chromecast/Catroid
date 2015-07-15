@@ -138,7 +138,7 @@ public class Look extends Image {
 
 	public boolean doOnClick() {
 
-		sprite.createWhenScriptActionSequence("Tapped");
+		sprite.createWhengamepadButtonScriptActionSequence("A");
 		return  true;
 	}
 
