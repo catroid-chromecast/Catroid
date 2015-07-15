@@ -26,10 +26,10 @@
     <string-array name="gamepad_buttons_array">
         <item>A</item>
         <item>B</item>
-        <item>UP</item>
-        <item>DOWN</item>
-        <item>LEFT</item>
-        <item>RIGHT</item>
+        <item>up</item>
+        <item>down</item>
+        <item>left</item>
+        <item>right</item>
     </string-array>
 
     <!-- Mindroid motors spinner -->

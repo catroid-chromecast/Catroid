@@ -32,10 +32,10 @@ public class WhenGamepadButtonScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private transient int position;
-	private static final String UP = "UP";
-	private static final String DOWN = "DOWN";
-	private static final String LEFT = "LEFT";
-	private static final String RIGHT = "RIGHT";
+	private static final String UP = "up";
+	private static final String DOWN = "down";
+	private static final String LEFT = "left";
+	private static final String RIGHT = "right";
 	private static final String A = "A";
 	private static final String B = "B";
 	private static final String[] ACTIONS = { UP, DOWN, LEFT, RIGHT, A, B };

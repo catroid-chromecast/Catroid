@@ -273,22 +273,22 @@ public class StageActivity extends AndroidApplication {
 				break;
 			case R.id.gamepadButtonUp:
 				button.setImageResource(R.drawable.gamepad_pad_up_pressed);
-				stageListener.gamepadPressed("UP");
+				stageListener.gamepadPressed("up");
 				button.setImageResource(R.drawable.gamepad_pad_up_unpressed);
 				break;
 			case R.id.gamepadButtonDown:
 				button.setImageResource(R.drawable.gamepad_pad_down_pressed);
-				stageListener.gamepadPressed("DOWN");
+				stageListener.gamepadPressed("down");
 				button.setImageResource(R.drawable.gamepad_pad_down_unpressed);
 				break;
 			case R.id.gamepadButtonLeft:
 				button.setImageResource(R.drawable.gamepad_pad_left_pressed);
-				stageListener.gamepadPressed("LEFT");
+				stageListener.gamepadPressed("left");
 				button.setImageResource(R.drawable.gamepad_pad_left_unpressed);
 				break;
 			case R.id.gamepadButtonRight:
 				button.setImageResource(R.drawable.gamepad_pad_right_pressed);
-				stageListener.gamepadPressed("RIGHT");
+				stageListener.gamepadPressed("right");
 				button.setImageResource(R.drawable.gamepad_pad_right_unpressed);
 				break;
 		}

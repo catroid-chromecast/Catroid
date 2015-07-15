@@ -293,7 +293,8 @@
   <string name="brick_speak_default_value">"Hallo!"</string>
   <string name="brick_when_started">Wenn Programm gestartet</string>
   <string name="brick_when">Wenn angetippt</string>
-  <string name="brick_when_gamepad_button" >Wenn Gamepad gedrückt</string >
+  <string name="brick_when_gamepad_button" >Wenn Gamepad </string >
+  <string name="brick_when_gamepad_button_pressed" >gedrückt</string >
   <string name="brick_wait">Warte</string>
   <plurals name="second_plural">
     <item quantity="one">"Sekunde "</item>
