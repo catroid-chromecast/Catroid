@@ -24,25 +24,92 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical" >
+              android:orientation="vertical"
+    android:background="@drawable/gamepad_background">
 
 
 
 <ImageButton
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/gamepadAButton"
-    android:src="@drawable/gamepad_button_a_unpressed"
-    android:layout_alignTop="@+id/gamepadBButton"
-    android:layout_centerHorizontal="true"
+    android:id="@+id/gamepadButtonA"
     android:nestedScrollingEnabled="true"
-    android:onClick="handleGamepadAButton" /><ImageButton
+    android:onClick="handleGamepadButtonA"
+    android:src="@drawable/gamepad_button_a_unpressed"
+    android:layout_marginLeft="60dp"
+    android:layout_marginStart="60dp"
+    android:background="@null"
+    android:layout_alignTop="@+id/gamepadButtonB"
+    android:layout_toRightOf="@+id/imageView"
+    android:layout_toEndOf="@+id/imageView" />
+
+
+    <ImageButton
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/gamepadBButton"
+    android:id="@+id/gamepadButtonB"
     android:src="@drawable/gamepad_button_b_unpressed"
+    android:layout_marginLeft="26dp"
+    android:layout_marginStart="26dp"
     android:layout_centerVertical="true"
-    android:layout_toRightOf="@+id/gamepadAButton"
-    android:layout_toEndOf="@+id/gamepadAButton"
-    android:layout_marginLeft="64dp"
-    android:layout_marginStart="64dp" /></RelativeLayout>
+    android:layout_toRightOf="@+id/gamepadButtonA"
+    android:layout_toEndOf="@+id/gamepadButtonA"
+        android:background="@null" />
+
+
+    <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/imageView"
+    android:src="@drawable/gamepad_pad_unpressed"
+        android:layout_marginLeft="45dp"
+    android:layout_marginStart="45dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/gamepadButtonUp"
+    android:background="@null"
+    android:src="@drawable/gamepad_pad_up_unpressed"
+        android:layout_marginRight="78dp"
+        android:layout_marginEnd="78dp"
+        android:layout_above="@+id/gamepadButtonRight"
+        android:layout_toLeftOf="@+id/gamepadButtonA"
+        android:layout_toStartOf="@+id/gamepadButtonA" />
+
+
+    <ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/gamepadButtonDown"
+    android:src="@drawable/gamepad_pad_down_unpressed"
+    android:background="@null"
+        android:layout_below="@+id/gamepadButtonRight"
+        android:layout_alignLeft="@+id/gamepadButtonUp"
+        android:layout_alignStart="@+id/gamepadButtonUp" />
+
+    <ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/gamepadButtonRight"
+    android:background="@null"
+    android:src="@drawable/gamepad_pad_right_unpressed"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/gamepadButtonDown"
+        android:layout_toEndOf="@+id/gamepadButtonDown" />
+
+    <ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/gamepadButtonLeft"
+    android:background="@null"
+    android:src="@drawable/gamepad_pad_left_unpressed"
+        android:layout_below="@+id/gamepadButtonUp"
+        android:layout_toLeftOf="@+id/gamepadButtonDown"
+        android:layout_toStartOf="@+id/gamepadButtonDown" />
+
+</RelativeLayout>
