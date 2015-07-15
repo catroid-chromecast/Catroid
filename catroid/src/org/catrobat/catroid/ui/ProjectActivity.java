@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -37,6 +38,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
@@ -217,9 +219,24 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+
+		if(mSelectedDevice != null)
+		{
+			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+			Intent intent = new Intent(this, PreStageActivity.class);
+			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+
+			startCastService();
+		}
+		else
+		{
+			Context context = getApplicationContext();
+			CharSequence text = "Please connect to a cast device first!";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
 	}
 
 	@Override
@@ -240,6 +257,31 @@ public class ProjectActivity extends BaseActivity {
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 
+	private void startCastService() {
+		Intent intent = new Intent(ProjectActivity.this,ProjectActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent notificationPendingIntent = PendingIntent.getActivity(ProjectActivity.this, 0, intent, 0);
+
+		CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService.NotificationSettings.Builder()
+				.setNotificationPendingIntent(notificationPendingIntent).build();
+		CastRemoteDisplayLocalService.startService(ProjectActivity.this, CastService.class, REMOTE_DISPLAY_APP_ID, mSelectedDevice, settings,
+				new CastRemoteDisplayLocalService.Callbacks() {
+					@Override
+					public void onRemoteDisplaySessionStarted(
+							CastRemoteDisplayLocalService service) {
+					}
+
+					@Override
+					public void onRemoteDisplaySessionError(Status errorReason) {
+						int code = errorReason.getStatusCode();
+						//initError();
+
+						mSelectedDevice = null;
+						ProjectActivity.this.finish();
+					}
+				});
+	}
+
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
 		@Override
@@ -247,41 +289,41 @@ public class ProjectActivity extends BaseActivity {
 			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
 			String routeId = info.getId();
 
-			if (mSelectedDevice != null) {
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-
-				startCastService();
-			}
+//			if (mSelectedDevice != null) {
+////				ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+////				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+////				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+////
+////				startCastService();
+//			}
 		}
 
-		private void startCastService() {
-			Intent intent = new Intent(ProjectActivity.this,
-					ProjectActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent notificationPendingIntent = PendingIntent.getActivity(
-					ProjectActivity.this, 0, intent, 0);
-
-			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService.NotificationSettings.Builder()
-							.setNotificationPendingIntent(notificationPendingIntent).build();
-			CastRemoteDisplayLocalService.startService(ProjectActivity.this, CastService.class, REMOTE_DISPLAY_APP_ID, mSelectedDevice, settings,
-					new CastRemoteDisplayLocalService.Callbacks() {
-						@Override
-						public void onRemoteDisplaySessionStarted(
-								CastRemoteDisplayLocalService service) {
-						}
-
-						@Override
-						public void onRemoteDisplaySessionError(Status errorReason) {
-							int code = errorReason.getStatusCode();
-							//initError();
-
-							mSelectedDevice = null;
-							ProjectActivity.this.finish();
-						}
-					});
-		}
+//		private void startCastService() {
+//			Intent intent = new Intent(ProjectActivity.this,
+//					ProjectActivity.class);
+//			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//			PendingIntent notificationPendingIntent = PendingIntent.getActivity(
+//					ProjectActivity.this, 0, intent, 0);
+//
+//			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService.NotificationSettings.Builder()
+//							.setNotificationPendingIntent(notificationPendingIntent).build();
+//			CastRemoteDisplayLocalService.startService(ProjectActivity.this, CastService.class, REMOTE_DISPLAY_APP_ID, mSelectedDevice, settings,
+//					new CastRemoteDisplayLocalService.Callbacks() {
+//						@Override
+//						public void onRemoteDisplaySessionStarted(
+//								CastRemoteDisplayLocalService service) {
+//						}
+//
+//						@Override
+//						public void onRemoteDisplaySessionError(Status errorReason) {
+//							int code = errorReason.getStatusCode();
+//							//initError();
+//
+//							mSelectedDevice = null;
+//							ProjectActivity.this.finish();
+//						}
+//					});
+//		}
 
 		@Override
 		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
