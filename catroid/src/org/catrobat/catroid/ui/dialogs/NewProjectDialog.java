@@ -59,6 +59,7 @@ public class NewProjectDialog extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
 	public static final String SHARED_PREFERENCES_LANDSCAPE_PROJECT = "shared_preferences_landscape_project";
+	public static final String SHARED_PREFERENCES_CHROMECAST_PROJECT = "shared_preferences_chromecast_project";
 
 	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
@@ -66,6 +67,7 @@ public class NewProjectDialog extends DialogFragment {
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
 	private CheckBox landscapeProjectCheckBox;
+	private CheckBox chromecastProjectCheckBox;
 	private SharedPreferences sharedPreferences;
 
 	private boolean openendFromProjectList = false;
@@ -146,18 +148,27 @@ public class NewProjectDialog extends DialogFragment {
 
 		boolean shouldBeLandscape = sharedPreferences.getBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, false);
 		landscapeProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_landscape_checkbox);
+
+		boolean shouldBeChromecast = sharedPreferences.getBoolean(SHARED_PREFERENCES_CHROMECAST_PROJECT, false);
+		chromecastProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_chromecast_checkbox);
+
 		if (emptyProjectCheckBox.isChecked()) {
 			landscapeProjectCheckBox.setVisibility(View.VISIBLE);
+			chromecastProjectCheckBox.setVisibility(View.VISIBLE);
 		}
 		landscapeProjectCheckBox.setChecked(shouldBeLandscape);
+		chromecastProjectCheckBox.setChecked(shouldBeChromecast);
 
 		emptyProjectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 				if (b) {
 					landscapeProjectCheckBox.setVisibility(View.VISIBLE);
+					chromecastProjectCheckBox.setVisibility(View.VISIBLE);
 				} else {
+					emptyProjectCheckBox.setVisibility(View.VISIBLE);
 					landscapeProjectCheckBox.setVisibility(View.GONE);
+					chromecastProjectCheckBox.setVisibility(View.GONE);
 				}
 			}
 		});
@@ -169,6 +180,8 @@ public class NewProjectDialog extends DialogFragment {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 		boolean shouldBeLandscape = landscapeProjectCheckBox.isChecked();
+		boolean shouldBeChromecast = chromecastProjectCheckBox.isChecked();
+
 		if (getActivity() == null) {
 			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
@@ -185,7 +198,7 @@ public class NewProjectDialog extends DialogFragment {
 		}
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape, shouldBeChromecast);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
@@ -198,6 +211,7 @@ public class NewProjectDialog extends DialogFragment {
 
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, shouldBeLandscape).commit();
+		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_CHROMECAST_PROJECT, shouldBeChromecast).commit();
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);

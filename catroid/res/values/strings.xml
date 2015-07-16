@@ -276,6 +276,7 @@
     <string name="new_project_name">Program name:</string>
     <string name="new_project_empty">Create empty program</string>
     <string name="new_project_landscape">Create in landscape mode</string>
+    <string name="new_project_chromecast">Create Cromecast program</string>
     <!--  -->
 
 

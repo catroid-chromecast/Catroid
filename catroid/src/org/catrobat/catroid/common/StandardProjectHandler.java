@@ -575,6 +575,12 @@ public final class StandardProjectHandler {
 		return landscapeProject;
 	}
 
+	public static Project createAndSaveChromecastProject(String projectName, Context context) {
+		Project landscapeProject = createAndSaveLandscapeProject(projectName, context);
+		ProjectManager.getInstance().setChromecastProject(true);
+		return landscapeProject;
+	}
+
 	private static int calculateValueRelativeToScaledBackground(int value) {
 		int returnValue = (int) (value * backgroundImageScaleFactor);
 		int differenceToNextFive = returnValue % 5;
