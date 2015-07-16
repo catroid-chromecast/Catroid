@@ -51,12 +51,12 @@
     android:src="@drawable/gamepad_button_b_unpressed"
     android:layout_marginLeft="26dp"
     android:layout_marginStart="26dp"
-    android:layout_centerVertical="true"
-    android:layout_toRightOf="@+id/gamepadButtonA"
-    android:layout_toEndOf="@+id/gamepadButtonA"
         android:background="@null"
         android:nestedScrollingEnabled="false"
-        android:onClick="handleGamepadButton" />
+        android:onClick="handleGamepadButton"
+        android:layout_alignBottom="@+id/gamepadButtonDown"
+        android:layout_toRightOf="@+id/gamepadButtonA"
+        android:layout_toEndOf="@+id/gamepadButtonA" />
 
 
     <ImageView
@@ -124,9 +124,9 @@
         android:id="@+id/gamepadPauseButton"
         android:background="@null"
         android:src="@drawable/gamepad_pause_button"
-        android:layout_above="@+id/gamepadButtonUp"
-        android:layout_centerHorizontal="true"
-        android:onClick="onPauseButtonPressed"/>
+        android:onClick="onPauseButtonPressed"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
