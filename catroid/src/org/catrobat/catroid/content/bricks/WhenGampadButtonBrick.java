@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.drm.DrmStore;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,18 +43,27 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	protected WhenGamepadButtonScript whenGamepadButtonScript;
 	private static final long serialVersionUID = 1L;
+	private static final String A = "A";
+	private static final String B = "B";
 	private static final String UP = "up";
 	private static final String DOWN = "down";
 	private static final String LEFT = "left";
 	private static final String RIGHT = "right";
-	private static final String A = "A";
-	private static final String B = "B";
-	private static final String[] ACTIONS = { UP, DOWN, LEFT, RIGHT, A, B };
+	private static final String[] ACTIONS = { A, B, UP, DOWN, LEFT, RIGHT };
 	private String action;
-	private int actionPosition;
+	private int position;
 
 	public WhenGampadButtonBrick(WhenGamepadButtonScript whenGamepadButtonScript) {
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
+		if(whenGamepadButtonScript != null) {
+			this.action = whenGamepadButtonScript.getAction();
+			for (int i = 0; i < ACTIONS.length; i++) {
+				if (ACTIONS[i].equals(this.action)) {
+					this.position = i;
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -97,7 +105,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 				// TODO check is action right
 				action = actionChosen;
-				actionPosition = position;
+				WhenGampadButtonBrick.this.position = position;
 				if (whenGamepadButtonScript == null) {
 					whenGamepadButtonScript = new WhenGamepadButtonScript(actionChosen);
 				} else {
@@ -110,7 +118,7 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 			}
 		});
 
-		actionSpinner.setSelection(actionPosition);
+		actionSpinner.setSelection(position);
 		actionSpinner.setFocusable(false);
 		return view;
 	}
