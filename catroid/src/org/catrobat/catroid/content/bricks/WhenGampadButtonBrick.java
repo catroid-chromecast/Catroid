@@ -23,12 +23,15 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -85,9 +88,29 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_when_gamepad_button, null);
+		view = getViewWithAlpha(alphaValue);
+
+		final Brick brickInstance = this;
 		setCheckboxView(R.id.brick_when_gamepad_button_checkbox);
+		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
 		final Spinner actionSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
+		actionSpinner.setFocusableInTouchMode(false);
+		actionSpinner.setFocusable(false);
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			actionSpinner.setClickable(true);
+			actionSpinner.setEnabled(true);
+		} else {
+			actionSpinner.setClickable(false);
+			actionSpinner.setEnabled(false);
+		}
 
 		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
 				R.array.gamepad_buttons_array, android.R.layout.simple_spinner_item);
@@ -131,6 +154,17 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 			View layout = view.findViewById(R.id.brick_when_gamepad_button_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
+
+			Spinner gamepadBrickSpinner = (Spinner) view.findViewById(R.id.brick_when_gamepad_button_spinner);
+			TextView gamepadBrickTextView = (TextView) view.findViewById(R.id.brick_when_gamepad_button_text);
+			TextView gamepadPressedBrickTextView = (TextView) view.findViewById(R.id.brick_when_gamepad_button_text_pressed);
+
+			ColorStateList color = gamepadBrickTextView.getTextColors().withAlpha(alphaValue);
+			gamepadBrickTextView.setTextColor(color);
+			color = gamepadPressedBrickTextView.getTextColors().withAlpha(alphaValue);
+			gamepadPressedBrickTextView.setTextColor(color);
+			gamepadBrickSpinner.getBackground().setAlpha(alphaValue);
+
 			this.alphaValue = (alphaValue);
 
 		}

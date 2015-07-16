@@ -46,6 +46,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
+            android:id="@+id/brick_when_gamepad_button_text"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_when_gamepad_button" >
         </TextView >
@@ -61,6 +62,7 @@
 	/>
 
         <TextView
+            android:id="@+id/brick_when_gamepad_button_text_pressed"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_when_gamepad_button_pressed" >
         </TextView >
