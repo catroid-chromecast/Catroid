@@ -118,4 +118,15 @@
         android:layout_toStartOf="@+id/gamepadButtonDown"
         android:onClick="handleGamepadButton" />
 
+    <ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:id="@+id/gamepadPauseButton"
+        android:background="@null"
+        android:src="@drawable/gamepad_pause_button"
+        android:layout_above="@+id/gamepadButtonUp"
+        android:layout_centerHorizontal="true"
+        android:onClick="onPauseButtonPressed"/>
+
+
 </RelativeLayout>

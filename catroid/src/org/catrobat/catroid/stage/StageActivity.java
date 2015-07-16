@@ -255,6 +255,10 @@ public class StageActivity extends AndroidApplication {
 		return 0;
 	}
 
+	public void onPauseButtonPressed(View view) {
+		onBackPressed();
+	}
+
 	public void handleGamepadButton(View view) {
 
 		ImageButton button = (ImageButton) view;
