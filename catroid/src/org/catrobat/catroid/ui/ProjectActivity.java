@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -92,6 +93,9 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
+		if(isCastServiceRunning(CastService.class))
+			CastRemoteDisplayLocalService.stopService();
+
 		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
 
 		String programName;
@@ -110,6 +114,11 @@ public class ProjectActivity extends BaseActivity {
 				R.id.fragment_sprites_list);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 
 	@Override
@@ -187,6 +196,16 @@ public class ProjectActivity extends BaseActivity {
 			SensorHandler.stopSensorListeners();
 			FaceDetectionHandler.stopFaceDetection();
 		}
+	}
+
+	private boolean isCastServiceRunning(Class<?> serviceClass) {
+		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+			if (serviceClass.getName().equals(service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -329,6 +348,7 @@ public class ProjectActivity extends BaseActivity {
 		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
 			//teardown();
 			mSelectedDevice = null;
+			CastRemoteDisplayLocalService.stopService();
 		}
 	}
 }
