@@ -207,7 +207,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			FaceDetectionHandler.resumeFaceDetection();
 		}
-
 	}
 
 	void activityPause() {

@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.backends.android.surfaceview.FixedResolutionStrategy;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -85,8 +86,13 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
+		//stageListener.maximizeViewPortHeight = 1280;
+		//stageListener.maximizeViewPortHeight = 720;
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		ProjectManager.getInstance().setView(initializeForView(stageListener, new AndroidApplicationConfiguration()));
+		// TODO if chromecast project do that
+		config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
+		ProjectManager.getInstance().setView(initializeForView(stageListener, config));
 		//initialize(stageListener, config);
 		if (droneConnection != null) {
 			try {
