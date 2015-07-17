@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.HapticFeedbackConstants;
 import android.widget.ImageButton;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -256,12 +257,14 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void onPauseButtonPressed(View view) {
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		onBackPressed();
 	}
 
 	public void handleGamepadButton(View view) {
 
 		ImageButton button = (ImageButton) view;
+		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
 		switch (button.getId())
 		{
