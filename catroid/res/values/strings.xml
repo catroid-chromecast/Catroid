@@ -409,7 +409,7 @@
     <!-- Control bricks -->
     <string name="brick_when_started" >When program started</string >
     <string name="brick_when" >When tapped</string >
-    <string name="brick_when_gamepad_button" >When gamepad key</string >
+    <string name="brick_when_gamepad_button" >When gamepad button</string >
     <string name="brick_when_gamepad_button_pressed" >pressed</string >
     <string name="brick_wait" >Wait</string >
 
