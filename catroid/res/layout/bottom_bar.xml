@@ -61,16 +61,14 @@
 
     <org.catrobat.catroid.ui.CastMediaRouterButtonView
         android:id="@+id/media_route_button_view"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
+        android:layout_width="0dip"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
         custom:buttonText="play"
-        android:background="@null"
-        android:paddingTop="1dp"
-        android:paddingBottom="1dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/bottom_bar_background_selector"
         android:visibility="visible"/>
 
 </LinearLayout>

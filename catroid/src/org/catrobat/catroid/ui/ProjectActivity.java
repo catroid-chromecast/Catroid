@@ -33,6 +33,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.KeyEvent;
@@ -66,6 +67,8 @@ public class ProjectActivity extends BaseActivity {
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
+	private MediaRouteButton mMediaRouteButton;
+	private CastMediaRouterButtonView mMediaRouterButtonView;
 	private MediaRouter mMediaRouter;
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
@@ -82,6 +85,24 @@ public class ProjectActivity extends BaseActivity {
 				.addControlCategory(CastMediaControlIntent.categoryForCast(REMOTE_DISPLAY_APP_ID))
 				.build();
 		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
+
+		// Set the MediaRouteButton selector for device discovery.
+		mMediaRouterButtonView = (CastMediaRouterButtonView) findViewById(R.id.media_route_button_view);
+		if (mMediaRouterButtonView != null) {
+			mMediaRouteButton = mMediaRouterButtonView.getMediaRouteButton();
+			mMediaRouteButton.setRouteSelector(mMediaRouteSelector);
+		}
+
+		// TODO
+		//if(Cc project)
+		//{
+			findViewById(R.id.media_route_button_view).setVisibility(View.VISIBLE);
+			findViewById(R.id.button_play).setVisibility(View.GONE);
+			//findViewById(R.id.button_play).weight
+		//}
+		//else
+//		findViewById(R.id.media_route_button_view).setVisibility(View.GONE);
+//		findViewById(R.id.button_play).setVisibility(View.VISIBLE);
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
@@ -134,9 +155,9 @@ public class ProjectActivity extends BaseActivity {
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
 
-			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
-			MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
-			mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+//			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+//			MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
+//			mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
