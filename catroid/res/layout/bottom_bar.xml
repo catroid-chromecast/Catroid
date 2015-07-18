@@ -22,12 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/bottom_bar"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/actionbar_height"
-              android:layout_alignParentBottom="true"
-              android:background="@drawable/bottom_bar_background"
-              android:orientation="horizontal" >
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/actionbar_height"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/bottom_bar_background"
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/button_add"
@@ -57,5 +58,19 @@
         android:background="@drawable/bottom_bar_background_selector"
         android:onClick="handlePlayButton"
         android:src="@drawable/ic_play" />
+
+    <org.catrobat.catroid.ui.CastMediaRouterButtonView
+        android:id="@+id/media_route_button_view"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerInParent="true"
+        custom:buttonText="play"
+        android:background="@null"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="1dp"
+        android:visibility="visible"/>
 
 </LinearLayout>
