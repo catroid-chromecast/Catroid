@@ -37,9 +37,13 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.stage.PreStageActivity;
 
 public class CastManager {
+
+	private static final CastManager INSTANCE = new CastManager();
 
 	private MediaRouteButton mMediaRouteButton;
 	private CastMediaRouterButtonView mMediaRouterButtonView;
@@ -47,8 +51,18 @@ public class CastManager {
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
+	private Activity activity;
+
+	private CastManager() {
+	}
+
+	public static CastManager getInstance() {
+		return INSTANCE;
+	}
 
 	public void initMediaRouter(Activity activity){
+		this.activity = activity;
+
 		mMediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
 		mMediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(activity.getApplicationContext().getString(R.string.REMOTE_DISPLAY_APP_ID)))
@@ -66,11 +80,12 @@ public class CastManager {
 		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
 	}
 
-	private void stopCallbacks(Activity activity){
+	public void stopCallbacks(Activity activity){
 		if(isCastServiceRunning(CastService.class, activity))
 			CastRemoteDisplayLocalService.stopService();
 
 		mMediaRouter.removeCallback(mMediaRouterCallback);
+		ProjectManager.getInstance().setView(null);
 	}
 
 	private boolean isCastServiceRunning(Class<?> serviceClass, Activity activity) {
@@ -83,8 +98,9 @@ public class CastManager {
 		return false;
 	}
 
-	private void startCastService(final Activity activity) {
-		Intent intent = new Intent(activity ,ProjectActivity.class);
+	public void startCastService(final Activity activity) {
+
+		Intent intent = new Intent(activity ,activity.getClass());
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent notificationPendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
 
@@ -102,12 +118,17 @@ public class CastManager {
 					@Override
 					public void onRemoteDisplaySessionError(Status errorReason) {
 						int code = errorReason.getStatusCode();
-						//initError();
 
 						mSelectedDevice = null;
 						activity.finish();
 					}
 				});
+	}
+
+	private void startStage(Activity activity) {
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+		Intent intent = new Intent(activity, PreStageActivity.class);
+		activity.startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
@@ -116,6 +137,11 @@ public class CastManager {
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
 			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
 			String routeId = info.getId();
+
+			if(mSelectedDevice != null){
+				startCastService(activity);
+				startStage(activity);
+			}
 		}
 
 		@Override

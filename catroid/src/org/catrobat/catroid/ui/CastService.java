@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import com.google.android.gms.cast.CastPresentation;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 
@@ -32,13 +30,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.stage.StageActivity;
 
 /**
  * Service to keep the remote display running even when the app goes into the background
@@ -104,13 +100,11 @@ public class CastService extends CastRemoteDisplayLocalService {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            GLSurfaceView20 view = (GLSurfaceView20) ProjectManager.getInstance().getView();
+            View view = null;
 
             while (view == null) {
-                view = (GLSurfaceView20) ProjectManager.getInstance().getView();
+                view = ProjectManager.getInstance().getView();
             }
-
-            view.surfaceChanged(view.getHolder(), 0, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
 
             // Create the layout
             RelativeLayout layout = new RelativeLayout(getApplication());
