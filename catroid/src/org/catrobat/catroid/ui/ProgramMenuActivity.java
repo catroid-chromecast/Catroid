@@ -218,12 +218,23 @@ public class ProgramMenuActivity extends BaseActivity {
 				});
 	}
 
+	private void startStage() {
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
 		@Override
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
 			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
 			String routeId = info.getId();
+
+			if(mSelectedDevice != null){
+				startCastService();
+				startStage();
+			}
 		}
 
 		@Override
