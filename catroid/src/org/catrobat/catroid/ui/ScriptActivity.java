@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.app.ActivityManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -31,6 +34,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import android.support.v7.app.ActionBar;
 
+import android.support.v7.app.MediaRouteButton;
+import android.support.v7.media.MediaRouteSelector;
+import android.support.v7.media.MediaRouter;
 import android.util.Log;
 
 import android.view.KeyEvent;
@@ -40,6 +46,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+
+import com.google.android.gms.cast.CastDevice;
+import com.google.android.gms.cast.CastMediaControlIntent;
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
+import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -101,6 +112,13 @@ public class ScriptActivity extends BaseActivity {
 
 	private ImageButton buttonAdd;
 
+	private MediaRouter mMediaRouter;
+	private MediaRouteSelector mMediaRouteSelector;
+	private CastMediaRouterButtonView mMediaRouterButtonView;
+	private MediaRouteButton mMediaRouteButton;
+	private MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback()		;
+	private CastDevice mSelectedDevice;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -126,6 +144,17 @@ public class ScriptActivity extends BaseActivity {
 
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
+
+		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
+		mMediaRouteSelector = new MediaRouteSelector.Builder()
+				.addControlCategory(CastMediaControlIntent.categoryForCast(getString(R.string.REMOTE_DISPLAY_APP_ID)))
+				.build();
+
+		mMediaRouterButtonView = (CastMediaRouterButtonView) findViewById(R.id.media_route_button_view);
+		if (mMediaRouterButtonView != null) {
+			mMediaRouteButton = mMediaRouterButtonView.getMediaRouteButton();
+			mMediaRouteButton.setRouteSelector(mMediaRouteSelector);
+		}
 	}
 
 	private void setupBottomBar() {
@@ -134,6 +163,16 @@ public class ScriptActivity extends BaseActivity {
 		BottomBar.showPlayButton(this);
 		updateHandleAddButtonClickListener();
 
+
+		// TODO
+		//if(Cc project)
+		//{
+		BottomBar.hidePlayButton(this);
+		BottomBar.showCastButton(this);
+		//}
+		//else
+		//BottomBar.showPlayButton(this);
+		//BottomBar.hideCastButton(this);
 	}
 
 	public void setupActionBar() {
@@ -151,10 +190,26 @@ public class ScriptActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+
+		if (isCastServiceRunning(CastService.class))
+			CastRemoteDisplayLocalService.stopService();
+
+		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		setupActionBar();
 		setupBottomBar();
+	}
+
+	@Override
+	protected void onStop() {
+		mMediaRouter.removeCallback(mMediaRouterCallback);
+		super.onStop();
 	}
 
 	public void updateHandleAddButtonClickListener() {
@@ -584,5 +639,57 @@ public class ScriptActivity extends BaseActivity {
 
 		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
+	}
+
+	private boolean isCastServiceRunning(Class<?> serviceClass) {
+		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+			if (serviceClass.getName().equals(service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void startCastService() {
+		Intent intent = new Intent(ScriptActivity.this,ProjectActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent notificationPendingIntent = PendingIntent.getActivity(ScriptActivity.this, 0, intent, 0);
+
+		CastRemoteDisplayLocalService.NotificationSettings settings =
+				new CastRemoteDisplayLocalService.NotificationSettings.Builder()
+						.setNotificationPendingIntent(notificationPendingIntent).build();
+		CastRemoteDisplayLocalService.startService(ScriptActivity.this, CastService.class,
+				getString(R.string.REMOTE_DISPLAY_APP_ID), mSelectedDevice, settings,
+				new CastRemoteDisplayLocalService.Callbacks() {
+					@Override
+					public void onRemoteDisplaySessionStarted(
+							CastRemoteDisplayLocalService service) {
+					}
+
+					@Override
+					public void onRemoteDisplaySessionError(Status errorReason) {
+						int code = errorReason.getStatusCode();
+						//initError();
+
+						mSelectedDevice = null;
+						ScriptActivity.this.finish();
+					}
+				});
+	}
+
+	private class MyMediaRouterCallback extends MediaRouter.Callback {
+
+		@Override
+		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
+			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
+			String routeId = info.getId();
+		}
+
+		@Override
+		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
+			mSelectedDevice = null;
+			CastRemoteDisplayLocalService.stopService();
+		}
 	}
 }

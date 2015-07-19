@@ -58,7 +58,7 @@ public class ProgramMenuActivity extends BaseActivity {
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastMediaRouterButtonView mMediaRouterButtonView;
 	private MediaRouteButton mMediaRouteButton;
-	private MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
+	private MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback()		;
 	private CastDevice mSelectedDevice;
 
 	@Override
@@ -94,8 +94,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		BottomBar.showCastButton(this);
 		//}
 		//else
-//		findViewById(R.id.media_route_button_view).setVisibility(View.GONE);
-		//BottomBar.showAddButton(this);
+		//BottomBar.showPlayButton(this);
 		//BottomBar.hideCastButton(this);
 
 		final ActionBar actionBar = getSupportActionBar();
