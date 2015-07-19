@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui;
 
+import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import com.google.android.gms.cast.CastPresentation;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 
@@ -100,11 +101,13 @@ public class CastService extends CastRemoteDisplayLocalService {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            View view = null;
+            GLSurfaceView20 view = null;
 
             while (view == null) {
-                view = ProjectManager.getInstance().getView();
+                view = (GLSurfaceView20) ProjectManager.getInstance().getView();
             }
+
+            view.surfaceChanged(view.getHolder(), 0, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
 
             // Create the layout
             RelativeLayout layout = new RelativeLayout(getApplication());
