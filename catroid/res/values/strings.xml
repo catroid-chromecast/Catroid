@@ -857,7 +857,7 @@
     <string name="and">and</string>
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
-    <string name="variable">Variable</string>
+    <string name="variable">Variable</string><string name="REMOTE_DISPLAY_APP_ID">CEBB9229</string>
     <!-- -->
 
 </resources>

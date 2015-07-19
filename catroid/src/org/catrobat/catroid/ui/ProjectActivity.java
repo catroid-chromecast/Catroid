@@ -71,7 +71,6 @@ public class ProjectActivity extends BaseActivity {
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
-	private final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final String INTENT_EXTRA_CAST_DEVICE = "CastDevice";
 
 	@Override
@@ -79,10 +78,10 @@ public class ProjectActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
 
-		mMediaRouteSelector = new MediaRouteSelector.Builder()
-				.addControlCategory(CastMediaControlIntent.categoryForCast(REMOTE_DISPLAY_APP_ID))
-				.build();
 		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
+		mMediaRouteSelector = new MediaRouteSelector.Builder()
+				.addControlCategory(CastMediaControlIntent.categoryForCast(getString(R.string.REMOTE_DISPLAY_APP_ID)))
+				.build();
 
 		mMediaRouterButtonView = (CastMediaRouterButtonView) findViewById(R.id.media_route_button_view);
 		if (mMediaRouterButtonView != null) {
@@ -93,13 +92,13 @@ public class ProjectActivity extends BaseActivity {
 		// TODO
 		//if(Cc project)
 		//{
-			findViewById(R.id.media_route_button_view).setVisibility(View.VISIBLE);
-			findViewById(R.id.button_play).setVisibility(View.GONE);
-			//findViewById(R.id.button_play).weight
+		BottomBar.hidePlayButton(this);
+		BottomBar.showCastButton(this);
 		//}
 		//else
 //		findViewById(R.id.media_route_button_view).setVisibility(View.GONE);
-//		findViewById(R.id.button_play).setVisibility(View.VISIBLE);
+		//BottomBar.showAddButton(this);
+		//BottomBar.hideCastButton(this);
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
@@ -243,23 +242,9 @@ public class ProjectActivity extends BaseActivity {
 			return;
 		}
 
-		if(mSelectedDevice != null)
-		{
-			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-			Intent intent = new Intent(this, PreStageActivity.class);
-			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-
-			startCastService();
-		}
-		else
-		{
-			Context context = getApplicationContext();
-			CharSequence text = "Please connect to a cast device first!";
-			int duration = Toast.LENGTH_SHORT;
-
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.show();
-		}
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 	}
 
 	@Override
@@ -299,7 +284,7 @@ public class ProjectActivity extends BaseActivity {
 				new CastRemoteDisplayLocalService.NotificationSettings.Builder()
 				.setNotificationPendingIntent(notificationPendingIntent).build();
 		CastRemoteDisplayLocalService.startService(ProjectActivity.this, CastService.class,
-				REMOTE_DISPLAY_APP_ID, mSelectedDevice, settings,
+				getString(R.string.REMOTE_DISPLAY_APP_ID), mSelectedDevice, settings,
 				new CastRemoteDisplayLocalService.Callbacks() {
 					@Override
 					public void onRemoteDisplaySessionStarted(

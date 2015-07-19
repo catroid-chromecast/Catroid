@@ -62,6 +62,16 @@ public final class BottomBar {
 		updateSeparator(activity);
 	}
 
+	public static void showCastButton(Activity activity) {
+		activity.findViewById(R.id.media_route_button_view).setVisibility(View.VISIBLE);
+		updateSeparator(activity);
+	}
+
+	public static void hideCastButton(Activity activity) {
+		activity.findViewById(R.id.media_route_button_view).setVisibility(View.GONE);
+		updateSeparator(activity);
+	}
+
 	private static void updateSeparator(Activity activity) {
 		if (activity.findViewById(R.id.button_play).getVisibility() == View.VISIBLE
 				&& activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE) {
