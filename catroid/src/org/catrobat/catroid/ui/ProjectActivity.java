@@ -274,7 +274,14 @@ public class ProjectActivity extends BaseActivity {
 		return false;
 	}
 
+	private void startStage() {
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
 	private void startCastService() {
+
 		Intent intent = new Intent(ProjectActivity.this,ProjectActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent notificationPendingIntent = PendingIntent.getActivity(ProjectActivity.this, 0, intent, 0);
@@ -307,6 +314,11 @@ public class ProjectActivity extends BaseActivity {
 		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
 			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
 			String routeId = info.getId();
+
+			if(mSelectedDevice != null){
+				startCastService();
+				startStage();
+			}
 		}
 
 		@Override
