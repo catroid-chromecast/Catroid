@@ -160,7 +160,7 @@ public class ScriptActivity extends BaseActivity {
 	private void setupBottomBar() {
 		BottomBar.showBottomBar(this);
 		BottomBar.showAddButton(this);
-		BottomBar.showPlayButton(this);
+		//BottomBar.showPlayButton(this);
 		updateHandleAddButtonClickListener();
 
 

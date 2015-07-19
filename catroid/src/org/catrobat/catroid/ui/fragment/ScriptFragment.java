@@ -163,7 +163,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
 		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
+		// TODO
+		//if(Cc project)
+		//{
+		BottomBar.hidePlayButton(getActivity());
+		BottomBar.showCastButton(getActivity());
+		//}
+		//else
+		//BottomBar.showPlayButton(this);
+		//BottomBar.hideCastButton(this);
+
+		//BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 		initListeners();
 		adapter.resetAlphas();

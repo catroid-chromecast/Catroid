@@ -74,6 +74,8 @@ public final class BottomBar {
 
 	private static void updateSeparator(Activity activity) {
 		if (activity.findViewById(R.id.button_play).getVisibility() == View.VISIBLE
+				&& activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE
+				||activity.findViewById(R.id.media_route_button_view).getVisibility() == View.VISIBLE
 				&& activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE) {
 			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
 		} else {

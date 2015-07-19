@@ -71,7 +71,6 @@ public class ProjectActivity extends BaseActivity {
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
-	public static final String INTENT_EXTRA_CAST_DEVICE = "CastDevice";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
