@@ -140,9 +140,6 @@ public class ScriptActivity extends BaseActivity {
 		updateCurrentFragment(currentFragmentPosition, fragmentTransaction);
 		fragmentTransaction.commit();
 
-		setupActionBar();
-		setupBottomBar();
-
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
 
@@ -192,8 +189,6 @@ public class ScriptActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		setupBottomBar();
 
 		if (isCastServiceRunning(CastService.class))
 			CastRemoteDisplayLocalService.stopService();

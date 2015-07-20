@@ -34,7 +34,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
@@ -110,15 +112,22 @@ public class BrickCategoryFragment extends BaseListFragment {
 	public void onPause() {
 		super.onPause();
 		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(getActivity());
+			BottomBar.showCastButton(getActivity());
+		}
+		else {
+			BottomBar.showPlayButton(getActivity());
+			BottomBar.hideCastButton(getActivity());
+		}
 	}
 
 	@Override
 	public void onDestroy() {
 		resetActionBar();
 		super.onDestroy();
-		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
 	}
 
 	@Override

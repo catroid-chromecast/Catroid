@@ -48,6 +48,7 @@ import android.widget.ListView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
@@ -163,17 +164,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		getActivity().registerReceiver(brickListChangedReceiver, filterBrickListChanged);
 
 		BottomBar.showBottomBar(getActivity());
-		// TODO
-		//if(Cc project)
-		//{
-		BottomBar.hidePlayButton(getActivity());
-		BottomBar.showCastButton(getActivity());
-		//}
-		//else
-		//BottomBar.showPlayButton(this);
-		//BottomBar.hideCastButton(this);
 
-		//BottomBar.showPlayButton(getActivity());
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(getActivity());
+			BottomBar.showCastButton(getActivity());
+		}
+		else {
+			BottomBar.showPlayButton(getActivity());
+			BottomBar.hideCastButton(getActivity());
+		}
+
 		BottomBar.showAddButton(getActivity());
 		initListeners();
 		adapter.resetAlphas();
