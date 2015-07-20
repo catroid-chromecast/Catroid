@@ -860,4 +860,8 @@
     <string name="variable">Variable</string><string name="REMOTE_DISPLAY_APP_ID">CEBB9229</string>
     <!-- -->
 
+    <!-- Chromecast Strings -->
+    <string name="chromecast_bottombar_play">Play</string>
+    <!-- -->
+
 </resources>

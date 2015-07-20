@@ -63,12 +63,7 @@
         android:id="@+id/media_route_button_view"
         android:layout_height="match_parent"
         android:layout_width="0dip"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        custom:buttonText="play"
         android:layout_weight="1"
-        android:background="@drawable/bottom_bar_background_selector"
-        android:visibility="visible"/>
+        android:background="@drawable/bottom_bar_background_selector"/>
 
 </LinearLayout>

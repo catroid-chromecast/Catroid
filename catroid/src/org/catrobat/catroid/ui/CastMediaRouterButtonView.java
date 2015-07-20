@@ -50,17 +50,15 @@ public class CastMediaRouterButtonView extends LinearLayout {
 		super(context, attrs);
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MediaRouterButtonView, 0, 0);
-		String buttonText = a.getString(R.styleable.MediaRouterButtonView_buttonText);
 		a.recycle();
 
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.media_router_button_view, this, true);
 
-		mMediaRouteButton = (MediaRouteButton) getChildAt(0);
+		mMediaRouteButton = (MediaRouteButton) findViewById(R.id.media_route_button);
+		mTextView = (TextView) findViewById(R.id.chromecast_play_text);
 
-		mTextView = (TextView) getChildAt(1);
-		mTextView.setText("play");
 	}
 
 	public CastMediaRouterButtonView(Context context) {
