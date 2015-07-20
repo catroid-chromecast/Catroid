@@ -60,8 +60,6 @@ public class ProgramMenuActivity extends BaseActivity {
 		BottomBar.hideAddButton(this);
 		BottomBar.showPlayOrCastButton(this);
 
-
-
 		final ActionBar actionBar = getSupportActionBar();
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
