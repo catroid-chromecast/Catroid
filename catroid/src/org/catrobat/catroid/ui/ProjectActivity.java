@@ -48,6 +48,7 @@ import com.google.android.gms.common.api.Status;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -88,21 +89,9 @@ public class ProjectActivity extends BaseActivity {
 			mMediaRouteButton.setRouteSelector(mMediaRouteSelector);
 		}
 
-		// TODO
-		//if(Cc project)
-		//{
-		BottomBar.hidePlayButton(this);
-		BottomBar.showCastButton(this);
-		//}
-		//else
-//		findViewById(R.id.media_route_button_view).setVisibility(View.GONE);
-		//BottomBar.showAddButton(this);
-		//BottomBar.hideCastButton(this);
-
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
 		}
-
 	}
 
 	@Override
@@ -130,11 +119,31 @@ public class ProjectActivity extends BaseActivity {
 				R.id.fragment_sprites_list);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(this);
+			BottomBar.showCastButton(this);
+		}
+		else {
+			BottomBar.showPlayButton(this);
+			BottomBar.hideCastButton(this);
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(this);
+			BottomBar.showCastButton(this);
+		}
+		else {
+			BottomBar.showPlayButton(this);
+			BottomBar.hideCastButton(this);
+		}
 	}
 
 	@Override

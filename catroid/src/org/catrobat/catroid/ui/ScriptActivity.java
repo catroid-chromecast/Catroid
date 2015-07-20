@@ -55,6 +55,7 @@ import com.google.android.gms.common.api.Status;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -160,19 +161,18 @@ public class ScriptActivity extends BaseActivity {
 	private void setupBottomBar() {
 		BottomBar.showBottomBar(this);
 		BottomBar.showAddButton(this);
-		//BottomBar.showPlayButton(this);
 		updateHandleAddButtonClickListener();
 
 
-		// TODO
-		//if(Cc project)
-		//{
-		BottomBar.hidePlayButton(this);
-		BottomBar.showCastButton(this);
-		//}
-		//else
-		//BottomBar.showPlayButton(this);
-		//BottomBar.hideCastButton(this);
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(this);
+			BottomBar.showCastButton(this);
+		}
+		else {
+			BottomBar.showPlayButton(this);
+			BottomBar.hideCastButton(this);
+		}
 	}
 
 	public void setupActionBar() {
@@ -192,6 +192,8 @@ public class ScriptActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		setupBottomBar();
 
 		if (isCastServiceRunning(CastService.class))
 			CastRemoteDisplayLocalService.stopService();

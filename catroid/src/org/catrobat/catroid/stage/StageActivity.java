@@ -46,6 +46,7 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -67,8 +68,6 @@ public class StageActivity extends AndroidApplication {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_stage_gamepad);
-
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
@@ -86,14 +85,18 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
-		//stageListener.maximizeViewPortHeight = 1280;
-		//stageListener.maximizeViewPortHeight = 720;
-
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		// TODO if chromecast project do that
-		config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
-		ProjectManager.getInstance().setView(initializeForView(stageListener, config));
-		//initialize(stageListener, config);
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
+			ProjectManager.getInstance().setView(initializeForView(stageListener, config));
+			setContentView(R.layout.activity_stage_gamepad);
+		}
+		else {
+			initialize(stageListener, config);
+		}
+
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();

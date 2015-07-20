@@ -577,7 +577,7 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveChromecastProject(String projectName, Context context) {
 		Project landscapeProject = createAndSaveLandscapeProject(projectName, context);
-		ProjectManager.getInstance().setChromecastProject(true);
+		landscapeProject.getXmlHeader().setIsCastProject(true);
 		return landscapeProject;
 	}
 

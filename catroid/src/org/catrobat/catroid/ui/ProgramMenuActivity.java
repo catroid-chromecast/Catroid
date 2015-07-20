@@ -42,6 +42,7 @@ import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -87,16 +88,6 @@ public class ProgramMenuActivity extends BaseActivity {
 			mMediaRouteButton.setRouteSelector(mMediaRouteSelector);
 		}
 
-		// TODO
-		//if(Cc project)
-		//{
-		BottomBar.hidePlayButton(this);
-		BottomBar.showCastButton(this);
-		//}
-		//else
-		//BottomBar.showPlayButton(this);
-		//BottomBar.hideCastButton(this);
-
 		final ActionBar actionBar = getSupportActionBar();
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
@@ -113,6 +104,16 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(this);
+			BottomBar.showCastButton(this);
+		}
+		else {
+			BottomBar.showPlayButton(this);
+			BottomBar.hideCastButton(this);
+		}
 
 		if (isCastServiceRunning(CastService.class))
 			CastRemoteDisplayLocalService.stopService();

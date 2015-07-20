@@ -56,7 +56,7 @@ public class Project implements Serializable {
 	private DataContainer dataContainer = null;
 
 	@XStreamAlias("settings")
-	private List<Setting> settings = new ArrayList<Setting>();;
+	private List<Setting> settings = new ArrayList<Setting>();
 	
 	public Project(Context context, String name, boolean landscape) {
 		xmlHeader.setProgramName(name);
@@ -291,5 +291,18 @@ public class Project implements Serializable {
 
 	public void setIsPhiroProProject(boolean isPhiroProProject) {
 		xmlHeader.setPhiroProProject(isPhiroProProject);
+	}
+
+	public boolean isCastProject() {
+
+		return xmlHeader.isCastProject();
+
+//		for (Sprite sprite : spriteList) {
+//			for (Script script : sprite.getScriptList()) {
+//				if (script instanceof  WhenGamepadButtonScript)
+//					return true;
+//			}
+//		}
+//		return false;
 	}
 }
