@@ -33,9 +33,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 
 /**
  * Service to keep the remote display running even when the app goes into the background
@@ -101,21 +103,23 @@ public class CastService extends CastRemoteDisplayLocalService {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            GLSurfaceView20 view = null;
+            if(CastManager.getInstance().isIdleScreen()) {
+                ImageView imageView = new ImageView(getContext());
+                imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
+                setContentView(imageView);
+                CastManager.getInstance().setIdleScreen(false);
+                return;
+            }
 
+            GLSurfaceView20 view = null;
             while (view == null) {
                 view = (GLSurfaceView20) ProjectManager.getInstance().getView();
             }
 
             view.surfaceChanged(view.getHolder(), 0, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
 
-            // Create the layout
             RelativeLayout layout = new RelativeLayout(getApplication());
-
-            // Add the libgdx view
             layout.addView(view);
-
-            // Hook it all up
             setContentView(layout);
         }
     }

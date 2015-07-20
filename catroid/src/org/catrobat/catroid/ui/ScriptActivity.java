@@ -180,8 +180,7 @@ public class ScriptActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
-		if (isCastServiceRunning(CastService.class))
-			CastRemoteDisplayLocalService.stopService();
+		CastManager.getInstance().setIdleCastSreen();
 
 		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
 	}

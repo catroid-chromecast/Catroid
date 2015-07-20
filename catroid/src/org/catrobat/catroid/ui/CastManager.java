@@ -26,11 +26,13 @@ package org.catrobat.catroid.ui;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.PendingIntent;
+import android.app.Presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
+import android.view.Display;
 
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
@@ -52,6 +54,7 @@ public class CastManager {
 	private CastDevice mSelectedDevice;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
 	private Activity activity;
+	private boolean idleScreen = false;
 
 	private CastManager() {
 	}
@@ -78,6 +81,14 @@ public class CastManager {
 			CastRemoteDisplayLocalService.stopService();
 
 		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+	}
+
+	public void setIdleCastSreen() {
+
+		if(CastService.getInstance() != null) {
+			idleScreen = true;
+			// TODO add presentation
+		}
 	}
 
 	public void stopCallbacks(Activity activity){
@@ -129,6 +140,14 @@ public class CastManager {
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 		Intent intent = new Intent(activity, PreStageActivity.class);
 		activity.startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
+	public boolean isIdleScreen() {
+		return idleScreen;
+	}
+
+	public void setIdleScreen(boolean idleScreen) {
+		this.idleScreen = idleScreen;
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
