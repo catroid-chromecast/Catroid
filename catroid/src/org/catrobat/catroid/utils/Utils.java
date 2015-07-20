@@ -297,7 +297,6 @@ public final class Utils {
 	}
 
 	public static void loadProjectIfNeeded(Context context) {
-		ProjectManager.getInstance().setProject(null);
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -178,6 +180,16 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			project.loadLegoNXTSettingsFromProject(context);
 		}
 
+		Activity activity = (Activity) context;
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(activity);
+			BottomBar.showCastButton(activity);
+		}
+		else {
+			BottomBar.showPlayButton(activity);
+			BottomBar.hideCastButton(activity);
+		}
 	}
 
 	private void localizeBackgroundSprite(Context context) {

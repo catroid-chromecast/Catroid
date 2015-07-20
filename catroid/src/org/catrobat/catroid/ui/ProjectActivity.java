@@ -134,16 +134,6 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
-			BottomBar.hidePlayButton(this);
-			BottomBar.showCastButton(this);
-		}
-		else {
-			BottomBar.showPlayButton(this);
-			BottomBar.hideCastButton(this);
-		}
 	}
 
 	@Override
