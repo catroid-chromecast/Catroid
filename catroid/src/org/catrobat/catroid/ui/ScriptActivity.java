@@ -158,18 +158,8 @@ public class ScriptActivity extends BaseActivity {
 	private void setupBottomBar() {
 		BottomBar.showBottomBar(this);
 		BottomBar.showAddButton(this);
+		BottomBar.showPlayOrCastButton(this);
 		updateHandleAddButtonClickListener();
-
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
-			BottomBar.hidePlayButton(this);
-			BottomBar.showCastButton(this);
-		}
-		else {
-			BottomBar.showPlayButton(this);
-			BottomBar.hideCastButton(this);
-		}
 	}
 
 	public void setupActionBar() {

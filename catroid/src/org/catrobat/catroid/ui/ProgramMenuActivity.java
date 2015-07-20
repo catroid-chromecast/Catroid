@@ -76,6 +76,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		setContentView(R.layout.activity_program_menu);
 
 		BottomBar.hideAddButton(this);
+		BottomBar.showPlayOrCastButton(this);
 
 		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
 		mMediaRouteSelector = new MediaRouteSelector.Builder()
@@ -104,16 +105,6 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
-			BottomBar.hidePlayButton(this);
-			BottomBar.showCastButton(this);
-		}
-		else {
-			BottomBar.showPlayButton(this);
-			BottomBar.hideCastButton(this);
-		}
 
 		if (isCastServiceRunning(CastService.class))
 			CastRemoteDisplayLocalService.stopService();

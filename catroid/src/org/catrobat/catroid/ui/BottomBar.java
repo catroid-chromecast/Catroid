@@ -25,7 +25,9 @@ package org.catrobat.catroid.ui;
 import android.app.Activity;
 import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 
 public final class BottomBar {
 
@@ -80,6 +82,18 @@ public final class BottomBar {
 			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
 		} else {
 			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+		}
+	}
+
+	public static void showPlayOrCastButton(Activity activity) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if(project != null && project.isCastProject()) {
+			BottomBar.hidePlayButton(activity);
+			BottomBar.showCastButton(activity);
+		}
+		else {
+			BottomBar.showPlayButton(activity);
+			BottomBar.hideCastButton(activity);
 		}
 	}
 

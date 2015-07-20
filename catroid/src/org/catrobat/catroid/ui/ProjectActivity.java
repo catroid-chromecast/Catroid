@@ -114,21 +114,12 @@ public class ProjectActivity extends BaseActivity {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		setTitleActionBar(programName);
+		BottomBar.showPlayOrCastButton(this);
 
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
 				R.id.fragment_sprites_list);
 
 		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
-			BottomBar.hidePlayButton(this);
-			BottomBar.showCastButton(this);
-		}
-		else {
-			BottomBar.showPlayButton(this);
-			BottomBar.hideCastButton(this);
-		}
 	}
 
 	@Override

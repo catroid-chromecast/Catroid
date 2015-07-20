@@ -112,16 +112,7 @@ public class BrickCategoryFragment extends BaseListFragment {
 	public void onPause() {
 		super.onPause();
 		BottomBar.showBottomBar(getActivity());
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
-			BottomBar.hidePlayButton(getActivity());
-			BottomBar.showCastButton(getActivity());
-		}
-		else {
-			BottomBar.showPlayButton(getActivity());
-			BottomBar.hideCastButton(getActivity());
-		}
+		BottomBar.showPlayOrCastButton(getActivity());
 	}
 
 	@Override
