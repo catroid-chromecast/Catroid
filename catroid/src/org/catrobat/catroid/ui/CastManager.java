@@ -34,6 +34,7 @@ import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.Display;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -60,6 +61,7 @@ public class CastManager {
 	private boolean idleScreen = false;
 	private RelativeLayout layout;
 	private Application context;
+	private View view;
 
 	private CastManager() {
 	}
@@ -74,12 +76,6 @@ public class CastManager {
 		mMediaRouteSelector = new MediaRouteSelector.Builder()
 				.addControlCategory(CastMediaControlIntent.categoryForCast(activity.getApplicationContext().getString(R.string.REMOTE_DISPLAY_APP_ID)))
 				.build();
-
-		mMediaRouterButtonView = (CastMediaRouterButtonView) activity.findViewById(R.id.media_route_button_view);
-		if (mMediaRouterButtonView != null) {
-			mMediaRouteButton = mMediaRouterButtonView.getMediaRouteButton();
-			mMediaRouteButton.setRouteSelector(mMediaRouteSelector);
-		}
 
 		if(isCastServiceRunning(CastService.class, activity))
 			CastRemoteDisplayLocalService.stopService();
@@ -104,7 +100,6 @@ public class CastManager {
 			CastRemoteDisplayLocalService.stopService();
 
 		mMediaRouter.removeCallback(mMediaRouterCallback);
-		ProjectManager.getInstance().setView(null);
 	}
 
 	private boolean isCastServiceRunning(Class<?> serviceClass, Activity activity) {
@@ -164,6 +159,16 @@ public class CastManager {
 
 	public void setContext(Application context) {
 		this.context = context;
+	}
+
+	public void setView(View view) {
+		this.view = view;
+
+		if(this.layout != null && this.context != null) {
+
+			this.layout.removeAllViews();
+			this.layout.addView(this.view);
+		}
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {

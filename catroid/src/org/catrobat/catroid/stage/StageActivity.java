@@ -47,6 +47,7 @@ import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.CastManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -90,7 +91,7 @@ public class StageActivity extends AndroidApplication {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if(project != null && project.isCastProject()) {
 			config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
-			ProjectManager.getInstance().setView(initializeForView(stageListener, config));
+			CastManager.getInstance().setView(initializeForView(stageListener, config));
 			setContentView(R.layout.activity_stage_gamepad);
 		}
 		else {

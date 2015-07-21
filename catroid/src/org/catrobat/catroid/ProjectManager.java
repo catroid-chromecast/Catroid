@@ -179,8 +179,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
 		}
-
-		BottomBar.showPlayOrCastButton((Activity)context);
 	}
 
 	private void localizeBackgroundSprite(Context context) {

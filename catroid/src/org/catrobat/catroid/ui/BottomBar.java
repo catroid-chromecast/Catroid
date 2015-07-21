@@ -64,37 +64,12 @@ public final class BottomBar {
 		updateSeparator(activity);
 	}
 
-	public static void showCastButton(Activity activity) {
-		activity.findViewById(R.id.media_route_button_view).setVisibility(View.VISIBLE);
-		updateSeparator(activity);
-	}
-
-	public static void hideCastButton(Activity activity) {
-		activity.findViewById(R.id.media_route_button_view).setVisibility(View.GONE);
-		updateSeparator(activity);
-	}
-
 	private static void updateSeparator(Activity activity) {
 		if (activity.findViewById(R.id.button_play).getVisibility() == View.VISIBLE
-				&& activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE
-				||activity.findViewById(R.id.media_route_button_view).getVisibility() == View.VISIBLE
 				&& activity.findViewById(R.id.button_add).getVisibility() == View.VISIBLE) {
 			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.VISIBLE);
 		} else {
 			activity.findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
 		}
 	}
-
-	public static void showPlayOrCastButton(Activity activity) {
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
-			BottomBar.hidePlayButton(activity);
-			BottomBar.showCastButton(activity);
-		}
-		else {
-			BottomBar.showPlayButton(activity);
-			BottomBar.hideCastButton(activity);
-		}
-	}
-
 }

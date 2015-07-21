@@ -112,7 +112,6 @@ public class BrickCategoryFragment extends BaseListFragment {
 	public void onPause() {
 		super.onPause();
 		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayOrCastButton(getActivity());
 	}
 
 	@Override
