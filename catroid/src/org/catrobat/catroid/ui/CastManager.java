@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.app.Presentation;
 import android.content.Context;
@@ -33,6 +34,8 @@ import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.Display;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
@@ -55,6 +58,8 @@ public class CastManager {
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
 	private Activity activity;
 	private boolean idleScreen = false;
+	private RelativeLayout layout;
+	private Application context;
 
 	private CastManager() {
 	}
@@ -85,10 +90,14 @@ public class CastManager {
 
 	public void setIdleCastSreen() {
 
-		if(CastService.getInstance() != null) {
-			idleScreen = true;
-			// TODO add presentation
+		if(this.layout != null && this.context != null) {
+
+			this.layout.removeAllViews();
+			ImageView imageView = new ImageView(this.context);
+			imageView.setImageDrawable(this.context.getDrawable(R.drawable.cast_screensaver));
+			this.layout.addView(imageView);
 		}
+		CastManager.getInstance().setIdleScreen(false);
 	}
 
 	public void stopCallbacks(Activity activity){
@@ -148,6 +157,14 @@ public class CastManager {
 
 	public void setIdleScreen(boolean idleScreen) {
 		this.idleScreen = idleScreen;
+	}
+
+	public void setLayout(RelativeLayout layout) {
+		this.layout = layout;
+	}
+
+	public void setContext(Application context) {
+		this.context = context;
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
