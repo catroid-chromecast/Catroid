@@ -56,11 +56,10 @@ public class CastManager {
 	private CastManager() {
 	}
 
-	public static CastManager getInstance() {
-		return INSTANCE;
-	}
+	public static CastManager getInstance() { return INSTANCE; }
 
-	public void initMediaRouter(Activity activity){
+	public void initMediaRouter(Activity activity) {
+
 		this.activity = activity;
 
 		mMediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
@@ -100,7 +99,7 @@ public class CastManager {
 
 	public void startCastService(final Activity activity) {
 
-		Intent intent = new Intent(activity ,activity.getClass());
+		Intent intent = new Intent(activity, activity.getClass());
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent notificationPendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
 

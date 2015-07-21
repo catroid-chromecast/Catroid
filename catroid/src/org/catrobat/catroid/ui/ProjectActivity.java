@@ -22,33 +22,20 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.ActivityManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.MediaRouteButton;
-import android.support.v7.media.MediaRouteSelector;
-import android.support.v7.media.MediaRouter;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.google.android.gms.cast.CastDevice;
-import com.google.android.gms.cast.CastMediaControlIntent;
-import com.google.android.gms.cast.CastRemoteDisplayLocalService;
-import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -66,28 +53,19 @@ public class ProjectActivity extends BaseActivity {
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
-	private MediaRouteButton mMediaRouteButton;
+	/*private MediaRouteButton mMediaRouteButton;
 	private CastMediaRouterButtonView mMediaRouterButtonView;
 	private MediaRouter mMediaRouter;
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
-	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
+	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();*/
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
 
-		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
-		mMediaRouteSelector = new MediaRouteSelector.Builder()
-				.addControlCategory(CastMediaControlIntent.categoryForCast(getString(R.string.REMOTE_DISPLAY_APP_ID)))
-				.build();
-
-		mMediaRouterButtonView = (CastMediaRouterButtonView) findViewById(R.id.media_route_button_view);
-		if (mMediaRouterButtonView != null) {
-			mMediaRouteButton = mMediaRouterButtonView.getMediaRouteButton();
-			mMediaRouteButton.setRouteSelector(mMediaRouteSelector);
-		}
+		CastManager.getInstance().initMediaRouter(this);
 
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
@@ -98,10 +76,10 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
-		if(isCastServiceRunning(CastService.class))
+		/*if(isCastServiceRunning(CastService.class))
 			CastRemoteDisplayLocalService.stopService();
 
-		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);*/
 
 		String programName;
 		Bundle bundle = getIntent().getExtras();
@@ -145,7 +123,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	protected void onStop() {
-		mMediaRouter.removeCallback(mMediaRouterCallback);
+		//mMediaRouter.removeCallback(mMediaRouterCallback);
 		super.onStop();
 	}
 
@@ -254,7 +232,7 @@ public class ProjectActivity extends BaseActivity {
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 
-	private boolean isCastServiceRunning(Class<?> serviceClass) {
+	/*private boolean isCastServiceRunning(Class<?> serviceClass) {
 		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
 			if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -316,5 +294,5 @@ public class ProjectActivity extends BaseActivity {
 			mSelectedDevice = null;
 			CastRemoteDisplayLocalService.stopService();
 		}
-	}
+	}*/
 }
