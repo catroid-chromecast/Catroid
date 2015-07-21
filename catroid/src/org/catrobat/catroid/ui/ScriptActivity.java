@@ -586,6 +586,4 @@ public class ScriptActivity extends BaseActivity {
 		updateHandleAddButtonClickListener();
 		fragmentTransaction.commit();
 	}
-
-
 }

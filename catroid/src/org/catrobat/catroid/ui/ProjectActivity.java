@@ -53,13 +53,6 @@ public class ProjectActivity extends BaseActivity {
 	private SpritesListFragment spritesListFragment;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
-	/*private MediaRouteButton mMediaRouteButton;
-	private CastMediaRouterButtonView mMediaRouterButtonView;
-	private MediaRouter mMediaRouter;
-	private MediaRouteSelector mMediaRouteSelector;
-	private CastDevice mSelectedDevice;
-	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();*/
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,11 +68,6 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		/*if(isCastServiceRunning(CastService.class))
-			CastRemoteDisplayLocalService.stopService();
-
-		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);*/
 
 		String programName;
 		Bundle bundle = getIntent().getExtras();
@@ -119,12 +107,6 @@ public class ProjectActivity extends BaseActivity {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	protected void onStop() {
-		//mMediaRouter.removeCallback(mMediaRouterCallback);
-		super.onStop();
 	}
 
 	@Override
@@ -231,68 +213,4 @@ public class ProjectActivity extends BaseActivity {
 
 		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
-
-	/*private boolean isCastServiceRunning(Class<?> serviceClass) {
-		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-			if (serviceClass.getName().equals(service.service.getClassName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private void startStage() {
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
-
-	private void startCastService() {
-
-		Intent intent = new Intent(ProjectActivity.this,ProjectActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		PendingIntent notificationPendingIntent = PendingIntent.getActivity(ProjectActivity.this, 0, intent, 0);
-
-		CastRemoteDisplayLocalService.NotificationSettings settings =
-				new CastRemoteDisplayLocalService.NotificationSettings.Builder()
-				.setNotificationPendingIntent(notificationPendingIntent).build();
-		CastRemoteDisplayLocalService.startService(ProjectActivity.this, CastService.class,
-				getString(R.string.REMOTE_DISPLAY_APP_ID), mSelectedDevice, settings,
-				new CastRemoteDisplayLocalService.Callbacks() {
-					@Override
-					public void onRemoteDisplaySessionStarted(
-							CastRemoteDisplayLocalService service) {
-					}
-
-					@Override
-					public void onRemoteDisplaySessionError(Status errorReason) {
-						int code = errorReason.getStatusCode();
-						//initError();
-
-						mSelectedDevice = null;
-						ProjectActivity.this.finish();
-					}
-				});
-	}
-
-	private class MyMediaRouterCallback extends MediaRouter.Callback {
-
-		@Override
-		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo info) {
-			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
-			String routeId = info.getId();
-
-			if(mSelectedDevice != null){
-				startCastService();
-				startStage();
-			}
-		}
-
-		@Override
-		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
-			mSelectedDevice = null;
-			CastRemoteDisplayLocalService.stopService();
-		}
-	}*/
 }

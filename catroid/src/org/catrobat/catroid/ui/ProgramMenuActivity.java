@@ -42,8 +42,7 @@ public class ProgramMenuActivity extends BaseActivity {
 	public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 	private Lock viewSwitchLock = new ViewSwitchLock();
-
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
