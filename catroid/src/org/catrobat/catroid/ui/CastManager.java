@@ -85,7 +85,7 @@ public class CastManager {
 
 	public void setIdleCastSreen() {
 
-		if(this.layout != null && this.context != null) {
+		if(this.layout != null && this.context != null && isCastServiceRunning(CastService.getInstance().getClass(), this.activity)) {
 
 			this.layout.removeAllViews();
 			ImageView imageView = new ImageView(this.context);
@@ -102,7 +102,7 @@ public class CastManager {
 		mMediaRouter.removeCallback(mMediaRouterCallback);
 	}
 
-	private boolean isCastServiceRunning(Class<?> serviceClass, Activity activity) {
+	public boolean isCastServiceRunning(Class<?> serviceClass, Activity activity) {
 		ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
 		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
 			if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -164,11 +164,15 @@ public class CastManager {
 	public void setView(View view) {
 		this.view = view;
 
-		if(this.layout != null && this.context != null) {
+		if(this.layout != null && this.context != null && isCastServiceRunning(CastService.getInstance().getClass(), this.activity)) {
 
 			this.layout.removeAllViews();
 			this.layout.addView(this.view);
 		}
+	}
+
+	public View getView() {
+		return this.view;
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
@@ -179,8 +183,8 @@ public class CastManager {
 			String routeId = info.getId();
 
 			if(mSelectedDevice != null){
-				startCastService(activity);
-				startStage(activity);
+				//startCastService(activity);
+				//startStage(activity);
 			}
 		}
 

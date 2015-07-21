@@ -106,24 +106,24 @@ public class CastService extends CastRemoteDisplayLocalService {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-//            GLSurfaceView20 view = null;
-//            while (view == null) {
-//                view = (GLSurfaceView20) ProjectManager.getInstance().getView();
-//            }
-//
-//            view.surfaceChanged(view.getHolder(), 0, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
-//
-//            RelativeLayout layout = new RelativeLayout(getApplication());
-//            CastManager.getInstance().setLayout(layout);
-//            CastManager.getInstance().setContext(getApplication());
+            GLSurfaceView20 view = null;
+            while (view == null) {
+                view = (GLSurfaceView20) CastManager.getInstance().getView();
+            }
+
+            view.surfaceChanged(view.getHolder(), 0, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
 
             RelativeLayout layout = new RelativeLayout(getApplication());
             CastManager.getInstance().setLayout(layout);
             CastManager.getInstance().setContext(getApplication());
-            layout.removeAllViews();
-            ImageView imageView = new ImageView(getApplication());
-            imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
-            layout.addView(imageView);
+
+            //RelativeLayout layout = new RelativeLayout(getApplication());
+            CastManager.getInstance().setLayout(layout);
+            CastManager.getInstance().setContext(getApplication());
+            //layout.removeAllViews();
+            //ImageView imageView = new ImageView(getApplication());
+            //imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
+            layout.addView(view);
             setContentView(layout);
         }
 
