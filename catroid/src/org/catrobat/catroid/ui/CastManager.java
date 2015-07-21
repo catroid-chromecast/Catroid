@@ -183,7 +183,7 @@ public class CastManager {
 			String routeId = info.getId();
 
 			if(mSelectedDevice != null){
-				//startCastService(activity);
+				startCastService(activity);
 				//startStage(activity);
 			}
 		}
