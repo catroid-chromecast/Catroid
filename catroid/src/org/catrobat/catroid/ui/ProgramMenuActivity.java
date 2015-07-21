@@ -58,7 +58,6 @@ public class ProgramMenuActivity extends BaseActivity {
 		CastManager.getInstance().initMediaRouter(this);
 
 		BottomBar.hideAddButton(this);
-		BottomBar.showPlayOrCastButton(this);
 
 		final ActionBar actionBar = getSupportActionBar();
 

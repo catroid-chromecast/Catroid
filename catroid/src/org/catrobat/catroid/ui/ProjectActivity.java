@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -80,7 +82,6 @@ public class ProjectActivity extends BaseActivity {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		setTitleActionBar(programName);
-		BottomBar.showPlayOrCastButton(this);
 
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
 				R.id.fragment_sprites_list);
@@ -150,6 +151,9 @@ public class ProjectActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(CastService.class, this) == false)
+				CastManager.getInstance().startCastService(this);
+
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
@@ -188,6 +192,16 @@ public class ProjectActivity extends BaseActivity {
 
 	public void handlePlayButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+
+		if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().getSelectedDevice() == null) {
+			Context context = getApplicationContext();
+			CharSequence text = "Please connect to a cast device first!";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 			return;
 		}
 

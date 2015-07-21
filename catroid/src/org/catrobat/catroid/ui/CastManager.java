@@ -51,8 +51,6 @@ public class CastManager {
 
 	private static final CastManager INSTANCE = new CastManager();
 
-	private MediaRouteButton mMediaRouteButton;
-	private CastMediaRouterButtonView mMediaRouterButtonView;
 	private MediaRouter mMediaRouter;
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice;
@@ -67,6 +65,10 @@ public class CastManager {
 	}
 
 	public static CastManager getInstance() { return INSTANCE; }
+
+	public CastDevice getSelectedDevice() {
+		return mSelectedDevice;
+	}
 
 	public void initMediaRouter(Activity activity) {
 
