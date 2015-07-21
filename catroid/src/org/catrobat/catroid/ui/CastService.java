@@ -45,6 +45,7 @@ import org.catrobat.catroid.R;
 public class CastService extends CastRemoteDisplayLocalService {
 
     private static final String TAG = "PresentationService";
+    private Display display;
 
     // First screen
     private CastPresentation mPresentation;
@@ -71,9 +72,11 @@ public class CastService extends CastRemoteDisplayLocalService {
         }
     }
 
-    private void createPresentation(Display display) {
+    public void createPresentation(Display display) {
+        if(display != null)
+            this.display = display;
         dismissPresentation();
-        mPresentation = new FirstScreenPresentation(this, display);
+        mPresentation = new FirstScreenPresentation(this, this.display);
 
         try {
             mPresentation.show();
@@ -91,7 +94,7 @@ public class CastService extends CastRemoteDisplayLocalService {
      * presentation's own {@link Context} whenever we load resources.
      * </p>
      */
-    private class FirstScreenPresentation extends CastPresentation {
+    public class FirstScreenPresentation extends CastPresentation {
 
         private final String TAG = "FirstScreenPresentation";
 
@@ -103,14 +106,6 @@ public class CastService extends CastRemoteDisplayLocalService {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            if(CastManager.getInstance().isIdleScreen()) {
-                ImageView imageView = new ImageView(getContext());
-                imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
-                setContentView(imageView);
-                CastManager.getInstance().setIdleScreen(false);
-                return;
-            }
-
             GLSurfaceView20 view = null;
             while (view == null) {
                 view = (GLSurfaceView20) ProjectManager.getInstance().getView();
@@ -119,8 +114,22 @@ public class CastService extends CastRemoteDisplayLocalService {
             view.surfaceChanged(view.getHolder(), 0, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
 
             RelativeLayout layout = new RelativeLayout(getApplication());
+            CastManager.getInstance().setLayout(layout);
+            CastManager.getInstance().setContext(getApplication());
+
             layout.addView(view);
             setContentView(layout);
+        }
+
+        public void changeView()
+        {
+            if(CastManager.getInstance().isIdleScreen()) {
+                ImageView imageView = new ImageView(getContext());
+                imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
+                setContentView(imageView);
+                CastManager.getInstance().setIdleScreen(false);
+                return;
+            }
         }
     }
 }
