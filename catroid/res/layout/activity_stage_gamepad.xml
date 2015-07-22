@@ -32,7 +32,7 @@
         android:layout_width="237dp"
         android:layout_height="240dp"
         android:id="@+id/gamepadBackground"
-        android:src="@drawable/gamepad_pad_pressed"
+        android:src="@drawable/gamepad_pad_bg"
         android:layout_centerVertical="true"
         android:scaleType="fitXY"
         android:layout_toLeftOf="@+id/gamepadPauseButton"
@@ -46,7 +46,7 @@
         android:nestedScrollingEnabled="true"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_button_a_unpressed"
+        android:src="@drawable/gamepad_button_a"
         android:layout_alignTop="@+id/gamepadButtonB"
         android:layout_toLeftOf="@+id/gamepadButtonB"
         android:layout_toStartOf="@+id/gamepadButtonB" />
@@ -65,7 +65,7 @@
         android:nestedScrollingEnabled="false"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_button_b_unpressed" />
+        android:src="@drawable/gamepad_button_b" />
 
 
     <ImageButton
@@ -75,7 +75,7 @@
         android:background="@null"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_pad_up_unpressed"
+        android:src="@drawable/gamepad_pad_up"
         android:layout_above="@+id/gamepadButtonRight"
         android:layout_toRightOf="@+id/gamepadButtonLeft"
         android:layout_toEndOf="@+id/gamepadButtonLeft" />
@@ -88,7 +88,7 @@
         android:background="@null"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_pad_down_unpressed"
+        android:src="@drawable/gamepad_pad_down"
         android:layout_below="@+id/gamepadButtonRight"
         android:layout_alignLeft="@+id/gamepadButtonUp"
         android:layout_alignStart="@+id/gamepadButtonUp" />
@@ -100,7 +100,7 @@
         android:background="@null"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_pad_right_unpressed"
+        android:src="@drawable/gamepad_pad_right"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/gamepadButtonDown"
         android:layout_toEndOf="@+id/gamepadButtonDown" />
@@ -112,7 +112,7 @@
         android:background="@null"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_pad_left_unpressed"
+        android:src="@drawable/gamepad_pad_left"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
         android:layout_below="@+id/gamepadButtonUp"
