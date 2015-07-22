@@ -71,6 +71,8 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
+		CastManager.getInstance().setIdleCastSreen();
+
 		String programName;
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -106,6 +108,8 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
+
+			CastManager.getInstance().addCastButtonActionbar(menu);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}

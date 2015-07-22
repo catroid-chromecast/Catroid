@@ -128,7 +128,6 @@ public class ScriptActivity extends BaseActivity {
 	private void setupBottomBar() {
 		BottomBar.showBottomBar(this);
 		BottomBar.showAddButton(this);
-		BottomBar.showPlayOrCastButton(this);
 		updateHandleAddButtonClickListener();
 	}
 

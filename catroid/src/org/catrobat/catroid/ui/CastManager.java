@@ -30,10 +30,14 @@ import android.app.PendingIntent;
 import android.app.Presentation;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -95,6 +99,13 @@ public class CastManager {
 			this.layout.addView(imageView);
 		}
 		CastManager.getInstance().setIdleScreen(false);
+	}
+
+	public void addCastButtonActionbar(Menu menu) {
+		MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+		MediaRouteActionProvider mediaRouteActionProvider =
+				(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
+		mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
 	}
 
 	public void stopCallbacks(Activity activity){
