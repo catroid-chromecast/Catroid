@@ -22,12 +22,15 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -73,6 +76,12 @@ public class ProgramMenuActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		CastManager.getInstance().setIdleCastSreen();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
@@ -85,10 +94,20 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(this) == false)
+				CastManager.getInstance().startCastService(this);
+
 			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		CastManager.getInstance().addCastButtonActionbar(menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void handleScriptsButton(View view) {
@@ -116,6 +135,17 @@ public class ProgramMenuActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
+		if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().getSelectedDevice() == null) {
+			Context context = getApplicationContext();
+			CharSequence text = "Please connect to a cast device first!";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+			return;
+		}
+
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);

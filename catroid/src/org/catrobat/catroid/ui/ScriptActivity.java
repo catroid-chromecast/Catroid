@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -106,6 +108,8 @@ public class ScriptActivity extends BaseActivity {
 		CastManager.getInstance().initMediaRouter(this);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+		CastManager.getInstance().initMediaRouter(this);
+
 		currentFragmentPosition = FRAGMENT_SCRIPTS;
 
 		if (savedInstanceState == null) {
@@ -123,6 +127,12 @@ public class ScriptActivity extends BaseActivity {
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
 
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		CastManager.getInstance().setIdleCastSreen();
 	}
 
 	private void setupBottomBar() {
@@ -226,6 +236,7 @@ public class ScriptActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		CastManager.getInstance().addCastButtonActionbar(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -296,6 +307,9 @@ public class ScriptActivity extends BaseActivity {
 		updateHandleAddButtonClickListener();
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(this) == false)
+				CastManager.getInstance().startCastService(this);
+
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
@@ -407,6 +421,16 @@ public class ScriptActivity extends BaseActivity {
 			if (!viewSwitchLock.tryLock()) {
 				return;
 			}
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().getSelectedDevice() == null) {
+				Context context = getApplicationContext();
+				CharSequence text = "Please connect to a cast device first!";
+				int duration = Toast.LENGTH_SHORT;
+
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+				return;
+			}
+
 			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
