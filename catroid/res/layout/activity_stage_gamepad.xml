@@ -34,7 +34,8 @@
         android:id="@+id/gamepadBackground"
         android:src="@drawable/gamepad_pad_bg"
         android:scaleType="fitXY"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp" />
 
     <ImageButton
         android:id="@+id/gamepadButtonA"
