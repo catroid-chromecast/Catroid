@@ -139,6 +139,10 @@ public class CastManager {
 		CastManager.getInstance().setIdleScreen(false);
 	}
 
+	public void addCastButtonDialog(MediaRouteButton mrb) {
+		mrb.setRouteSelector(mMediaRouteSelector);
+	}
+
 	public void addCastButtonActionbar(Menu menu) {
 		MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
 		MediaRouteActionProvider mediaRouteActionProvider =

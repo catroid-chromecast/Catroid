@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.MediaRouteButton;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -53,10 +54,17 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	@Override
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		CastManager.getInstance().initMediaRouter(getOwnerActivity());
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
+
 		getWindow().getAttributes();
 
 		getWindow().getAttributes();
@@ -73,11 +81,16 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
-		if (stageActivity.getResizePossible()) {
+		if (stageActivity.getResizePossible() && !ProjectManager.getInstance().isChromecastProject()) {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
 		}
+	}
+
+	@Override
+	public void onStart() {
+		CastManager.getInstance().addCastButtonDialog((MediaRouteButton) findViewById(R.id.dialog_media_route_button));
 	}
 
 	@Override
