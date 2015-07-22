@@ -26,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.HapticFeedbackConstants;
 import android.widget.ImageButton;
@@ -92,6 +93,8 @@ public class StageActivity extends AndroidApplication {
 		if(project != null && project.isCastProject()) {
 			config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
 			CastManager.getInstance().setView(initializeForView(stageListener, config));
+
+			setFullScreen();
 			setContentView(R.layout.activity_stage_gamepad);
 		}
 		else {
@@ -111,6 +114,20 @@ public class StageActivity extends AndroidApplication {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
+	}
+
+	private void setFullScreen() {
+		// Set the IMMERSIVE flag.
+		// Set the content to appear under the system bars so that the content
+		// doesn't resize when the system bars hide and show.
+		View decorView = getWindow().getDecorView();
+		decorView.setSystemUiVisibility(
+				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+						| View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+						| View.SYSTEM_UI_FLAG_IMMERSIVE);
 	}
 
 	@Override
@@ -297,5 +314,6 @@ public class StageActivity extends AndroidApplication {
 				stageListener.gamepadPressed("right");
 				break;
 		}
+		setFullScreen();
 	}
 }
