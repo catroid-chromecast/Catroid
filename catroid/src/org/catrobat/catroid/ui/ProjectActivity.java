@@ -155,7 +155,7 @@ public class ProjectActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(CastService.class, this) == false)
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(this) == false)
 				CastManager.getInstance().startCastService(this);
 
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);

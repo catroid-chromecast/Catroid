@@ -83,7 +83,7 @@ public class CastManager {
 				.addControlCategory(CastMediaControlIntent.categoryForCast(activity.getApplicationContext().getString(R.string.REMOTE_DISPLAY_APP_ID)))
 				.build();
 
-		if(isCastServiceRunning(CastService.class, activity))
+		if(isCastServiceRunning(activity))
 			CastRemoteDisplayLocalService.stopService();
 
 		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
@@ -91,7 +91,7 @@ public class CastManager {
 
 	public void setIdleCastSreen() {
 
-		if(this.layout != null && this.context != null && isCastServiceRunning(CastService.getInstance().getClass(), this.activity)) {
+		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
 			this.layout.removeAllViews();
 			ImageView imageView = new ImageView(this.context);
@@ -109,16 +109,16 @@ public class CastManager {
 	}
 
 	public void stopCallbacks(Activity activity){
-		if(isCastServiceRunning(CastService.class, activity))
+		if(isCastServiceRunning(activity))
 			CastRemoteDisplayLocalService.stopService();
 
 		mMediaRouter.removeCallback(mMediaRouterCallback);
 	}
 
-	public boolean isCastServiceRunning(Class<?> serviceClass, Activity activity) {
+	public boolean isCastServiceRunning(Activity activity) {
 		ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
 		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-			if (serviceClass.getName().equals(service.service.getClassName())) {
+			if (CastService.class.getName().equals(service.service.getClassName())) {
 				return true;
 			}
 		}
@@ -177,7 +177,7 @@ public class CastManager {
 	public void setView(View view) {
 		this.view = view;
 
-		if(this.layout != null && this.context != null && isCastServiceRunning(CastService.getInstance().getClass(), this.activity)) {
+		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
 			this.layout.removeAllViews();
 			this.layout.addView(this.view);
