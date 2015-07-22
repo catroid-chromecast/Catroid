@@ -71,7 +71,7 @@
     <ImageButton
         android:id="@+id/gamepadButtonUp"
         android:layout_width="50dp"
-        android:layout_height="70dp"
+        android:layout_height="66dp"
         android:background="@null"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
@@ -95,7 +95,7 @@
 
     <ImageButton
         android:id="@+id/gamepadButtonRight"
-        android:layout_width="70dp"
+        android:layout_width="67dp"
         android:layout_height="50dp"
         android:background="@null"
         android:onClick="handleGamepadButton"
@@ -107,15 +107,15 @@
 
     <ImageButton
         android:id="@+id/gamepadButtonLeft"
-        android:layout_width="70dp"
+        android:layout_width="67dp"
         android:layout_height="50dp"
         android:background="@null"
         android:onClick="handleGamepadButton"
         android:scaleType="fitXY"
         android:src="@drawable/gamepad_pad_left"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_below="@+id/gamepadButtonUp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_above="@+id/gamepadButtonDown"
         android:layout_alignLeft="@+id/gamepadBackground"
         android:layout_alignStart="@+id/gamepadBackground" />
 
@@ -123,12 +123,12 @@
         android:id="@+id/gamepadPauseButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:background="@null"
         android:onClick="onPauseButtonPressed"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_pause_button" />
+        android:src="@drawable/gamepad_pause_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
