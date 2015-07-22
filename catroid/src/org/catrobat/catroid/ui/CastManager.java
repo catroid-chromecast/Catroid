@@ -42,6 +42,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import com.google.android.gms.cast.CastDevice;
 import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
@@ -181,6 +182,12 @@ public class CastManager {
 
 			this.layout.removeAllViews();
 			this.layout.addView(this.view);
+
+			if (view != null && view.getClass().getName().equals(GLSurfaceView20.class.getName())) {
+				GLSurfaceView20 surfaceView = (GLSurfaceView20) view;
+				surfaceView.surfaceChanged(surfaceView.getHolder(), 0, 1280, 720);
+
+			}
 		}
 	}
 
