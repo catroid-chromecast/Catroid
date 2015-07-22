@@ -77,7 +77,11 @@ public class CastManager {
 
 	public void initMediaRouter(Activity activity) {
 
+		Activity oldActivity = this.activity;
 		this.activity = activity;
+
+		if(oldActivity != null)
+			return;
 
 		mMediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
 		mMediaRouteSelector = new MediaRouteSelector.Builder()

@@ -107,7 +107,6 @@ public class ScriptActivity extends BaseActivity {
 		setContentView(R.layout.activity_script);
 		CastManager.getInstance().initMediaRouter(this);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
 		CastManager.getInstance().initMediaRouter(this);
 
 		currentFragmentPosition = FRAGMENT_SCRIPTS;
