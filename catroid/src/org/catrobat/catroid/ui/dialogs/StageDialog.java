@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.MediaRouteButton;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -53,6 +54,12 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	@Override
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		CastManager.getInstance().initMediaRouter(getOwnerActivity());
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -78,6 +85,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
 		}
+	}
+
+	@Override
+	public void onStart() {
+		CastManager.getInstance().addCastButtonDialog((MediaRouteButton) findViewById(R.id.dialog_media_route_button));
 	}
 
 	@Override
@@ -156,7 +168,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
-
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
 			try {

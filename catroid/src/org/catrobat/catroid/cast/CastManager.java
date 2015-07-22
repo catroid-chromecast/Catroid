@@ -31,6 +31,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
@@ -122,6 +123,8 @@ public final class CastManager {
 		}
 		callbackAdded = false;
 	}
+
+	public void addCastButtonDialog(MediaRouteButton mrb) { mrb.setRouteSelector(mediaRouteSelector); }
 
 	public void addCastButtonActionbar(Menu menu) {
 
