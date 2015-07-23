@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -46,18 +47,13 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	protected WhenGamepadButtonScript whenGamepadButtonScript;
 	private static final long serialVersionUID = 1L;
-	private static final String A = "A";
-	private static final String B = "B";
-	private static final String UP = "up";
-	private static final String DOWN = "down";
-	private static final String LEFT = "left";
-	private static final String RIGHT = "right";
-	private static final String[] ACTIONS = { A, B, UP, DOWN, LEFT, RIGHT };
+	private String[] ACTIONS;
 	private String action;
 	private int position;
 
 	public WhenGampadButtonBrick(WhenGamepadButtonScript whenGamepadButtonScript) {
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
+		ACTIONS = CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array);
 		if(whenGamepadButtonScript != null) {
 			this.action = whenGamepadButtonScript.getAction();
 			for (int i = 0; i < ACTIONS.length; i++) {

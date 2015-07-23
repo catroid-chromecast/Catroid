@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenGampadButtonBrick;
@@ -31,19 +33,11 @@ import java.util.List;
 public class WhenGamepadButtonScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private static final String A = "A";
-	private static final String B = "B";
-	private static final String UP = "up";
-	private static final String DOWN = "down";
-	private static final String LEFT = "left";
-	private static final String RIGHT = "right";
-	private static final String[] ACTIONS = { A, B, UP, DOWN, LEFT, RIGHT };
 	private String action;
-	private int position;
 
 	public WhenGamepadButtonScript() {
 		super();
-		this.action = A;
+		this.action = CatroidApplication.getAppContext().getString(R.string.cast_gamepad_A);
 	}
 
 	public WhenGamepadButtonScript(WhenGampadButtonBrick brick) {
