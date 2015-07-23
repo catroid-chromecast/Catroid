@@ -80,7 +80,8 @@
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
-
+    <string name="preference_title_enable_cast_bricks">Cast bricks</string>
+    <string name="preference_description_cast_bricks">Allow to create a Cast program</string>
     <!--  -->
 
 
