@@ -23,13 +23,14 @@
   -->
 <resources>
 
+    <!-- Cast Gamepad spinner -->
     <string-array name="gamepad_buttons_array">
-        <item>A</item>
-        <item>B</item>
-        <item>up</item>
-        <item>down</item>
-        <item>left</item>
-        <item>right</item>
+        <item>@string/cast_gamepad_A</item>
+        <item>@string/cast_gamepad_B</item>
+        <item>@string/cast_gamepad_up</item>
+        <item>@string/cast_gamepad_down</item>
+        <item>@string/cast_gamepad_left</item>
+        <item>@string/cast_gamepad_right</item>
     </string-array>
 
     <!-- Mindroid motors spinner -->

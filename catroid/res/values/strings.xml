@@ -862,6 +862,12 @@
 
     <!-- Chromecast Strings -->
     <string name="chromecast_bottombar_play">Play</string>
+    <string name="cast_gamepad_A">A</string>
+    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_up">up</string>
+    <string name="cast_gamepad_down">down</string>
+    <string name="cast_gamepad_left">left</string>
+    <string name="cast_gamepad_right">right</string>
     <!-- -->
 
 </resources>

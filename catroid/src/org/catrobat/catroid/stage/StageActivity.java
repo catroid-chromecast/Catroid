@@ -296,22 +296,22 @@ public class StageActivity extends AndroidApplication {
 		switch (button.getId())
 		{
 			case R.id.gamepadButtonA:
-				stageListener.gamepadPressed("A");
+				stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
 				break;
 			case R.id.gamepadButtonB:
-				stageListener.gamepadPressed("B");
+				stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
 				break;
 			case R.id.gamepadButtonUp:
-				stageListener.gamepadPressed("up");
+				stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
 				break;
 			case R.id.gamepadButtonDown:
-				stageListener.gamepadPressed("down");
+				stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
 				break;
 			case R.id.gamepadButtonLeft:
-				stageListener.gamepadPressed("left");
+				stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
 				break;
 			case R.id.gamepadButtonRight:
-				stageListener.gamepadPressed("right");
+				stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
 				break;
 		}
 		setFullScreen();
