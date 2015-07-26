@@ -31,8 +31,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -551,6 +555,150 @@ public final class StandardProjectHandler {
 		return defaultProject;
 	}
 
+	public static Project createAndSaveStandardProjectCast(String projectName, Context context) throws IOException,
+			IllegalArgumentException {
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		}
+		String mole1Name ="mowl";
+
+		Project defaultProject = new Project(context, projectName);
+		defaultProject.setDeviceData(context); // density anywhere here
+		StorageHandler.getInstance().saveProject(defaultProject);
+		ProjectManager.getInstance().setProject(defaultProject);
+
+		String soundName = context.getString(R.string.default_project_sprites_mole_sound);
+		String backgroundName = context.getString(R.string.default_project_backgroundname);
+		String moleLookName = context.getString(R.string.default_project_sprites_mole_name);
+
+
+		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
+				R.drawable.default_project_background_cast, context);
+
+		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background_cast, context, true,
+				backgroundImageScaleFactor);
+
+		File diggedOutMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, moleLookName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
+				backgroundImageScaleFactor);
+
+		try {
+			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "1"
+					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_1, context, true);
+			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "2"
+					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_2, context, true);
+			File soundFile3 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "3"
+					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_3, context, true);
+			File soundFile4 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "4"
+					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_4, context, true);
+			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
+					R.drawable.default_project_screenshot, context, false);
+
+			LookData diggedOutMoleLookData = new LookData();
+			diggedOutMoleLookData.setLookName(moleLookName);
+			diggedOutMoleLookData.setLookFilename(diggedOutMoleFile.getName());
+
+			LookData backgroundLookData = new LookData();
+			backgroundLookData.setLookName(backgroundName);
+			backgroundLookData.setLookFilename(backgroundFile.getName());
+
+			SoundInfo soundInfo = new SoundInfo();
+			soundInfo.setTitle(soundName);
+			soundInfo.setSoundFileName(soundFile1.getName());
+
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+
+			DataContainer userVariables = defaultProject.getDataContainer();
+			Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
+
+			// Background sprite
+			backgroundSprite.getLookDataList().add(backgroundLookData);
+			Script backgroundStartScript = new StartScript();
+
+			SetLookBrick setLookBrick = new SetLookBrick();
+			setLookBrick.setLook(backgroundLookData);
+			backgroundStartScript.addBrick(setLookBrick);
+
+			backgroundSprite.addScript(backgroundStartScript);
+
+			// Mole 1 sprite
+			Sprite mole1Sprite = new Sprite(mole1Name);
+			mole1Sprite.getLookDataList().add(diggedOutMoleLookData);
+			mole1Sprite.getSoundList().add(soundInfo);
+
+			Script mole1StartScript = new StartScript();
+			Script mole1WhenScript = new WhenScript();
+
+			// start script
+			SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(30));
+			mole1StartScript.addBrick(setSizeToBrick);
+
+			PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(-160),
+					calculateValueRelativeToScaledBackground(-110));
+			mole1StartScript.addBrick(placeAtBrick);
+
+			ShowBrick showBrick = new ShowBrick();
+			mole1StartScript.addBrick(showBrick);
+
+			setLookBrick = new SetLookBrick();
+			setLookBrick.setLook(diggedOutMoleLookData);
+			mole1StartScript.addBrick(setLookBrick);
+
+			GlideToBrick glideToBrick = new GlideToBrick(calculateValueRelativeToScaledBackground(-160),
+					calculateValueRelativeToScaledBackground(-95), 100);
+			mole1StartScript.addBrick(glideToBrick);
+
+			//add filechecksums
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(diggedOutMoleLookData.getChecksum(), diggedOutMoleLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(backgroundLookData.getChecksum(), backgroundLookData.getAbsolutePath());
+
+
+			// when gamepad up
+			WhenGamepadButtonScript whenUpScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_up));
+			whenUpScript.addBrick(new ChangeYByNBrick(30));
+
+			// when gamepad up
+			WhenGamepadButtonScript whenDownScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_down));
+			whenDownScript.addBrick(new ChangeYByNBrick(-30));
+
+			// when gamepad up
+			WhenGamepadButtonScript whenLeftScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_left));
+			whenLeftScript.addBrick(new ChangeXByNBrick(-30));
+
+			// when gamepad up
+			WhenGamepadButtonScript whenRightScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_right));
+			whenRightScript.addBrick(new ChangeYByNBrick(30));
+
+			// when gamepad up
+			WhenGamepadButtonScript whenAScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_A));
+			whenAScript.addBrick(new ChangeSizeByNBrick(90));
+
+			// when gamepad up
+			WhenGamepadButtonScript whenBScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_B));
+			whenBScript.addBrick(new ChangeSizeByNBrick(110));
+
+
+			mole1Sprite.addScript(mole1StartScript);
+			mole1Sprite.addScript(whenUpScript);
+			mole1Sprite.addScript(whenDownScript);
+			mole1Sprite.addScript(whenLeftScript);
+			mole1Sprite.addScript(whenRightScript);
+			mole1Sprite.addScript(whenUpScript);
+			mole1Sprite.addScript(whenDownScript);
+			defaultProject.addSprite(mole1Sprite);
+
+			StorageHandler.getInstance().fillChecksumContainer();
+
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new IOException(TAG, illegalArgumentException);
+		}
+
+		StorageHandler.getInstance().saveProject(defaultProject);
+
+		return defaultProject;
+	}
+
 	public static Project createAndSaveEmptyProject(String projectName, Context context) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
@@ -578,7 +726,20 @@ public final class StandardProjectHandler {
 	public static Project createAndSaveChromecastProject(String projectName, Context context) {
 		Project landscapeProject = createAndSaveLandscapeProject(projectName, context);
 		landscapeProject.getXmlHeader().setIsCastProject(true);
-		return landscapeProject;
+
+		Project standardProject = null;
+
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			StorageHandler.getInstance().deleteProject(projectName);
+		}
+
+		try {
+			standardProject = createAndSaveStandardProjectCast(projectName, context);
+		} catch (Exception ilArgument) {
+			Log.e(TAG, "Could not create standard project!", ilArgument);
+		}
+
+		return standardProject;
 	}
 
 	private static int calculateValueRelativeToScaledBackground(int value) {
