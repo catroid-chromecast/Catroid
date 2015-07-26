@@ -562,7 +562,7 @@ public final class StandardProjectHandler {
 		}
 		String mole1Name ="mowl";
 
-		Project defaultProject = new Project(context, projectName);
+		Project defaultProject = new Project(context, projectName, true);
 		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -588,12 +588,6 @@ public final class StandardProjectHandler {
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_1, context, true);
 			File soundFile2 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "2"
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_2, context, true);
-			File soundFile3 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "3"
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_3, context, true);
-			File soundFile4 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "4"
-					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_4, context, true);
-			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
-					R.drawable.default_project_screenshot, context, false);
 
 			LookData diggedOutMoleLookData = new LookData();
 			diggedOutMoleLookData.setLookName(moleLookName);
@@ -607,7 +601,13 @@ public final class StandardProjectHandler {
 			soundInfo.setTitle(soundName);
 			soundInfo.setSoundFileName(soundFile1.getName());
 
+			SoundInfo soundInfo1 = new SoundInfo();
+			soundInfo.setTitle(soundName + "2");
+			soundInfo1.setSoundFileName(soundFile2.getName());
+
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
+
 
 			DataContainer userVariables = defaultProject.getDataContainer();
 			Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
@@ -626,6 +626,8 @@ public final class StandardProjectHandler {
 			Sprite mole1Sprite = new Sprite(mole1Name);
 			mole1Sprite.getLookDataList().add(diggedOutMoleLookData);
 			mole1Sprite.getSoundList().add(soundInfo);
+			mole1Sprite.getSoundList().add(soundInfo1);
+
 
 			Script mole1StartScript = new StartScript();
 			Script mole1WhenScript = new WhenScript();
@@ -668,15 +670,21 @@ public final class StandardProjectHandler {
 
 			// when gamepad up
 			WhenGamepadButtonScript whenRightScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_right));
-			whenRightScript.addBrick(new ChangeYByNBrick(30));
+			whenRightScript.addBrick(new ChangeXByNBrick(30));
 
 			// when gamepad up
 			WhenGamepadButtonScript whenAScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_A));
-			whenAScript.addBrick(new ChangeSizeByNBrick(90));
+			whenAScript.addBrick(new ChangeSizeByNBrick(10));
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick();
+			playSoundBrick.setSoundInfo(soundInfo);
+			whenAScript.addBrick(playSoundBrick);
 
 			// when gamepad up
 			WhenGamepadButtonScript whenBScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_B));
-			whenBScript.addBrick(new ChangeSizeByNBrick(110));
+			whenBScript.addBrick(new ChangeSizeByNBrick(-10));
+			playSoundBrick = new PlaySoundBrick();
+			playSoundBrick.setSoundInfo(soundInfo1);
+			whenBScript.addBrick(playSoundBrick);
 
 
 			mole1Sprite.addScript(mole1StartScript);
@@ -684,8 +692,8 @@ public final class StandardProjectHandler {
 			mole1Sprite.addScript(whenDownScript);
 			mole1Sprite.addScript(whenLeftScript);
 			mole1Sprite.addScript(whenRightScript);
-			mole1Sprite.addScript(whenUpScript);
-			mole1Sprite.addScript(whenDownScript);
+			mole1Sprite.addScript(whenAScript);
+			mole1Sprite.addScript(whenBScript);
 			defaultProject.addSprite(mole1Sprite);
 
 			StorageHandler.getInstance().fillChecksumContainer();
@@ -735,6 +743,7 @@ public final class StandardProjectHandler {
 
 		try {
 			standardProject = createAndSaveStandardProjectCast(projectName, context);
+			standardProject.getXmlHeader().setIsCastProject(true);
 		} catch (Exception ilArgument) {
 			Log.e(TAG, "Could not create standard project!", ilArgument);
 		}
