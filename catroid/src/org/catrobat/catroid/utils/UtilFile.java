@@ -187,7 +187,9 @@ public final class UtilFile {
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		if (rootDirectory == null || rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
-			ProjectManager.getInstance().initializeDefaultProject(context);
+			// TODO remove later again and use default project
+			//ProjectManager.getInstance().initializeDefaultProject(context);
+			ProjectManager.getInstance().initializeDefaultCastProject(context);
 		}
 	}
 
