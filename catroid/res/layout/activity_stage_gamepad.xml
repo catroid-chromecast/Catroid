@@ -120,12 +120,12 @@
 
     <ImageButton
         android:id="@+id/gamepadPauseButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@null"
         android:onClick="onPauseButtonPressed"
         android:scaleType="fitXY"
-        android:src="@drawable/gamepad_pause_button"
+        android:src="@drawable/pocketcode_pause_button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
