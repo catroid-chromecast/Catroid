@@ -27,15 +27,12 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.PendingIntent;
-import android.app.Presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
-import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +48,7 @@ import com.google.android.gms.common.api.Status;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class CastManager {
 
@@ -58,13 +56,39 @@ public class CastManager {
 
 	private MediaRouter mMediaRouter;
 	private MediaRouteSelector mMediaRouteSelector;
-	private CastDevice mSelectedDevice;
+	private CastDevice mSelectedDevice = null;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
+
+	public void setIsConnected(Boolean isConnected) {
+		this.isConnected = isConnected;
+	}
+
+	private Boolean isConnected = false;
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}
+
 	private Activity activity;
+
+	public void setStageActivity(StageActivity stageActivity) {
+		this.stageActivity = stageActivity;
+	}
+
+	public Boolean isConnected() {
+		return isConnected;
+	}
+
+	public StageActivity getStageActivity() {
+		return stageActivity;
+	}
+
+	private StageActivity stageActivity = null;
 	private boolean idleScreen = false;
 	private RelativeLayout layout;
 	private Application context;
 	private View view;
+	private Boolean callbackAdded = false;
 
 	private CastManager() {
 	}
@@ -91,10 +115,16 @@ public class CastManager {
 		if(isCastServiceRunning(activity))
 			CastRemoteDisplayLocalService.stopService();
 
-		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
 	}
 
-	public void setIdleCastSreen() {
+	public void addMediaRouterCallback() {
+		if (!callbackAdded) {
+			mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
+		}
+		callbackAdded = true;
+	}
+
+	public void setIdleCastScreen() {
 
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
@@ -111,13 +141,6 @@ public class CastManager {
 		MediaRouteActionProvider mediaRouteActionProvider =
 				(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
 		mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
-	}
-
-	public void stopCallbacks(Activity activity){
-		if(isCastServiceRunning(activity))
-			CastRemoteDisplayLocalService.stopService();
-
-		mMediaRouter.removeCallback(mMediaRouterCallback);
 	}
 
 	public boolean isCastServiceRunning(Activity activity) {
@@ -145,12 +168,13 @@ public class CastManager {
 					@Override
 					public void onRemoteDisplaySessionStarted(
 							CastRemoteDisplayLocalService service) {
+
 					}
 
 					@Override
 					public void onRemoteDisplaySessionError(Status errorReason) {
 						int code = errorReason.getStatusCode();
-
+						isConnected = false;
 						mSelectedDevice = null;
 						activity.finish();
 					}
@@ -208,13 +232,18 @@ public class CastManager {
 
 			if(mSelectedDevice != null){
 				startCastService(activity);
-				//startStage(activity);
 			}
 		}
 
 		@Override
 		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo info) {
 			mSelectedDevice = null;
+			isConnected = false;
+
+			if (stageActivity != null) {
+				stageActivity.onBackPressed();
+			}
+
 			CastRemoteDisplayLocalService.stopService();
 		}
 	}

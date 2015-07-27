@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -55,7 +54,6 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
-import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -74,7 +72,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
-	private boolean isChromecastProject = false;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -282,14 +279,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		currentSprite = null;
 
 		this.project = project;
-	}
-
-	public void setChromecastProject(boolean bool) {
-		this.isChromecastProject = true;
-	}
-
-	public boolean isChromecastProject() {
-		return this.isChromecastProject;
 	}
 
 	//@Deprecated

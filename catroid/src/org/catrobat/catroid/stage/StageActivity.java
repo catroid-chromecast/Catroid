@@ -25,10 +25,9 @@ package org.catrobat.catroid.stage;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.HapticFeedbackConstants;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -42,12 +41,10 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
-import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.CastManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
@@ -69,6 +66,8 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		CastManager.getInstance().setStageActivity(this);
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
@@ -259,7 +258,7 @@ public class StageActivity extends AndroidApplication {
 		if (droneConnection != null) {
 			droneConnection.destroy();
 		}
-
+		CastManager.getInstance().setStageActivity(null);
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
 
 		Log.d(TAG, "Destroy");

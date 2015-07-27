@@ -869,6 +869,8 @@
     <string name="cast_gamepad_down">down</string>
     <string name="cast_gamepad_left">left</string>
     <string name="cast_gamepad_right">right</string>
+    <string name="cast_not_connected_msg">Please connect your Chromecast</string>
+    <string name="cast_connection_error_msg">There was an error connecting to the Chromecast.</string>
     <!-- -->
 
 </resources>

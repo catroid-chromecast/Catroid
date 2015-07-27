@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -78,7 +77,8 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		CastManager.getInstance().setIdleCastSreen();
+		CastManager.getInstance().addMediaRouterCallback();
+		CastManager.getInstance().setIdleCastScreen();
 	}
 
 	@Override
@@ -136,13 +136,9 @@ public class ProgramMenuActivity extends BaseActivity {
 			return;
 		}
 
-		if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().getSelectedDevice() == null) {
-			Context context = getApplicationContext();
-			CharSequence text = "Please connect to a cast device first!";
-			int duration = Toast.LENGTH_SHORT;
-
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.show();
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
+				!CastManager.getInstance().isConnected()) {
+			Toast.makeText(getApplicationContext(), getString(R.string.cast_not_connected_msg), Toast.LENGTH_SHORT).show();
 			return;
 		}
 

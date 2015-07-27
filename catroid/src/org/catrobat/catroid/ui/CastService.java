@@ -23,20 +23,18 @@
 
 package org.catrobat.catroid.ui;
 
-import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
-import com.google.android.gms.cast.CastPresentation;
-import com.google.android.gms.cast.CastRemoteDisplayLocalService;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import org.catrobat.catroid.ProjectManager;
+import com.google.android.gms.cast.CastPresentation;
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
+
 import org.catrobat.catroid.R;
 
 /**
@@ -82,18 +80,11 @@ public class CastService extends CastRemoteDisplayLocalService {
             mPresentation.show();
         } catch (WindowManager.InvalidDisplayException ex) {
             Log.e(TAG, "Unable to show presentation, display was removed.", ex);
+            Toast.makeText(getApplicationContext(), getString(R.string.cast_connection_error_msg), Toast.LENGTH_SHORT).show();
             dismissPresentation();
         }
     }
 
-    /**
-     * The presentation to show on the first screen (the TV).
-     * <p>
-     * Note that this display may have different metrics from the display on
-     * which the main activity is showing so we must be careful to use the
-     * presentation's own {@link Context} whenever we load resources.
-     * </p>
-     */
     public class FirstScreenPresentation extends CastPresentation {
 
         private final String TAG = "FirstScreenPresentation";
@@ -114,6 +105,7 @@ public class CastService extends CastRemoteDisplayLocalService {
             imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
             layout.addView(imageView);
             setContentView(layout);
+            CastManager.getInstance().setIsConnected(true);
         }
     }
 }

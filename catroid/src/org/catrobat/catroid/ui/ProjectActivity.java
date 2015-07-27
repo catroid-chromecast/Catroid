@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -71,7 +70,8 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
-		CastManager.getInstance().setIdleCastSreen();
+		CastManager.getInstance().addMediaRouterCallback();
+		CastManager.getInstance().setIdleCastScreen();
 
 		String programName;
 		Bundle bundle = getIntent().getExtras();
@@ -155,7 +155,8 @@ public class ProjectActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(this) == false)
+
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isCastServiceRunning(this))
 				CastManager.getInstance().startCastService(this);
 
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
@@ -199,13 +200,9 @@ public class ProjectActivity extends BaseActivity {
 			return;
 		}
 
-		if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().getSelectedDevice() == null) {
-			Context context = getApplicationContext();
-			CharSequence text = "Please connect to a cast device first!";
-			int duration = Toast.LENGTH_SHORT;
-
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.show();
+		if(ProjectManager.getInstance().getCurrentProject().isCastProject() &&
+				!CastManager.getInstance().isConnected()) {
+			Toast.makeText(getApplicationContext(), getString(R.string.cast_not_connected_msg), Toast.LENGTH_SHORT).show();
 			return;
 		}
 

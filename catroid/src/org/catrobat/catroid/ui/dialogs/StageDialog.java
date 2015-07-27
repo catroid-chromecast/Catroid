@@ -26,16 +26,20 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.CastManager;
 import org.catrobat.catroid.utils.ToastUtil;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
@@ -83,8 +87,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				onBackPressed();
 				break;
 			case R.id.stage_dialog_button_continue:
-				dismiss();
-				stageActivity.resume();
+				handleContinueButton();
 				break;
 			case R.id.stage_dialog_button_restart:
 				clearBroadcastMaps();
@@ -104,6 +107,20 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				Log.w("CATROID", "Unimplemented button clicked! This shouldn't happen!");
 				break;
 		}
+	}
+
+	private void handleContinueButton() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+
+			Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_not_connected_msg),
+					Toast.LENGTH_LONG);
+			t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+			t.show();
+			return;
+		}
+		dismiss();
+		stageActivity.resume();
 	}
 
 	@Override
