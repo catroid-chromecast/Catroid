@@ -733,8 +733,7 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveChromecastProject(String projectName, Context context) {
 		Project castProject = createAndSaveLandscapeProject(projectName, context);
-		castProject.getXmlHeader().setIsCastProject(true);
-
+		castProject.setChromecastFields();
 		return  castProject;
 	}
 
@@ -747,6 +746,7 @@ public final class StandardProjectHandler {
 
 		try {
 			standardCastProject = createAndSaveStandardProjectCast(projectName, context);
+			standardCastProject.setChromecastFields();
 			standardCastProject.getXmlHeader().setIsCastProject(true);
 		} catch (Exception ilArgument) {
 			Log.e(TAG, "Could not create standard project!", ilArgument);
