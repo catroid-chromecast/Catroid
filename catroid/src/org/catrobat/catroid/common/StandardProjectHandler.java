@@ -732,23 +732,27 @@ public final class StandardProjectHandler {
 	}
 
 	public static Project createAndSaveChromecastProject(String projectName, Context context) {
-		Project landscapeProject = createAndSaveLandscapeProject(projectName, context);
-		landscapeProject.getXmlHeader().setIsCastProject(true);
+		Project castProject = createAndSaveLandscapeProject(projectName, context);
+		castProject.getXmlHeader().setIsCastProject(true);
 
-		Project standardProject = null;
+		return  castProject;
+	}
+
+	public static Project createAndSaveStandardChromecastProject(String projectName, Context context) {
+		Project standardCastProject = null;
 
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			StorageHandler.getInstance().deleteProject(projectName);
 		}
 
 		try {
-			standardProject = createAndSaveStandardProjectCast(projectName, context);
-			standardProject.getXmlHeader().setIsCastProject(true);
+			standardCastProject = createAndSaveStandardProjectCast(projectName, context);
+			standardCastProject.getXmlHeader().setIsCastProject(true);
 		} catch (Exception ilArgument) {
 			Log.e(TAG, "Could not create standard project!", ilArgument);
 		}
 
-		return standardProject;
+		return standardCastProject;
 	}
 
 	private static int calculateValueRelativeToScaledBackground(int value) {
