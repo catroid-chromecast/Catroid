@@ -50,6 +50,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -154,22 +155,31 @@ public class NewProjectDialog extends DialogFragment {
 
 		if (emptyProjectCheckBox.isChecked()) {
 			landscapeProjectCheckBox.setVisibility(View.VISIBLE);
+		}
+
+		if(SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))
+		{
 			chromecastProjectCheckBox.setVisibility(View.VISIBLE);
 		}
+
 		landscapeProjectCheckBox.setChecked(shouldBeLandscape);
 		chromecastProjectCheckBox.setChecked(shouldBeChromecast);
 
 		emptyProjectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				if (b) {
-					landscapeProjectCheckBox.setVisibility(View.VISIBLE);
-					chromecastProjectCheckBox.setVisibility(View.VISIBLE);
+				if (b && !(SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))) {
+					landscapeProjectCheckBox.setVisibility(View.GONE);
+				} else if( b && (SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))) {
+					landscapeProjectCheckBox.setVisibility(View.GONE);
 				} else {
 					emptyProjectCheckBox.setVisibility(View.VISIBLE);
 					landscapeProjectCheckBox.setVisibility(View.GONE);
-					chromecastProjectCheckBox.setVisibility(View.GONE);
 				}
+				if(SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))
+					chromecastProjectCheckBox.setVisibility(View.VISIBLE);
+				else
+					chromecastProjectCheckBox.setVisibility(View.GONE);
 			}
 		});
 
