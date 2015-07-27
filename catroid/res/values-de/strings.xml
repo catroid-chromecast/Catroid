@@ -71,6 +71,8 @@
   <string name="preference_description_select_camera">Wähle eine Kamera für die Gesichtserkennung</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
+  <string name="preference_title_enable_cast_bricks">Cast Bausteine</string>
+  <string name="preference_description_cast_bricks">Erlaubt die Erstellung eines Cast Programmes</string>
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
   <string name="dialog_new_object_gallery">Bild auswählen</string>
   <string name="dialog_new_object_camera">Bild aufnehmen</string>
