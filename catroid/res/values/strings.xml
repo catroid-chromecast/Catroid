@@ -80,8 +80,8 @@
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
-    <string name="preference_title_enable_cast_bricks">Cast bricks</string>
-    <string name="preference_description_cast_bricks">Allow to create a Cast program</string>
+    <string name="preference_title_enable_cast_bricks">Chromecast bricks</string>
+    <string name="preference_description_cast_bricks">Allow to create a Chromecast program</string>
     <!--  -->
 
 
@@ -277,7 +277,7 @@
     <string name="new_project_name">Program name:</string>
     <string name="new_project_empty">Create empty program</string>
     <string name="new_project_landscape">Create in landscape mode</string>
-    <string name="new_project_chromecast">Create Cromecast program</string>
+    <string name="new_project_chromecast">Create Chromecast program</string>
     <!--  -->
 
 
@@ -869,8 +869,8 @@
     <string name="cast_gamepad_down">down</string>
     <string name="cast_gamepad_left">left</string>
     <string name="cast_gamepad_right">right</string>
-    <string name="cast_not_connected_msg">Please connect your Chromecast</string>
-    <string name="cast_connection_error_msg">There was an error connecting to the Chromecast.</string>
+    <string name="cast_not_connected_msg">Please connect to your Chromecast</string>
+    <string name="cast_connection_error_msg">There was an error connecting to the Chromecast</string>
     <!-- -->
 
 </resources>
