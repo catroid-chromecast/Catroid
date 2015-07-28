@@ -29,6 +29,8 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
@@ -130,7 +132,8 @@ public class CastManager {
 
 			this.layout.removeAllViews();
 			ImageView imageView = new ImageView(this.context);
-			imageView.setImageDrawable(this.context.getDrawable(R.drawable.cast_screensaver));
+			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.cast_screensaver);
+			imageView.setImageDrawable(drawable);
 			this.layout.addView(imageView);
 		}
 		CastManager.getInstance().setIdleScreen(false);

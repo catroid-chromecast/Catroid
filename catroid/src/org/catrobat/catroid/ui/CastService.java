@@ -24,7 +24,9 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -102,7 +104,8 @@ public class CastService extends CastRemoteDisplayLocalService {
             CastManager.getInstance().setContext(getApplication());
 
             ImageView imageView = new ImageView(getContext());
-            imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.cast_screensaver);
+            imageView.setImageDrawable(drawable);
             layout.addView(imageView);
             setContentView(layout);
             CastManager.getInstance().setIsConnected(true);
