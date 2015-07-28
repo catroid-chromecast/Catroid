@@ -74,8 +74,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		Utils.updateScreenWidthAndHeight(this);
 
-		CastManager.getInstance().initMediaRouter(this);
-
 		setContentView(R.layout.activity_main_menu);
 
 		final ActionBar actionBar = getSupportActionBar();
