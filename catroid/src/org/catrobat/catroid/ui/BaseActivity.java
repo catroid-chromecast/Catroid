@@ -49,14 +49,13 @@ public class BaseActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
-
-		CastManager.getInstance().initMediaRouter(this);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 
+		CastManager.getInstance().initMediaRouter(this);
 		CastManager.getInstance().addMediaRouterCallback();
 		CastManager.getInstance().setIdleCastScreen();
 	}
