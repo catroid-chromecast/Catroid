@@ -38,7 +38,6 @@ import android.support.v7.media.MediaRouter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
@@ -131,10 +130,8 @@ public class CastManager {
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
 			this.layout.removeAllViews();
-			ImageView imageView = new ImageView(this.context);
 			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.cast_screensaver);
-			imageView.setImageDrawable(drawable);
-			this.layout.addView(imageView);
+			this.layout.setBackground(drawable);
 		}
 		CastManager.getInstance().setIdleScreen(false);
 	}
