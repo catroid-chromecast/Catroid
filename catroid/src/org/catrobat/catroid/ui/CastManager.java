@@ -35,6 +35,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -137,10 +138,15 @@ public class CastManager {
 	}
 
 	public void addCastButtonActionbar(Menu menu) {
-		MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
-		MediaRouteActionProvider mediaRouteActionProvider =
-				(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
-		mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+
+		try {
+			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+			MediaRouteActionProvider mediaRouteActionProvider =
+					(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
+			mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+		}catch (Exception e) {
+			Log.e("ERROR", "No media router button found", e);
+		}
 	}
 
 	public boolean isCastServiceRunning(Activity activity) {

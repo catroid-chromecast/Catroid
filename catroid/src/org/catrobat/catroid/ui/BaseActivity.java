@@ -71,6 +71,7 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		CastManager.getInstance().addCastButtonActionbar(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
