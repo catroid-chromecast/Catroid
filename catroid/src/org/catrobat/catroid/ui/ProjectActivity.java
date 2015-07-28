@@ -108,8 +108,6 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-
-			CastManager.getInstance().addCastButtonActionbar(menu);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}

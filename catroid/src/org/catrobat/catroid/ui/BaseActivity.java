@@ -52,6 +52,13 @@ public class BaseActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+
+		CastManager.getInstance().addMediaRouterCallback();
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		// Partly from http://stackoverflow.com/a/5069354
