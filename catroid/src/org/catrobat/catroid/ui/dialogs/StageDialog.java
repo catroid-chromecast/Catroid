@@ -90,6 +90,13 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				handleContinueButton();
 				break;
 			case R.id.stage_dialog_button_restart:
+				if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+					Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_not_connected_msg),
+							Toast.LENGTH_SHORT);
+					t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+					t.show();
+					break;
+				}
 				clearBroadcastMaps();
 				dismiss();
 				restartProject();
@@ -134,8 +141,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	private void makeScreenshot() {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-			Toast.makeText(getContext(), getContext()
-					.getString(R.string.cast_screenshots_unsupported_msg), Toast.LENGTH_SHORT).show();
+			Toast t = Toast.makeText(getContext(), getContext()
+					.getString(R.string.cast_screenshots_unsupported_msg), Toast.LENGTH_SHORT);
+			t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+			t.show();
 			return;
 		}
 
@@ -147,6 +156,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
+
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
 			try {
@@ -159,6 +169,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void toggleAxes() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+			return;
+		}
+
 		Button axesToggleButton = (Button) findViewById(R.id.stage_dialog_button_toggle_axes);
 		if (stageListener.axesOn) {
 			stageListener.axesOn = false;
