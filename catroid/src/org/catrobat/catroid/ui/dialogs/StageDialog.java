@@ -73,7 +73,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
-		if (stageActivity.getResizePossible()) {
+		if (stageActivity.getResizePossible() && !ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
@@ -132,6 +132,13 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void makeScreenshot() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			Toast.makeText(getContext(), getContext()
+					.getString(R.string.cast_screenshots_unsupported_msg), Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		if (stageListener.makeManualScreenshot()) {
 			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
