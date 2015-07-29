@@ -36,10 +36,10 @@ import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.app.MediaRouteButton;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
@@ -132,10 +132,8 @@ public class CastManager {
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
 			this.layout.removeAllViews();
-			ImageView imageView = new ImageView(this.context);
 			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.cast_screensaver);
-			imageView.setImageDrawable(drawable);
-			this.layout.addView(imageView);
+			this.layout.setBackground(drawable);
 		}
 		CastManager.getInstance().setIdleScreen(false);
 	}
@@ -145,10 +143,15 @@ public class CastManager {
 	}
 
 	public void addCastButtonActionbar(Menu menu) {
-		MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
-		MediaRouteActionProvider mediaRouteActionProvider =
-				(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
-		mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+
+		try {
+			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+			MediaRouteActionProvider mediaRouteActionProvider =
+					(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
+			mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+		}catch (Exception e) {
+			Log.e("ERROR", "No media router button found", e);
+		}
 	}
 
 	public boolean isCastServiceRunning(Activity activity) {

@@ -103,10 +103,8 @@ public class CastService extends CastRemoteDisplayLocalService {
             CastManager.getInstance().setLayout(layout);
             CastManager.getInstance().setContext(getApplication());
 
-            ImageView imageView = new ImageView(getContext());
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.cast_screensaver);
-            imageView.setImageDrawable(drawable);
-            layout.addView(imageView);
+            layout.setBackground(drawable);
             setContentView(layout);
             CastManager.getInstance().setIsConnected(true);
         }

@@ -597,16 +597,16 @@ public final class StandardProjectHandler {
 			backgroundLookData.setLookName(backgroundName);
 			backgroundLookData.setLookFilename(backgroundFile.getName());
 
-			SoundInfo soundInfo = new SoundInfo();
-			soundInfo.setTitle(soundName);
-			soundInfo.setSoundFileName(soundFile1.getName());
-
-			SoundInfo soundInfo1 = new SoundInfo();
-			soundInfo.setTitle(soundName + "2");
-			soundInfo1.setSoundFileName(soundFile2.getName());
-
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
+//			SoundInfo soundInfo = new SoundInfo();
+//			soundInfo.setTitle(soundName);
+//			soundInfo.setSoundFileName(soundFile1.getName());
+//
+//			SoundInfo soundInfo1 = new SoundInfo();
+//			soundInfo1.setTitle(soundName + "2");
+//			soundInfo1.setSoundFileName(soundFile2.getName());
+//
+//			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+//			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo1.getChecksum(), soundInfo1.getAbsolutePath());
 
 
 			DataContainer userVariables = defaultProject.getDataContainer();
@@ -625,8 +625,8 @@ public final class StandardProjectHandler {
 			// Mole 1 sprite
 			Sprite mole1Sprite = new Sprite(mole1Name);
 			mole1Sprite.getLookDataList().add(diggedOutMoleLookData);
-			mole1Sprite.getSoundList().add(soundInfo);
-			mole1Sprite.getSoundList().add(soundInfo1);
+//			mole1Sprite.getSoundList().add(soundInfo);
+//			mole1Sprite.getSoundList().add(soundInfo1);
 
 
 			Script mole1StartScript = new StartScript();
@@ -675,16 +675,16 @@ public final class StandardProjectHandler {
 			// when gamepad up
 			WhenGamepadButtonScript whenAScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_A));
 			whenAScript.addBrick(new ChangeSizeByNBrick(10));
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick();
-			playSoundBrick.setSoundInfo(soundInfo);
-			whenAScript.addBrick(playSoundBrick);
+//			PlaySoundBrick playSoundBrick = new PlaySoundBrick();
+//			playSoundBrick.setSoundInfo(soundInfo);
+//			whenAScript.addBrick(playSoundBrick);
 
 			// when gamepad up
 			WhenGamepadButtonScript whenBScript = new WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_B));
 			whenBScript.addBrick(new ChangeSizeByNBrick(-10));
-			playSoundBrick = new PlaySoundBrick();
-			playSoundBrick.setSoundInfo(soundInfo1);
-			whenBScript.addBrick(playSoundBrick);
+//			playSoundBrick = new PlaySoundBrick();
+//			playSoundBrick.setSoundInfo(soundInfo1);
+//			whenBScript.addBrick(playSoundBrick);
 
 
 			mole1Sprite.addScript(mole1StartScript);

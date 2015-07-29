@@ -104,9 +104,7 @@ public class ScriptActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-		CastManager.getInstance().initMediaRouter(this);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		CastManager.getInstance().initMediaRouter(this);
 
 		currentFragmentPosition = FRAGMENT_SCRIPTS;
 
@@ -125,13 +123,6 @@ public class ScriptActivity extends BaseActivity {
 		buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		updateHandleAddButtonClickListener();
 
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		CastManager.getInstance().addMediaRouterCallback();
-		CastManager.getInstance().setIdleCastScreen();
 	}
 
 	private void setupBottomBar() {
@@ -235,7 +226,6 @@ public class ScriptActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
-		CastManager.getInstance().addCastButtonActionbar(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

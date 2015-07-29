@@ -52,6 +52,15 @@ public class BaseActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+
+		CastManager.getInstance().initMediaRouter(this);
+		CastManager.getInstance().addMediaRouterCallback();
+		CastManager.getInstance().setIdleCastScreen();
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		// Partly from http://stackoverflow.com/a/5069354
@@ -71,6 +80,7 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		CastManager.getInstance().addCastButtonActionbar(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

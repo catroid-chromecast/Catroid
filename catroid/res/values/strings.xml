@@ -871,6 +871,7 @@
     <string name="cast_gamepad_right">right</string>
     <string name="cast_not_connected_msg">Please connect to your Chromecast</string>
     <string name="cast_connection_error_msg">There was an error connecting to the Chromecast</string>
+    <string name="cast_screenshots_unsupported_msg">Screenshots are not supported in Chromecast projects</string>
     <!-- -->
 
 </resources>

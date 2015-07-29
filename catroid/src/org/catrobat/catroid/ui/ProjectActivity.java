@@ -59,8 +59,6 @@ public class ProjectActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
 
-		CastManager.getInstance().initMediaRouter(this);
-
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
 		}
@@ -69,9 +67,6 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		CastManager.getInstance().addMediaRouterCallback();
-		CastManager.getInstance().setIdleCastScreen();
 
 		String programName;
 		Bundle bundle = getIntent().getExtras();
@@ -108,8 +103,6 @@ public class ProjectActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
 			getMenuInflater().inflate(R.menu.menu_current_project, menu);
-
-			CastManager.getInstance().addCastButtonActionbar(menu);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}

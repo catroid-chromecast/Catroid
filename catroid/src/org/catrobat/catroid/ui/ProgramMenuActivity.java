@@ -57,7 +57,6 @@ public class ProgramMenuActivity extends BaseActivity {
 		}
 
 		setContentView(R.layout.activity_program_menu);
-		CastManager.getInstance().initMediaRouter(this);
 
 		BottomBar.hideAddButton(this);
 
@@ -72,13 +71,6 @@ public class ProgramMenuActivity extends BaseActivity {
 			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
 			finish();
 		}
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		CastManager.getInstance().addMediaRouterCallback();
-		CastManager.getInstance().setIdleCastScreen();
 	}
 
 	@Override
@@ -106,7 +98,6 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		CastManager.getInstance().addCastButtonActionbar(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

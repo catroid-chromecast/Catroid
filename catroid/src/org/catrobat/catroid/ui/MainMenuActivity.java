@@ -34,6 +34,7 @@ import android.support.v7.app.ActionBar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -98,6 +99,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
 		//}
 		//SettingsActivity.setTermsOfServiceAgreedPermanently(this, false);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
