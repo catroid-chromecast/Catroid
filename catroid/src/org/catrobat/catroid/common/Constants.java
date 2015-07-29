@@ -76,7 +76,9 @@ public final class Constants {
 	public static final String CLOSING_BRACE = ")";
 
 	//Web:
-	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
+	// TODO replace for release
+	// public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
+	public static final String BASE_URL_HTTPS = "https://web-test.catrob.at/pocketcode/";
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
