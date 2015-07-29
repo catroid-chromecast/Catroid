@@ -152,6 +152,60 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 
+	public void testToggleCastBricks() {
+		String castPreferenceString = solo.getString(R.string.preference_description_cast_bricks);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		//disable cast bricks if enabled
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_CAST_BRICKS, false)) {
+			solo.clickOnMenuItem(settings);
+			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+			solo.clickOnText(castPreferenceString);
+			solo.goBack();
+			solo.waitForActivity(MainMenuActivity.class);
+		}
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		solo.waitForActivity(ScriptActivity.class);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText(solo.getString(R.string.category_control));
+		solo.clickOnText(solo.getString(R.string.category_control));
+
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+
+		assertFalse("Cast brick is showing!", solo.searchText(solo.getString(R.string.brick_when_gamepad_button)));
+		solo.goBack();
+		solo.waitForActivity(ScriptActivity.class);
+		solo.clickOnActionBarHomeButton();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnMenuItem(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+
+		//assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
+
+		solo.clickOnText(castPreferenceString);
+
+		solo.goBack();
+
+		assertTrue("Cast preference should now be enabled",
+				preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_CAST_BRICKS, false));
+
+		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		solo.waitForText(solo.getString(R.string.category_control));
+		solo.clickOnText(solo.getString(R.string.category_control));
+
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+
+		assertTrue("Cast brick is not showing!", solo.waitForText(solo.getString(R.string.brick_when_gamepad_button)));
+	}
+
 	public void testOrientation() throws NameNotFoundException {
 		solo.clickOnMenuItem(settings);
 		solo.waitForActivity(SettingsActivity.class.getSimpleName());
