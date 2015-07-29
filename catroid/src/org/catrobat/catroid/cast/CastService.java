@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.cast;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -30,7 +30,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
