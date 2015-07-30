@@ -131,7 +131,7 @@ public class CastManager {
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
 			this.layout.removeAllViews();
-			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.cast_screensaver);
+			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.idle_screen_1);
 			this.layout.setBackground(drawable);
 		}
 		CastManager.getInstance().setIdleScreen(false);
