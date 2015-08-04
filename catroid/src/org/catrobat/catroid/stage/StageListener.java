@@ -660,7 +660,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public boolean hasSpriteGamepadScript(Sprite sprite) {
+	public static boolean hasSpriteGamepadScript(Sprite sprite) {
 
 		for (Script script : sprite.getScriptList()) {
 			if(script instanceof WhenGamepadButtonScript)
