@@ -136,12 +136,6 @@ public class Look extends Image {
 		return false;
 	}
 
-	public boolean doOnClick(String buttonType) {
-
-		sprite.createWhengamepadButtonScriptActionSequence(buttonType);
-		return  true;
-	}
-
 	public void createBrightnessContrastShader() {
 		shader = new BrightnessContrastShader();
 		shader.setBrightness(brightness);

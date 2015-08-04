@@ -656,7 +656,7 @@ public class StageListener implements ApplicationListener {
 
 		for (Sprite sprite : sprites) {
 			if(hasSpriteGamepadScript(sprite))
-				sprite.look.doOnClick(buttonType);
+				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
 		}
 	}
 
