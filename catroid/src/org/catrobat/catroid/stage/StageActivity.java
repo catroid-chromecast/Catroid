@@ -33,10 +33,10 @@ import android.widget.ImageButton;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.backends.android.surfaceview.FixedResolutionStrategy;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -45,7 +45,6 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
-import org.catrobat.catroid.ui.CastManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -90,7 +89,7 @@ public class StageActivity extends AndroidApplication {
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if(project != null && project.isCastProject()) {
-			config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
+			//config.resolutionStrategy = new FixedResolutionStrategy(640, 360);
 			CastManager.getInstance().setView(initializeForView(stageListener, config));
 
 			setFullScreen();

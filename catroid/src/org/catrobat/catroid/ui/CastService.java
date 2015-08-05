@@ -21,14 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.cast;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -101,9 +102,8 @@ public class CastService extends CastRemoteDisplayLocalService {
             CastManager.getInstance().setLayout(layout);
             CastManager.getInstance().setContext(getApplication());
 
-            ImageView imageView = new ImageView(getContext());
-            imageView.setImageDrawable(getDrawable(R.drawable.cast_screensaver));
-            layout.addView(imageView);
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.idle_screen_1);
+            layout.setBackground(drawable);
             setContentView(layout);
             CastManager.getInstance().setIsConnected(true);
         }
