@@ -88,8 +88,8 @@ public class Project implements Serializable {
 	}
 
 	public void setChromecastFields() {
-		xmlHeader.virtualScreenHeight = 720;
-		xmlHeader.virtualScreenWidth = 1280;
+		xmlHeader.virtualScreenHeight = 360;
+		xmlHeader.virtualScreenWidth = 640;
 		xmlHeader.setIsCastProject(true);
 	}
 

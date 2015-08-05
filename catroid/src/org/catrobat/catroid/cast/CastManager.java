@@ -219,7 +219,7 @@ public class CastManager {
 
 			if (view != null && view.getClass().getName().equals(GLSurfaceView20.class.getName())) {
 				GLSurfaceView20 surfaceView = (GLSurfaceView20) view;
-				surfaceView.surfaceChanged(surfaceView.getHolder(), 0, 1280, 720);
+				surfaceView.surfaceChanged(surfaceView.getHolder(), 0, 640, 360);
 
 			}
 		}
