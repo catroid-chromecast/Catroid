@@ -34,8 +34,6 @@ import android.widget.ImageButton;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.backends.android.surfaceview.FixedResolutionStrategy;
-import com.google.android.gms.cast.Cast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -119,7 +117,6 @@ public class StageActivity extends AndroidApplication {
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if(project != null && project.isCastProject()) {
-			config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
 			CastManager.getInstance().setServiceView(initializeForView(stageListener, config));
 
 			setFullScreen();
