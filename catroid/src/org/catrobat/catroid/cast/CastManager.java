@@ -243,7 +243,6 @@ public class CastManager {
 		this.idleScreen = idleScreen;
 	}
 
-
 	public void setLayout(RelativeLayout layout) {
 		this.layout = layout;
 	}
