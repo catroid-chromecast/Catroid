@@ -352,24 +352,10 @@ public class StageActivity extends AndroidApplication {
 			switch (button.getId())
 			{
 				case R.id.gamepadButtonA:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
 					button.setImageResource(R.drawable.gamepad_button_a);
 					break;
 				case R.id.gamepadButtonB:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
 					button.setImageResource(R.drawable.gamepad_button_b);
-					break;
-				case R.id.gamepadButtonUp:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
-					break;
-				case R.id.gamepadButtonDown:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
-					break;
-				case R.id.gamepadButtonLeft:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
-					break;
-				case R.id.gamepadButtonRight:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
 					break;
 			}
 
