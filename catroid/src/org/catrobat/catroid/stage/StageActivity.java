@@ -26,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -37,6 +38,7 @@ import com.badlogic.gdx.backends.android.surfaceview.FixedResolutionStrategy;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -45,7 +47,6 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
-import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -62,6 +63,32 @@ public class StageActivity extends AndroidApplication {
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	private StageAudioFocus stageAudioFocus;
+
+	private void initGamepadListeners() {
+
+		View.OnTouchListener otl = new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				handleGamepadTouch((ImageButton) v, event);
+				return true;
+			}
+		};
+
+		ImageButton[] gamepadButtons = {
+
+				(ImageButton) findViewById(R.id.gamepadButtonA),
+				(ImageButton) findViewById(R.id.gamepadButtonB),
+				(ImageButton) findViewById(R.id.gamepadButtonUp),
+				(ImageButton) findViewById(R.id.gamepadButtonDown),
+				(ImageButton) findViewById(R.id.gamepadButtonLeft),
+				(ImageButton) findViewById(R.id.gamepadButtonRight)
+		};
+
+		for (ImageButton btn : gamepadButtons) {
+			btn.setOnTouchListener(otl);
+		}
+
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +140,8 @@ public class StageActivity extends AndroidApplication {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
+		initGamepadListeners();
+
 	}
 
 	private void setFullScreen() {
@@ -287,32 +316,63 @@ public class StageActivity extends AndroidApplication {
 		onBackPressed();
 	}
 
-	public void handleGamepadButton(View view) {
+	private void handleGamepadTouch(ImageButton button, MotionEvent event) {
 
-		ImageButton button = (ImageButton) view;
-		view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-		switch (button.getId())
-		{
-			case R.id.gamepadButtonA:
-				stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
-				break;
-			case R.id.gamepadButtonB:
-				stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
-				break;
-			case R.id.gamepadButtonUp:
-				stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
-				break;
-			case R.id.gamepadButtonDown:
-				stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
-				break;
-			case R.id.gamepadButtonLeft:
-				stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
-				break;
-			case R.id.gamepadButtonRight:
-				stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
-				break;
+			switch (button.getId())
+			{
+				case R.id.gamepadButtonA:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
+					button.setImageResource(R.drawable.gamepad_button_a_pressed);
+					break;
+				case R.id.gamepadButtonB:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
+					button.setImageResource(R.drawable.gamepad_button_b_pressed);
+					break;
+				case R.id.gamepadButtonUp:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
+					break;
+				case R.id.gamepadButtonDown:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
+					break;
+				case R.id.gamepadButtonLeft:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
+					break;
+				case R.id.gamepadButtonRight:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
+					break;
+			}
+
+			button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			setFullScreen();
+
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+
+			switch (button.getId())
+			{
+				case R.id.gamepadButtonA:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
+					button.setImageResource(R.drawable.gamepad_button_a);
+					break;
+				case R.id.gamepadButtonB:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
+					button.setImageResource(R.drawable.gamepad_button_b);
+					break;
+				case R.id.gamepadButtonUp:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
+					break;
+				case R.id.gamepadButtonDown:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
+					break;
+				case R.id.gamepadButtonLeft:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
+					break;
+				case R.id.gamepadButtonRight:
+					stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
+					break;
+			}
+
 		}
-		setFullScreen();
 	}
 }
