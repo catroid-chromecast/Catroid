@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
 
@@ -110,6 +111,12 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position};
 
+	private static final int[] CHROMECAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
+			R.string.formula_editor_sensor_gamepad_b_pressed, R.string.formula_editor_sensor_gamepad_up_pressed,
+			R.string.formula_editor_sensor_gamepad_down_pressed, R.string.formula_editor_sensor_gamepad_left_pressed,
+			R.string.formula_editor_sensor_gamepad_right_pressed
+	};
+
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -164,6 +171,10 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isCastSharedPreferenceEnabled(context) && ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				itemsIds = concatAll(itemsIds, CHROMECAST_GAMEPAD_SENSOR_ITEMS);
 			}
 		}
 

@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
@@ -318,6 +319,8 @@ public class StageActivity extends AndroidApplication {
 
 	private void handleGamepadTouch(ImageButton button, MotionEvent event) {
 
+		CastManager castManager = CastManager.getInstance();
+
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
 			switch (button.getId())
@@ -325,22 +328,28 @@ public class StageActivity extends AndroidApplication {
 				case R.id.gamepadButtonA:
 					stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
 					button.setImageResource(R.drawable.gamepad_button_a_pressed);
+					castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, true);
 					break;
 				case R.id.gamepadButtonB:
 					stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
 					button.setImageResource(R.drawable.gamepad_button_b_pressed);
+					castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, true);
 					break;
 				case R.id.gamepadButtonUp:
 					stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
+					castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, true);
 					break;
 				case R.id.gamepadButtonDown:
 					stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
+					castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, true);
 					break;
 				case R.id.gamepadButtonLeft:
 					stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
+					castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, true);
 					break;
 				case R.id.gamepadButtonRight:
 					stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
+					castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, true);
 					break;
 			}
 
@@ -353,9 +362,23 @@ public class StageActivity extends AndroidApplication {
 			{
 				case R.id.gamepadButtonA:
 					button.setImageResource(R.drawable.gamepad_button_a);
+					castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, false);
 					break;
 				case R.id.gamepadButtonB:
 					button.setImageResource(R.drawable.gamepad_button_b);
+					castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, false);
+					break;
+				case R.id.gamepadButtonUp:
+					castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, false);
+					break;
+				case R.id.gamepadButtonDown:
+					castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, false);
+					break;
+				case R.id.gamepadButtonLeft:
+					castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, false);
+					break;
+				case R.id.gamepadButtonRight:
+					castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, false);
 					break;
 			}
 
