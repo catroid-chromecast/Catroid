@@ -53,8 +53,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 public class CastManager {
 
@@ -95,24 +94,23 @@ public class CastManager {
 	private Application context;
 	private View view;
 	private Boolean callbackAdded = false;
-	private Map<Sensors, Boolean> isButtonPressed = new HashMap<>(4);
+	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
 
 	private CastManager() {
-		isButtonPressed.put(Sensors.GAMEPAD_A_PRESSED, false);
-		isButtonPressed.put(Sensors.GAMEPAD_B_PRESSED, false);
-		isButtonPressed.put(Sensors.GAMEPAD_LEFT_PRESSED, false);
-		isButtonPressed.put(Sensors.GAMEPAD_RIGHT_PRESSED, false);
-		isButtonPressed.put(Sensors.GAMEPAD_UP_PRESSED, false);
-		isButtonPressed.put(Sensors.GAMEPAD_DOWN_PRESSED, false);
+		isGamepadButtonPressed.put(Sensors.GAMEPAD_A_PRESSED, false);
+		isGamepadButtonPressed.put(Sensors.GAMEPAD_B_PRESSED, false);
+		isGamepadButtonPressed.put(Sensors.GAMEPAD_LEFT_PRESSED, false);
+		isGamepadButtonPressed.put(Sensors.GAMEPAD_RIGHT_PRESSED, false);
+		isGamepadButtonPressed.put(Sensors.GAMEPAD_UP_PRESSED, false);
+		isGamepadButtonPressed.put(Sensors.GAMEPAD_DOWN_PRESSED, false);
 	}
 
 	public boolean isButtonPressed(Sensors btnSensor) {
-		boolean b = isButtonPressed.get(btnSensor);
-		return isButtonPressed.get(btnSensor);
+		return isGamepadButtonPressed.get(btnSensor);
 	}
 
 	public void setButtonPress(Sensors btn, boolean b) {
-		isButtonPressed.put(btn, b);
+		isGamepadButtonPressed.put(btn, b);
 	}
 
 	public static CastManager getInstance() { return INSTANCE; }

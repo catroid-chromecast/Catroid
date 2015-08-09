@@ -319,69 +319,52 @@ public class StageActivity extends AndroidApplication {
 
 	private void handleGamepadTouch(ImageButton button, MotionEvent event) {
 
+		if (event.getAction() != MotionEvent.ACTION_DOWN && event.getAction() != MotionEvent.ACTION_UP) {
+			// We only care about the event when a gamepad button is pressed and when a gamepad button is unpressed
+			return;
+		}
+
 		CastManager castManager = CastManager.getInstance();
 
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
+		String whichButtonStringRes;
 
-			switch (button.getId())
-			{
-				case R.id.gamepadButtonA:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_A));
-					button.setImageResource(R.drawable.gamepad_button_a_pressed);
-					castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, true);
-					break;
-				case R.id.gamepadButtonB:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_B));
-					button.setImageResource(R.drawable.gamepad_button_b_pressed);
-					castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, true);
-					break;
-				case R.id.gamepadButtonUp:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_up));
-					castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, true);
-					break;
-				case R.id.gamepadButtonDown:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_down));
-					castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, true);
-					break;
-				case R.id.gamepadButtonLeft:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_left));
-					castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, true);
-					break;
-				case R.id.gamepadButtonRight:
-					stageListener.gamepadPressed(getString(R.string.cast_gamepad_right));
-					castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, true);
-					break;
-			}
+		switch (button.getId())
+		{
+			case R.id.gamepadButtonA:
+				whichButtonStringRes = getString(R.string.cast_gamepad_A);
+				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
+				castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonB:
+				whichButtonStringRes = getString(R.string.cast_gamepad_B);
+				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
+				castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonUp:
+				whichButtonStringRes = getString(R.string.cast_gamepad_up);
+				castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonDown:
+				whichButtonStringRes = getString(R.string.cast_gamepad_down);
+				castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonLeft:
+				whichButtonStringRes = getString(R.string.cast_gamepad_left);
+				castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
+				break;
+			case R.id.gamepadButtonRight:
+				whichButtonStringRes = getString(R.string.cast_gamepad_right);
+				castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown button pressed");
+		}
 
+		if (isActionDown) {
+			stageListener.gamepadPressed(whichButtonStringRes);
 			button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			setFullScreen();
-
-		} else if (event.getAction() == MotionEvent.ACTION_UP) {
-
-			switch (button.getId())
-			{
-				case R.id.gamepadButtonA:
-					button.setImageResource(R.drawable.gamepad_button_a);
-					castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, false);
-					break;
-				case R.id.gamepadButtonB:
-					button.setImageResource(R.drawable.gamepad_button_b);
-					castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, false);
-					break;
-				case R.id.gamepadButtonUp:
-					castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, false);
-					break;
-				case R.id.gamepadButtonDown:
-					castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, false);
-					break;
-				case R.id.gamepadButtonLeft:
-					castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, false);
-					break;
-				case R.id.gamepadButtonRight:
-					castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, false);
-					break;
-			}
-
+			//setFullScreen(); //TODO: Check if necessary?
 		}
 	}
 }
