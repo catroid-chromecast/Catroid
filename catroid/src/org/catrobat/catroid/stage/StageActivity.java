@@ -89,7 +89,6 @@ public class StageActivity extends AndroidApplication {
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if(project != null && project.isCastProject()) {
-			//config.resolutionStrategy = new FixedResolutionStrategy(640, 360);
 			CastManager.getInstance().setView(initializeForView(stageListener, config));
 
 			setFullScreen();
