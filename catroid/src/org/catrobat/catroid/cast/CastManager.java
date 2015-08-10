@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import com.google.android.gms.cast.CastDevice;
@@ -47,6 +48,7 @@ import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -63,6 +65,7 @@ public class CastManager {
 	private MediaRouteSelector mMediaRouteSelector;
 	private CastDevice mSelectedDevice = null;
 	private final MyMediaRouterCallback mMediaRouterCallback = new MyMediaRouterCallback();
+	private TextView pausedView;
 
 	public void setIsConnected(Boolean isConnected) {
 		this.isConnected = isConnected;
@@ -90,9 +93,14 @@ public class CastManager {
 
 	private StageActivity stageActivity = null;
 	private boolean idleScreen = false;
+
+	public RelativeLayout getLayout() {
+		return layout;
+	}
+
 	private RelativeLayout layout;
 	private Application context;
-	private View view;
+	private View serviceView;
 	private Boolean callbackAdded = false;
 	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
 
@@ -103,6 +111,9 @@ public class CastManager {
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_RIGHT_PRESSED, false);
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_UP_PRESSED, false);
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_DOWN_PRESSED, false);
+
+		pausedView = new TextView(CatroidApplication.getAppContext());
+		pausedView.setText("PAUSED");
 	}
 
 	public boolean isButtonPressed(Sensors btnSensor) {
@@ -147,12 +158,25 @@ public class CastManager {
 	public void setIdleCastScreen() {
 
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
-
 			this.layout.removeAllViews();
 			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.idle_screen_1);
 			this.layout.setBackground(drawable);
 		}
 		CastManager.getInstance().setIdleScreen(false);
+	}
+
+	public void setPausedScreen() {
+
+		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
+			this.layout.addView(pausedView);
+		}
+	}
+
+	public void removePausedScreen() {
+
+		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
+			this.layout.removeView(pausedView);
+		}
 	}
 
 	public void addCastButtonActionbar(Menu menu) {
@@ -219,6 +243,7 @@ public class CastManager {
 		this.idleScreen = idleScreen;
 	}
 
+
 	public void setLayout(RelativeLayout layout) {
 		this.layout = layout;
 	}
@@ -227,24 +252,24 @@ public class CastManager {
 		this.context = context;
 	}
 
-	public void setView(View view) {
-		this.view = view;
+	public void setServiceView(View serviceView) {
+		this.serviceView = serviceView;
 
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 
 			this.layout.removeAllViews();
-			this.layout.addView(this.view);
+			this.layout.addView(this.serviceView);
 
-			if (view != null && view.getClass().getName().equals(GLSurfaceView20.class.getName())) {
-				GLSurfaceView20 surfaceView = (GLSurfaceView20) view;
+			if (serviceView != null && serviceView.getClass().getName().equals(GLSurfaceView20.class.getName())) {
+				GLSurfaceView20 surfaceView = (GLSurfaceView20) serviceView;
 				surfaceView.surfaceChanged(surfaceView.getHolder(), 0, 1280, 720);
 
 			}
 		}
 	}
 
-	public View getView() {
-		return this.view;
+	public View getServiceView() {
+		return this.serviceView;
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {

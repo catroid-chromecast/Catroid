@@ -35,6 +35,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.surfaceview.FixedResolutionStrategy;
+import com.google.android.gms.cast.Cast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -119,7 +120,7 @@ public class StageActivity extends AndroidApplication {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if(project != null && project.isCastProject()) {
 			config.resolutionStrategy = new FixedResolutionStrategy(1280, 720);
-			CastManager.getInstance().setView(initializeForView(stageListener, config));
+			CastManager.getInstance().setServiceView(initializeForView(stageListener, config));
 
 			setFullScreen();
 			setContentView(R.layout.activity_stage_gamepad);
@@ -156,13 +157,14 @@ public class StageActivity extends AndroidApplication {
 						| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
 						| View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-						| View.SYSTEM_UI_FLAG_IMMERSIVE);
+						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 	}
 
 	@Override
 	public void onBackPressed() {
 		pause();
 		stageDialog.show();
+		CastManager.getInstance().setPausedScreen();
 	}
 
 	public void manageLoadAndFinish() {
@@ -220,6 +222,7 @@ public class StageActivity extends AndroidApplication {
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
 		FaceDetectionHandler.startFaceDetection(this);
+		CastManager.getInstance().removePausedScreen();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
@@ -327,34 +330,34 @@ public class StageActivity extends AndroidApplication {
 		CastManager castManager = CastManager.getInstance();
 
 		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
-		String whichButtonStringRes;
+		String buttonPressedName;
 
 		switch (button.getId())
 		{
 			case R.id.gamepadButtonA:
-				whichButtonStringRes = getString(R.string.cast_gamepad_A);
+				buttonPressedName = getString(R.string.cast_gamepad_A);
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_a_pressed : R.drawable.gamepad_button_a);
 				castManager.setButtonPress(Sensors.GAMEPAD_A_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonB:
-				whichButtonStringRes = getString(R.string.cast_gamepad_B);
+				buttonPressedName = getString(R.string.cast_gamepad_B);
 				button.setImageResource(isActionDown ? R.drawable.gamepad_button_b_pressed : R.drawable.gamepad_button_b);
 				castManager.setButtonPress(Sensors.GAMEPAD_B_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonUp:
-				whichButtonStringRes = getString(R.string.cast_gamepad_up);
+				buttonPressedName = getString(R.string.cast_gamepad_up);
 				castManager.setButtonPress(Sensors.GAMEPAD_UP_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonDown:
-				whichButtonStringRes = getString(R.string.cast_gamepad_down);
+				buttonPressedName = getString(R.string.cast_gamepad_down);
 				castManager.setButtonPress(Sensors.GAMEPAD_DOWN_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonLeft:
-				whichButtonStringRes = getString(R.string.cast_gamepad_left);
+				buttonPressedName = getString(R.string.cast_gamepad_left);
 				castManager.setButtonPress(Sensors.GAMEPAD_LEFT_PRESSED, isActionDown);
 				break;
 			case R.id.gamepadButtonRight:
-				whichButtonStringRes = getString(R.string.cast_gamepad_right);
+				buttonPressedName = getString(R.string.cast_gamepad_right);
 				castManager.setButtonPress(Sensors.GAMEPAD_RIGHT_PRESSED, isActionDown);
 				break;
 			default:
@@ -362,9 +365,8 @@ public class StageActivity extends AndroidApplication {
 		}
 
 		if (isActionDown) {
-			stageListener.gamepadPressed(whichButtonStringRes);
+			stageListener.gamepadPressed(buttonPressedName);
 			button.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-			//setFullScreen(); //TODO: Check if necessary?
 		}
 	}
 }
