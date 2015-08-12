@@ -170,7 +170,6 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onBackPressed() {
 		pause();
-		CastManager.getInstance().setPausedScreen();
 		stageDialog.show();
 	}
 
@@ -183,7 +182,6 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
-		CastManager.getInstance().removePausedScreen();
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
@@ -215,6 +213,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void pause() {
+		CastManager.getInstance().setPausedScreen();
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		LedUtil.pauseLed();
