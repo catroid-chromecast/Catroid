@@ -157,13 +157,13 @@ public class NewProjectDialog extends DialogFragment {
 //			landscapeProjectCheckBox.setVisibility(View.VISIBLE);
 //		}
 
-		if(SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))
-		{
+		if(SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
 			chromecastProjectCheckBox.setVisibility(View.VISIBLE);
+			chromecastProjectCheckBox.setChecked(shouldBeChromecast);
 		}
 
 		landscapeProjectCheckBox.setChecked(shouldBeLandscape);
-		chromecastProjectCheckBox.setChecked(shouldBeChromecast);
+
 
 		emptyProjectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override

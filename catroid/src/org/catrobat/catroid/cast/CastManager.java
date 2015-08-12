@@ -55,6 +55,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.util.EnumMap;
 
@@ -97,6 +98,10 @@ public class CastManager {
 		Activity oldActivity = this.activity;
 		this.activity = activity;
 
+		if(!SettingsActivity.isCastSharedPreferenceEnabled(activity)) {
+			return;
+		}
+
 		if(oldActivity != null)
 			return;
 
@@ -111,6 +116,10 @@ public class CastManager {
 	}
 
 	public void addMediaRouterCallback() {
+		if(!SettingsActivity.isCastSharedPreferenceEnabled(activity)) {
+			return;
+		}
+
 		if (!callbackAdded) {
 			mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
 		}
@@ -118,6 +127,10 @@ public class CastManager {
 	}
 
 	public void addCastButtonActionbar(Menu menu) {
+
+		if(!SettingsActivity.isCastSharedPreferenceEnabled(activity)) {
+			return;
+		}
 
 		try {
 			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);

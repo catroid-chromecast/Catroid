@@ -39,6 +39,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -92,6 +93,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (!BackPackListManager.isBackpackFlag()) {
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+		}
+
+		if (!BuildConfig.FEATURE_CAST_ENABLED) {
+			SettingsActivity.setCastSharedPreferenceEnabled(this, false);
 		}
 
 		//TODO Drone do not create project for now

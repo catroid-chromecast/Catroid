@@ -105,7 +105,11 @@ public class SettingsActivity extends PreferenceActivity {
 			screen.removePreference(dronePreference);
 		}
 
-		// TODO for cast buil.config
+		if (!BuildConfig.FEATURE_CAST_ENABLED) {
+			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_CAST_BRICKS);
+			castPreference.setEnabled(false);
+			screen.removePreference(castPreference);
+		}
 	}
 
 	@SuppressLint({"NewApi", "AppCompatMethod"})
@@ -169,6 +173,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_CAST_BRICKS, context);
+	}
+
+	public static void setCastSharedPreferenceEnabled(Context context, boolean value) {
+		setBooleanSharedPreference(value, SETTINGS_SHOW_CAST_BRICKS, context);
 	}
 
 	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
