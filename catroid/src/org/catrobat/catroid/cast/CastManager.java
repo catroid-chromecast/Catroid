@@ -34,11 +34,11 @@ import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import com.google.android.gms.cast.CastDevice;
@@ -47,6 +47,7 @@ import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.common.api.Status;
 
 import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
@@ -69,7 +70,7 @@ public final class CastManager {
 	private Activity activity;
 	private Application context;
 	private RelativeLayout layout;
-	private TextView pausedView;
+	private RelativeLayout pausedView = null;
 	private View serviceView;
 	private StageActivity stageActivity;
 	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
@@ -84,9 +85,6 @@ public final class CastManager {
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_RIGHT_PRESSED, false);
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_UP_PRESSED, false);
 		isGamepadButtonPressed.put(Sensors.GAMEPAD_DOWN_PRESSED, false);
-
-		pausedView = new TextView(CatroidApplication.getAppContext());
-		pausedView.setText(CatroidApplication.getAppContext().getString(R.string.cast_paused_text));
 	}
 
 	public void initMediaRouter(Activity activity) {
@@ -147,18 +145,29 @@ public final class CastManager {
 
 	public void setPausedScreen() {
 
-		if (this.layout != null && this.context != null && isCastServiceRunning()) {
-			this.layout.addView(pausedView);
-			RelativeLayout.LayoutParams layoutParams =	(RelativeLayout.LayoutParams)pausedView.getLayoutParams();
-			layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-			pausedView.setLayoutParams(layoutParams);
+		if (this.layout != null && this.context != null && isCastServiceRunning()
+				&& ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+
+			if (pausedView == null || activity.findViewById(R.id.cast_pause_screen_layout) == null) {
+
+				pausedView = (RelativeLayout) LayoutInflater.from(CatroidApplication.getAppContext())
+						.inflate(R.layout.chromecast_pause_screen, null);
+				layout.addView(pausedView);
+				RelativeLayout.LayoutParams layoutParams =	(RelativeLayout.LayoutParams) pausedView.getLayoutParams();
+				layoutParams.height = ScreenValues.CAST_SCREEN_HEIGHT;
+				layoutParams.width = ScreenValues.CAST_SCREEN_WIDTH;
+				pausedView.setLayoutParams(layoutParams);
+			}
+
+			pausedView.setVisibility(View.VISIBLE);
 		}
 	}
 
 	public void removePausedScreen() {
 
-		if (this.layout != null && this.context != null && isCastServiceRunning()) {
-			this.layout.removeView(pausedView);
+		if (this.layout != null && this.context != null && pausedView != null && isCastServiceRunning()
+				&& ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			pausedView.setVisibility(View.GONE);
 		}
 	}
 

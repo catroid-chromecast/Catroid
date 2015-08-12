@@ -170,7 +170,6 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onBackPressed() {
 		pause();
-		CastManager.getInstance().setPausedScreen();
 		stageDialog.show();
 	}
 
@@ -183,12 +182,14 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
-		CastManager.getInstance().removePausedScreen();
+		CastManager.getInstance().setPausedScreen();
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
+
+
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -200,6 +201,7 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
+		CastManager.getInstance().removePausedScreen();
 		SensorHandler.startSensorListener(this);
 		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
@@ -215,6 +217,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void pause() {
+		CastManager.getInstance().setPausedScreen();
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 		LedUtil.pauseLed();
