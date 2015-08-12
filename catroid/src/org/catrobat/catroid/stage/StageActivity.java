@@ -201,7 +201,8 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
-		CastManager.getInstance().removePausedScreen();
+		if (!stageDialog.isShowing())
+			CastManager.getInstance().removePausedScreen();
 		SensorHandler.startSensorListener(this);
 		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();

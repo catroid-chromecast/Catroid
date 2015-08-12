@@ -74,6 +74,7 @@ public final class CastManager {
 	private View serviceView;
 	private StageActivity stageActivity;
 	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
+	private boolean pausedScreenShowing = false;
 
 	public static final String CAST_TAG = "CAST";
 	public static CastManager getInstance() { return INSTANCE; }
@@ -148,7 +149,7 @@ public final class CastManager {
 		if (this.layout != null && this.context != null && isCastServiceRunning()
 				&& ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 
-			if (pausedView == null || activity.findViewById(R.id.cast_pause_screen_layout) == null) {
+			if (!pausedScreenShowing && (pausedView == null || activity.findViewById(R.id.cast_pause_screen_layout) == null)) {
 
 				pausedView = (RelativeLayout) LayoutInflater.from(CatroidApplication.getAppContext())
 						.inflate(R.layout.chromecast_pause_screen, null);
@@ -157,9 +158,12 @@ public final class CastManager {
 				layoutParams.height = ScreenValues.CAST_SCREEN_HEIGHT;
 				layoutParams.width = ScreenValues.CAST_SCREEN_WIDTH;
 				pausedView.setLayoutParams(layoutParams);
+				pausedScreenShowing = true;
+				return;
 			}
 
 			pausedView.setVisibility(View.VISIBLE);
+			pausedScreenShowing = true;
 		}
 	}
 
@@ -168,6 +172,7 @@ public final class CastManager {
 		if (this.layout != null && this.context != null && pausedView != null && isCastServiceRunning()
 				&& ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			pausedView.setVisibility(View.GONE);
+			pausedScreenShowing = false;
 		}
 	}
 
