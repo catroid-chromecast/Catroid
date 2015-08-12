@@ -98,11 +98,7 @@ public class CastManager {
 		Activity oldActivity = this.activity;
 		this.activity = activity;
 
-		if(!SettingsActivity.isCastSharedPreferenceEnabled(activity)) {
-			return;
-		}
-
-		if(oldActivity != null)
+		if(oldActivity != null && callbackAdded)
 			return;
 
 		mMediaRouter = MediaRouter.getInstance(activity.getApplicationContext());
@@ -116,9 +112,6 @@ public class CastManager {
 	}
 
 	public void addMediaRouterCallback() {
-		if(!SettingsActivity.isCastSharedPreferenceEnabled(activity)) {
-			return;
-		}
 
 		if (!callbackAdded) {
 			mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY);
@@ -126,11 +119,15 @@ public class CastManager {
 		callbackAdded = true;
 	}
 
-	public void addCastButtonActionbar(Menu menu) {
+	public void removeMediaRouterCallback() {
 
-		if(!SettingsActivity.isCastSharedPreferenceEnabled(activity)) {
-			return;
+		if (callbackAdded) {
+			mMediaRouter.removeCallback(mMediaRouterCallback);
 		}
+		callbackAdded = false;
+	}
+
+	public void addCastButtonActionbar(Menu menu) {
 
 		try {
 			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
