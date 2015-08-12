@@ -22,19 +22,9 @@
  */
 package org.catrobat.catroid.test.cast;
 
-import android.os.Bundle;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
-
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.DroneBrickFactory;
-import org.catrobat.catroid.drone.DroneBrickFactory.DroneBricks;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.BaseActivityUnitTestCase;

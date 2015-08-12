@@ -58,7 +58,7 @@ public class BaseActivity extends ActionBarActivity {
 
 		CastManager.getInstance().initMediaRouter(this);
 
-		if(SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().addMediaRouterCallback();
 			CastManager.getInstance().setIdleCastScreen();
 		}

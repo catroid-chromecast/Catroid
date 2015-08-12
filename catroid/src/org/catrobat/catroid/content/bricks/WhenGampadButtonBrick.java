@@ -47,17 +47,17 @@ public class WhenGampadButtonBrick extends ScriptBrick {
 
 	protected WhenGamepadButtonScript whenGamepadButtonScript;
 	private static final long serialVersionUID = 1L;
-	private String[] ACTIONS;
+	private String[] actions;
 	private String action;
 	private int position;
 
 	public WhenGampadButtonBrick(WhenGamepadButtonScript whenGamepadButtonScript) {
 		this.whenGamepadButtonScript = whenGamepadButtonScript;
-		ACTIONS = CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array);
-		if(whenGamepadButtonScript != null) {
+		actions = CatroidApplication.getAppContext().getResources().getStringArray(R.array.gamepad_buttons_array);
+		if (whenGamepadButtonScript != null) {
 			this.action = whenGamepadButtonScript.getAction();
-			for (int i = 0; i < ACTIONS.length; i++) {
-				if (ACTIONS[i].equals(this.action)) {
+			for (int i = 0; i < actions.length; i++) {
+				if (actions[i].equals(this.action)) {
 					this.position = i;
 					break;
 				}

@@ -44,7 +44,7 @@ public class CastService extends CastRemoteDisplayLocalService {
     private Display display;
 
     // First screen
-    private CastPresentation mPresentation;
+    private CastPresentation presentation;
 
     @Override
     public void onCreate() {
@@ -62,20 +62,21 @@ public class CastService extends CastRemoteDisplayLocalService {
     }
 
     private void dismissPresentation() {
-        if (mPresentation != null) {
-            mPresentation.dismiss();
-            mPresentation = null;
+        if (presentation != null) {
+            presentation.dismiss();
+            presentation = null;
         }
     }
 
     public void createPresentation(Display display) {
-        if(display != null)
+        if (display != null) {
             this.display = display;
+        }
         dismissPresentation();
-        mPresentation = new FirstScreenPresentation(this, this.display);
+        presentation = new FirstScreenPresentation(this, this.display);
 
         try {
-            mPresentation.show();
+            presentation.show();
         } catch (Exception ex) {
             Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
             dismissPresentation();

@@ -43,8 +43,8 @@ import org.catrobat.catroid.R;
  */
 public class CastMediaRouterButtonView extends LinearLayout {
 
-	private MediaRouteButton mMediaRouteButton;
-	private TextView mTextView;
+	private MediaRouteButton mediaRouteButton;
+	private TextView textView;
 
 	public CastMediaRouterButtonView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -56,8 +56,8 @@ public class CastMediaRouterButtonView extends LinearLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.media_router_button_view, this, true);
 
-		mMediaRouteButton = (MediaRouteButton) findViewById(R.id.media_route_button);
-		mTextView = (TextView) findViewById(R.id.chromecast_play_text);
+		mediaRouteButton = (MediaRouteButton) findViewById(R.id.media_route_button);
+		textView = (TextView) findViewById(R.id.chromecast_play_text);
 
 	}
 
@@ -66,13 +66,13 @@ public class CastMediaRouterButtonView extends LinearLayout {
 	}
 
 	public MediaRouteButton getMediaRouteButton() {
-		return mMediaRouteButton;
+		return mediaRouteButton;
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
 		// Simulate a click on the button as a click on the cast icon
-		mMediaRouteButton.performClick();
+		mediaRouteButton.performClick();
 		return false;
 	}
 

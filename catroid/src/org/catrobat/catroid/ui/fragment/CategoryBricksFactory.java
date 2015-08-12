@@ -167,8 +167,9 @@ public class CategoryBricksFactory {
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
-		if(SettingsActivity.isCastSharedPreferenceEnabled(context))
+		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new WhenGampadButtonBrick(null));
+		}
 		controlBrickList.add(new WhenBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 

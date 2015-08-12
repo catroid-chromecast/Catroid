@@ -116,7 +116,7 @@ public class StageActivity extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		if(project != null && project.isCastProject()) {
+		if (project != null && project.isCastProject()) {
 			CastManager.getInstance().addStageViewToLayout(initializeForView(stageListener, config));
 
 			setFullScreen();
@@ -140,9 +140,9 @@ public class StageActivity extends AndroidApplication {
 
 		stageAudioFocus = new StageAudioFocus(this);
 
-		if(ProjectManager.getInstance().getCurrentProject().isCastProject())
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			initGamepadListeners();
-
+		}
 	}
 
 	private void setFullScreen() {

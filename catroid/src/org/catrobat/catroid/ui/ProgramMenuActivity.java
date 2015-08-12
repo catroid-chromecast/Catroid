@@ -87,9 +87,10 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if(ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-					!CastManager.getInstance().isCastServiceRunning())
+			if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
+					!CastManager.getInstance().isCastServiceRunning()) {
 				CastManager.getInstance().startCastService(this);
+			}
 
 			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);

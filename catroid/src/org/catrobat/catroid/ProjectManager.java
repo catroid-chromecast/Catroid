@@ -28,7 +28,6 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -74,8 +73,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean asynchronTask = true;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
-
-	private View mView;
 
 	private ProjectManager() {
 	}
@@ -263,27 +260,26 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			if (landscape && !chromecast)
+			if (landscape && !chromecast) {
 				project = StandardProjectHandler.createAndSaveLandscapeProject(projectName, context);
-			else if (chromecast)
+			}
+			else if (chromecast) {
 				project = StandardProjectHandler.createAndSaveChromecastProject(projectName, context);
-			else
+			}
+			else {
 				project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+			}
 		} else {
-			if(chromecast)
+			if (chromecast) {
 				project = StandardProjectHandler.createAndSaveStandardChromecastProject(projectName, context);
-			else
+			} else {
 				project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+			}
 		}
 
 		currentSprite = null;
 		currentScript = null;
 	}
-
-//	public void initializeNewProject(String projectName, Context context, boolean empty)
-//			throws IllegalArgumentException, IOException {
-//		initializeNewProject(projectName, context, empty, false);
-//	}
 
 	public Project getCurrentProject() {
 		return project;
@@ -566,13 +562,5 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			StorageHandler.getInstance().saveProject(project);
 			return null;
 		}
-	}
-
-	public View getView() {
-		return mView;
-	}
-
-	public void setView(View view) {
-		this.mView = view;
 	}
 }

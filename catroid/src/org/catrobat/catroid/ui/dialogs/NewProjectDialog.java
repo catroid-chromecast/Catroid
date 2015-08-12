@@ -153,11 +153,7 @@ public class NewProjectDialog extends DialogFragment {
 		boolean shouldBeChromecast = sharedPreferences.getBoolean(SHARED_PREFERENCES_CHROMECAST_PROJECT, true);
 		chromecastProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_chromecast_checkbox);
 
-//		if (emptyProjectCheckBox.isChecked()) {
-//			landscapeProjectCheckBox.setVisibility(View.VISIBLE);
-//		}
-
-		if(SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
+		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
 			chromecastProjectCheckBox.setVisibility(View.VISIBLE);
 			chromecastProjectCheckBox.setChecked(shouldBeChromecast);
 		}
@@ -168,18 +164,12 @@ public class NewProjectDialog extends DialogFragment {
 		emptyProjectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//				if (b && !(SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))) {
-//					landscapeProjectCheckBox.setVisibility(View.GONE);
-//				} else if( b && (SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))) {
-//					landscapeProjectCheckBox.setVisibility(View.GONE);
-//				} else {
-//					emptyProjectCheckBox.setVisibility(View.VISIBLE);
-//					landscapeProjectCheckBox.setVisibility(View.GONE);
-//				}
-				if(SettingsActivity.isCastSharedPreferenceEnabled(getActivity()))
+				if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
 					chromecastProjectCheckBox.setVisibility(View.VISIBLE);
-				else
+				}
+				else {
 					chromecastProjectCheckBox.setVisibility(View.GONE);
+				}
 			}
 		});
 
