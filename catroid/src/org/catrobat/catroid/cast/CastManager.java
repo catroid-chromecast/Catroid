@@ -24,10 +24,8 @@
 package org.catrobat.catroid.cast;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Application;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -53,9 +51,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.Sensors;
-
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.util.EnumMap;
 

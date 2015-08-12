@@ -25,9 +25,7 @@ package org.catrobat.catroid.ui;
 import android.app.Activity;
 import android.view.View;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 
 public final class BottomBar {
 

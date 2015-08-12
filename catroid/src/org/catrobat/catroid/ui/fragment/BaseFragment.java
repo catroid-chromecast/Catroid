@@ -24,8 +24,9 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-//import android.support.v7.app.ActionBarActivity --> this is deprecated
 import android.support.v7.app.AppCompatActivity;
+
+//import android.support.v7.app.ActionBarActivity --> this is deprecated
 
 /**
  * Created by illya on 10/11/14.
