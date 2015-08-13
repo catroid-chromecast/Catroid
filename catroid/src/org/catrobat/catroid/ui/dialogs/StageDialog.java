@@ -64,6 +64,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.dialog_stage);
+
 		getWindow().getAttributes();
 
 		getWindow().getAttributes();
