@@ -25,11 +25,13 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
+import org.catrobat.catroid.ui.SettingsActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -191,6 +193,18 @@ public final class UtilFile {
 			//ProjectManager.getInstance().initializeDefaultProject(context);
 			ProjectManager.getInstance().initializeDefaultCastProject(context);
 		}
+
+		//TODO Remove this after drop for Google
+		if (BuildConfig.FEATURE_CAST_ENABLED && !getProjectNames(rootDirectory).contains("lunar landing")) {
+			try {
+				InputStream raw = context.getAssets().open("lunarlanding.zip");
+				UtilZip.unzipFromInputStream(raw, rootDirectory);
+			} catch (IOException e) {
+
+			}
+
+		}
+
 	}
 
 	public static void loadExistingOrCreateStandardDroneProject(Context context) {
