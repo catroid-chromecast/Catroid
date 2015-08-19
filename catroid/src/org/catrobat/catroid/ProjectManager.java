@@ -269,7 +269,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public boolean initializeDefaultCastProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
-			project = StandardProjectHandler.createAndSaveStandardChromecastProject("My first cast program", context);
+			project = StandardProjectHandler.createAndSaveStandardProjectCast("My first cast program", context);
 
 			currentSprite = null;
 			currentScript = null;

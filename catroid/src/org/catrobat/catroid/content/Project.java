@@ -96,10 +96,6 @@ public class Project implements Serializable {
 		this(context, name, false);
 	}
 
-	public Project(Context context, String name) {
-		this(context, name, false);
-	}
-
 	private void ifLandscapeSwitchWidthAndHeight() {
 		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;

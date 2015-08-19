@@ -392,7 +392,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 			ProjectManager.getInstance().setHandleCorrectAddButton(true);
 
-			ImageButton addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
+			ImageButton addButton = (ImageButton) getSupportActivity().findViewById(R.id.button_add);
 			addButton.setOnClickListener(new OnClickListener() {
 
 				@Override
