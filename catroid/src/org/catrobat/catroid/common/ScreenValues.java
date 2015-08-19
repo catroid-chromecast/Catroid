@@ -50,5 +50,4 @@ public final class ScreenValues {
 		SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
 		SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 	}
-
 }

@@ -398,7 +398,6 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 			case R.string.merge_button:
 				UtilMerge.mergeProjectInCurrentProject(projectToEdit.projectName, this.getActivity());
 				break;
-
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -580,7 +579,6 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 				adapter.notifyDataSetChanged();
 				onProjectChecked();
 			}
-
 		});
 	}
 
@@ -592,5 +590,4 @@ public class ProjectsListFragment extends BaseListFragment implements OnProjectR
 			}
 		}
 	}
-
 }

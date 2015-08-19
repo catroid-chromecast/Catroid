@@ -94,7 +94,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+		if (spritesListFragment != null && !spritesListFragment.isLoading) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -139,7 +139,6 @@ public class ProjectActivity extends BaseActivity {
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
-
 		}
 		return super.onOptionsItemSelected(item);
 	}

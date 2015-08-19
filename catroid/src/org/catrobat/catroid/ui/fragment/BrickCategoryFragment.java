@@ -170,6 +170,5 @@ public class BrickCategoryFragment extends BaseListFragment {
 	public interface OnCategorySelectedListener {
 
 		void onCategorySelected(String category);
-
 	}
 }

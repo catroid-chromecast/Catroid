@@ -108,7 +108,6 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(dataEditorFragment);
 			BottomBar.hideBottomBar(activity);
-
 		} else if (dataEditorFragment.isHidden()) {
 			dataEditorFragment.updateBrickView();
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
@@ -175,7 +174,6 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 				if (action.equals(resources.getString(R.string.close))) {
 					onUserDismiss();
 				}
-
 			}
 		});
 
@@ -367,5 +365,4 @@ public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyLi
 	public void decreaseIndexOfCurrentlyEditedElement() {
 		indexOfCurrentlyEditedElement--;
 	}
-
 }

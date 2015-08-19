@@ -42,15 +42,14 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 
-
 public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingProjectJustSpecialChars = UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME;
 	private String testingProjectJustSpecialChars2 = UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2;
 	private String testingProjectWithNormalAndSpecialChars = UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2;
-	private String testingProjectJustOneDot= UiTestUtils.JUST_ONE_DOT_PROJECT_NAME;
-	private String testingProjectJustTwoDots= UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME;
+	private String testingProjectJustOneDot = UiTestUtils.JUST_ONE_DOT_PROJECT_NAME;
+	private String testingProjectJustTwoDots = UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME;
 	private SharedPreferences preferences;
 
 	public NewProjectDialogTest() {
@@ -83,6 +82,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProject, testingproject);
 		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingproject!", UiTestUtils.PROJECTNAME1, ProjectManager.getInstance().getCurrentProject().getName());
 	}
@@ -91,9 +93,12 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		String buttonOkText = solo.getString(R.string.ok);
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		assertTrue("dialog not loaded in 5 seconds",
-		solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
+				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectOne = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectOne, testingProjectJustSpecialChars);
+		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustSpecialChars!", UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
@@ -107,6 +112,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		EditText newProjectTwo = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectTwo, testingProjectJustSpecialChars2);
 		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustSpecialChars2!", UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2, ProjectManager.getInstance().getCurrentProject().getName());
 	}
@@ -118,6 +126,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectThree = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectThree, testingProjectWithNormalAndSpecialChars);
+		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectWithNormalAndSpecialChars!", UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2, ProjectManager.getInstance().getCurrentProject().getName());
@@ -131,6 +142,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		EditText newProjectOne = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectOne, testingProjectJustOneDot);
 		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
+		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustOneDot!", UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
 	}
@@ -142,6 +156,9 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProjectTwo = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProjectTwo, testingProjectJustTwoDots);
+		solo.clickOnButton(buttonOkText);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertEquals("New Project is not testingProjectJustTwoDots!", UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME, ProjectManager.getInstance().getCurrentProject().getName());
@@ -194,7 +211,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		int projectNameNumberOfLines = newProjectName.getLineCount();
 
 		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
-
 	}
 
 	public void testCreateEmptyProject() {
@@ -203,51 +219,8 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnCheckBox(0);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo.clickOnButton(solo.getString(R.string.ok));
-
-		UiTestUtils.waitForText(solo, solo.getString(R.string.background));
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		assertNotNull("Empty project shouldn't be null", project);
-		assertEquals("Just background object should exist", 1, project.getSpriteList().size());
-		assertEquals("Just background object should exist", solo.getString(R.string.background), project
-				.getSpriteList().get(0).getName());
-
-		assertTrue("Checkbox state should be saved",
-				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
-
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
-
-		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
-		assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
-
-		solo.clickOnCheckBox(0);
-		solo.clickOnButton(solo.getString(R.string.cancel_button));
-		assertTrue("Checkbox state should not be saved when canceling dialog",
-				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
-	}
-
-	public void testCreateLandscapeProject() {
-		//TODO: adapt for landscape project
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
-		//if checkbox empty != checked : assert checkbox landscape not visible
-		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
-		CheckBox landscapeProjectCheckBox = (CheckBox) solo.getView(R.id.project_landscape_checkbox);
-		if (emptyProjectCheckBox.isChecked()) {
-			assertEquals("Landscape checkbox should be visible", landscapeProjectCheckBox.getVisibility(), View.VISIBLE);
-			solo.clickOnCheckBox(0);
-			assertEquals("Landscape checkbox should now be invisible (gone)", landscapeProjectCheckBox.getVisibility(), View.GONE);
-		} else {
-			assertEquals("Landscape checkbox should be invisible (gone)",landscapeProjectCheckBox.getVisibility(), View.GONE);
-			solo.clickOnCheckBox(0);
-			assertEquals("Landscape checkbox should now be visible", landscapeProjectCheckBox.getVisibility(), View.VISIBLE);
-		}
-		//click checkbox empty : assert checkbox landscape is visible
-		//click again : assert lsc not visible again
-		
-		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertTrue("dialog not loaded in 5 seconds",
+				solo.waitForText(solo.getString(R.string.project_orientation_title), 0, 5000));
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		UiTestUtils.waitForText(solo, solo.getString(R.string.background));
@@ -265,7 +238,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
 
-
+		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
 		assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
 
 		solo.clickOnCheckBox(0);
@@ -273,5 +246,4 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Checkbox state should not be saved when canceling dialog",
 				preferences.getBoolean(NewProjectDialog.SHARED_PREFERENCES_EMPTY_PROJECT, false));
 	}
-
 }

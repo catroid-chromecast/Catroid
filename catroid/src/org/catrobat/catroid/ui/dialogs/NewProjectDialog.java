@@ -27,7 +27,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -46,32 +45,26 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.IOException;
-
 public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
-	public static final String SHARED_PREFERENCES_LANDSCAPE_PROJECT = "shared_preferences_landscape_project";
-	public static final String SHARED_PREFERENCES_CHROMECAST_PROJECT = "shared_preferences_chromecast_project";
 
 	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
-	private CheckBox landscapeProjectCheckBox;
-	private CheckBox chromecastProjectCheckBox;
+	private OrientationDialog orientationDialog;
 	private SharedPreferences sharedPreferences;
 
-	private boolean openendFromProjectList = false;
+	private boolean openedFromProjectList = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -147,91 +140,40 @@ public class NewProjectDialog extends DialogFragment {
 		emptyProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_empty_checkbox);
 		emptyProjectCheckBox.setChecked(shouldBeEmpty);
 
-		boolean shouldBeLandscape = sharedPreferences.getBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, false);
-		landscapeProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_landscape_checkbox);
-
-		boolean shouldBeChromecast = sharedPreferences.getBoolean(SHARED_PREFERENCES_CHROMECAST_PROJECT, true);
-		chromecastProjectCheckBox = (CheckBox) dialogView.findViewById(R.id.project_chromecast_checkbox);
-
-		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
-			chromecastProjectCheckBox.setVisibility(View.VISIBLE);
-			chromecastProjectCheckBox.setChecked(shouldBeChromecast);
-		}
-
-		landscapeProjectCheckBox.setChecked(shouldBeLandscape);
-
-
-		emptyProjectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
-					chromecastProjectCheckBox.setVisibility(View.VISIBLE);
-				}
-				else {
-					chromecastProjectCheckBox.setVisibility(View.GONE);
-				}
-			}
-		});
-
 		return newProjectDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
-		boolean shouldBeLandscape = landscapeProjectCheckBox.isChecked();
-		boolean shouldBeChromecast = chromecastProjectCheckBox.isChecked();
-
 		if (getActivity() == null) {
 			Log.e(TAG, "handleOkButtonClick() Activity was null!");
 			return;
 		}
 
 		if (projectName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
+			Utils.showErrorDialog(getActivity(), R.string.no_name, R.string.error_no_program_name_entered);
 			return;
 		}
 
 		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+			Utils.showErrorDialog(getActivity(), R.string.name_exists, R.string.error_project_exists);
 			return;
 		}
 
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape, shouldBeChromecast);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
-		}
+		orientationDialog = new OrientationDialog();
+		orientationDialog.show(getActivity().getSupportFragmentManager(), OrientationDialog.DIALOG_FRAGMENT_TAG);
+		orientationDialog.setOpenedFromProjectList(openedFromProjectList);
+		orientationDialog.setProjectName(projectName);
+		orientationDialog.setShouldBeEmpty(shouldBeEmpty);
 
 		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_EMPTY_PROJECT, shouldBeEmpty).commit();
-		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_LANDSCAPE_PROJECT, shouldBeLandscape).commit();
-		sharedPreferences.edit().putBoolean(SHARED_PREFERENCES_CHROMECAST_PROJECT, shouldBeChromecast).commit();
-
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
-
-		if (isOpenendFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
-
-		getActivity().startActivity(intent);
 
 		dismiss();
 	}
 
-	public boolean isOpenendFromProjectList() {
-		return openendFromProjectList;
-	}
-
-	public void setOpenendFromProjectList(boolean openendFromProjectList) {
-		this.openendFromProjectList = openendFromProjectList;
+	public void setOpenedFromProjectList(boolean openedFromProjectList) {
+		this.openedFromProjectList = openedFromProjectList;
 	}
 }

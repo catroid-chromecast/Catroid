@@ -208,7 +208,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 
 		startWebViewActivity(Constants.BASE_URL_HTTPS);
-
 	}
 
 	public void startWebViewActivity(String url) {
@@ -227,7 +226,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 			startActivity(intent);
 		}
-
 	}
 
 	private void showWebWarningDialog() {
@@ -305,6 +303,5 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectFailure() {
-
 	}
 }

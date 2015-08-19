@@ -68,25 +68,6 @@
                 android:text="@string/new_project_empty"
                 android:textColor="@color/spritelist_details_text_color" />
 
-            <CheckBox
-                android:id="@+id/project_landscape_checkbox"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:checked="false"
-                android:text="@string/new_project_landscape"
-                android:textColor="@color/spritelist_details_text_color" />
-
-            <CheckBox
-                android:id="@+id/project_chromecast_checkbox"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:checked="false"
-                android:text="@string/new_project_chromecast"
-                android:textColor="@color/spritelist_details_text_color" />
         </LinearLayout >
     </RelativeLayout >
 

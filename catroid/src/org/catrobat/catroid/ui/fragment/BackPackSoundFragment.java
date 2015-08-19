@@ -125,7 +125,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				false, this);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
-
 	}
 
 	@Override
@@ -198,7 +197,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
-
 	}
 
 	@Override
@@ -218,7 +216,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 		editor.putBoolean(SoundController.SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
-
 	}
 
 	@Override
@@ -296,12 +293,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-
 	}
 
 	@Override
@@ -380,7 +375,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			adapter.setShowDetails(showDetails);
 			adapter.notifyDataSetChanged();
 		}
-
 	}
 
 	@Override
@@ -475,7 +469,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 		}
-
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
