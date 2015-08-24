@@ -147,6 +147,8 @@ public class CategoryBricksFactory {
 			tempList = setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
+		} else if (category.equals(context.getString(R.string.category_chromecast))) {
+			tempList = setupChromecastCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -166,9 +168,11 @@ public class CategoryBricksFactory {
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
-		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+
+		/*if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new WhenGampadButtonBrick(null));
 		}
+		*/
 		controlBrickList.add(new WhenBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
@@ -375,6 +379,19 @@ public class CategoryBricksFactory {
 		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_BOTTOM_RIGHT));
 
 		return phiroProBrickList;
+	}
+
+	private List<Brick> setupChromecastCategoryList() {
+		List<Brick> chromecastBrickList = new ArrayList<Brick>();
+		chromecastBrickList.add((new WhenGampadButtonBrick(null)));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_A_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_B_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_UP_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_DOWN_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_LEFT_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_RIGHT_PRESSED));
+
+		return chromecastBrickList;
 	}
 
 	private boolean isBackground(Sprite sprite) {
