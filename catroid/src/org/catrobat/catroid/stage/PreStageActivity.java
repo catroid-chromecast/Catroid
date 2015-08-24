@@ -34,12 +34,14 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -105,6 +107,16 @@ public class PreStageActivity extends BaseActivity {
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			droneInitializer = getDroneInitializer();
 			droneInitializer.initialise();
+		}
+
+		if ((requiredResources & Brick.CHROMECAST_REQUIRED) > 0) {
+
+			if (CastManager.getInstance().isConnected()) {
+				resourceInitialized();
+			} else {
+				Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
+				resourceFailed();
+			}
 		}
 
 		FaceDetectionHandler.resetFaceDedection();

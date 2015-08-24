@@ -297,10 +297,6 @@ public class ScriptActivity extends BaseActivity {
 		updateHandleAddButtonClickListener();
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-					!CastManager.getInstance().isCastServiceRunning()) {
-				CastManager.getInstance().startCastService(this);
-			}
 
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
@@ -409,12 +405,6 @@ public class ScriptActivity extends BaseActivity {
 		} else {
 
 			if (!viewSwitchLock.tryLock()) {
-				return;
-			}
-
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-					!CastManager.getInstance().isConnected()) {
-				Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
 				return;
 			}
 
