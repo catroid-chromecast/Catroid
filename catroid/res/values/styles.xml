@@ -556,6 +556,11 @@
         <item name="android:background" >@drawable/brick_selection_background_phiro_pro</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
     </style >
+
+    <style name="BrickCategoryText.Chromecast" >
+        <item name="android:background" >@drawable/brick_selection_background_phiro_pro</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
+    </style >
     
     <style name="userBrickDataTextBackground" >
  		<item name="android:background" >@drawable/brick_data_round_rect</item >
