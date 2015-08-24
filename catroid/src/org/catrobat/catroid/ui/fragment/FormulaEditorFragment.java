@@ -95,6 +95,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 	private FormulaBrick clonedFormulaBrick;
 	private Brick.BrickField currentBrickField;
 	private Formula currentFormula;
+	private Menu currentMenu;
 
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
@@ -407,6 +408,8 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		currentMenu = menu;
+
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
 		}
@@ -466,6 +469,13 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 						return;
 					}
 				}
+				MenuItem undo = currentMenu.findItem(R.id.menu_undo);
+				undo.setIcon(R.drawable.icon_undo_disabled);
+				undo.setEnabled(false);
+
+				MenuItem redo = currentMenu.findItem(R.id.menu_redo);
+				redo.setIcon(R.drawable.icon_redo_disabled);
+				redo.setEnabled(false);
 
 				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
