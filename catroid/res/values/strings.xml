@@ -365,6 +365,7 @@
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
+    <string name="category_chromecast">Chromecast</string>
     <!--  -->
 
     <!-- Motion bricks -->
