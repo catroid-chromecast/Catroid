@@ -296,14 +296,18 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape, boolean chromecast)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape, chromecast);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			if (chromecast) {
+				project = StandardProjectHandler.createAndSaveStandardProjectCast(projectName, context);
+			} else {
+				project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			}
 		}
 
 		currentSprite = null;
@@ -312,7 +316,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void initializeNewProject(String projectName, Context context, boolean empty)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, false);
+		initializeNewProject(projectName, context, empty, false, false);
 	}
 
 	public Project getCurrentProject() {

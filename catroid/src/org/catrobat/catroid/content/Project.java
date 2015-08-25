@@ -297,6 +297,6 @@ public class Project implements Serializable {
 	}
 
 	public boolean isCastProject() {
-		return (getRequiredResources() & Brick.CHROMECAST_REQUIRED) > 0;
+		return xmlHeader.isCastProject();
 	}
 }

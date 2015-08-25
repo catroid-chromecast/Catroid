@@ -310,7 +310,7 @@ public final class StandardProjectHandler {
 			IllegalArgumentException {
 		// temporarily until standard landscape project exists.
 		if (landscape) {
-			return createAndSaveEmptyProject(projectName, context, landscape);
+			return createAndSaveEmptyProject(projectName, context, landscape, false);
 		}
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
@@ -707,7 +707,7 @@ public final class StandardProjectHandler {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}
-
+		defaultProject.setChromecastFields();
 		StorageHandler.getInstance().saveProject(defaultProject);
 
 		return defaultProject;
@@ -719,7 +719,7 @@ public final class StandardProjectHandler {
 		return createAndSaveStandardProject(projectName, context, false);
 	}
 
-	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscape) {
+	public static Project createAndSaveEmptyProject(String projectName, Context context, boolean landscape, boolean chromecast) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
 		}
@@ -728,11 +728,15 @@ public final class StandardProjectHandler {
 		StorageHandler.getInstance().saveProject(emptyProject);
 		ProjectManager.getInstance().setProject(emptyProject);
 
+		if (chromecast) {
+			emptyProject.setChromecastFields();
+		}
+
 		return emptyProject;
 	}
 
 	public static Project createAndSaveEmptyProject(String projectName, Context context) {
-		return createAndSaveEmptyProject(projectName, context, false);
+		return createAndSaveEmptyProject(projectName, context, false, false);
 	}
 
 	private static int calculateValueRelativeToScaledBackground(int value) {
