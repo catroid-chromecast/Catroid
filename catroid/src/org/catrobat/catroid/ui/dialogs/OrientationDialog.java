@@ -67,7 +67,7 @@ public class OrientationDialog extends DialogFragment {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_orientation_title)
+				.setTitle(R.string.project_select_screen_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
