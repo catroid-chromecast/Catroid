@@ -175,7 +175,7 @@ public class FormulaEditorListFragment extends BaseListFragment implements Dialo
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
 			}
 
-			if (SettingsActivity.isCastSharedPreferenceEnabled(context) && ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, CHROMECAST_GAMEPAD_SENSOR_ITEMS);
 			}
 		}
