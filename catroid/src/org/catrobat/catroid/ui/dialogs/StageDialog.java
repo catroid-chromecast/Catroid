@@ -140,14 +140,6 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	private void makeScreenshot() {
 
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
-			Toast t = Toast.makeText(getContext(), getContext()
-					.getString(R.string.cast_screenshots_unsupported_msg), Toast.LENGTH_SHORT);
-			t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-			t.show();
-			return;
-		}
-
 		if (stageListener.makeManualScreenshot()) {
 			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {

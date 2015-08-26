@@ -403,6 +403,10 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
+            if (ProjectManager.getInstance().getCurrentProject().isCastProject()){
+                screenshotWidth = 1280;
+                screenshotHeight = 720;
+            }
 			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
 					true);
 			makeScreenshot = false;
