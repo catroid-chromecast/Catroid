@@ -74,12 +74,14 @@ import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
 public class SpritesListFragment extends BaseListFragment implements OnSpriteEditListener,
 		OnLoadProjectCompleteListener {
 
+	public static final String TAG = SpritesListFragment.class.getSimpleName();
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
 
@@ -90,6 +92,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
+	private int spritePosition;
 
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
@@ -163,8 +166,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
-		}
-		else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
+		} else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
 				.equals(programName) && fragmentStartedFirstTime) {
 			showInfoFragmentIfNeeded();
 		}
@@ -254,6 +256,7 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 
 		spriteToEdit = spriteAdapter.getItem(info.position);
+		spritePosition = info.position;
 		spriteAdapter.addCheckedSprite(info.position);
 
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
@@ -268,7 +271,16 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		}
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
 
+		menu.findItem(R.id.context_menu_move_down).setEnabled(!(spritePosition == spriteList.size() - 1));
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(!(spritePosition == spriteList.size() - 1));
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(!(spritePosition == 1));
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(!(spritePosition == 1));
 	}
 
 	@Override
@@ -295,6 +307,19 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 				showConfirmDeleteDialog();
 				break;
 
+			case R.id.context_menu_move_down:
+				moveSpriteDown();
+				break;
+
+			case R.id.context_menu_move_up:
+				moveSpriteUp();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveSpriteToBottom();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveSpriteToTop();
+				break;
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -357,6 +382,30 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
+	}
+
+	private void moveSpriteDown() {
+		Collections.swap(spriteList, spritePosition + 1, spritePosition);
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	private void moveSpriteUp() {
+		Collections.swap(spriteList, spritePosition - 1, spritePosition);
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	private void moveSpriteToBottom() {
+		for (int i = spritePosition; i < spriteList.size() - 1; i++) {
+			Collections.swap(spriteList, i, i + 1);
+		}
+		spriteAdapter.notifyDataSetChanged();
+	}
+
+	private void moveSpriteToTop() {
+		for (int i = spritePosition; i > 1; i--) {
+			Collections.swap(spriteList, i, i - 1);
+		}
+		spriteAdapter.notifyDataSetChanged();
 	}
 
 	public void startCopyActionMode() {
@@ -444,7 +493,6 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
 		dataContainer.cleanUserListForSprite(spriteToEdit);
 
-
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
@@ -504,7 +552,6 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 				spriteAdapter.notifyDataSetChanged();
 				onSpriteChecked();
 			}
-
 		});
 	}
 
@@ -705,5 +752,4 @@ public class SpritesListFragment extends BaseListFragment implements OnSpriteEdi
 	public void onLoadProjectFailure() {
 		getActivity().onBackPressed();
 	}
-
 }

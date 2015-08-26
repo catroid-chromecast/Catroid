@@ -67,8 +67,6 @@ import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
 import org.catrobat.catroid.utils.ToastUtil;
 
-
-
 public class FormulaEditorFragment extends BaseFragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
 	private static final String TAG = FormulaEditorFragment.class.getSimpleName();
@@ -97,14 +95,13 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 	private FormulaBrick clonedFormulaBrick;
 	private Brick.BrickField currentBrickField;
 	private Formula currentFormula;
+	private Menu currentMenu;
 
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
 	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
 	private OnFormulaChangedListener onFormulaChangedListener;
-
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +114,11 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
 
@@ -142,8 +144,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 	}
 
 	private static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean showCustomView) {
-
-
+		
 		FragmentActivity activity = null;
 		activity = (FragmentActivity) view.getContext();
 
@@ -216,7 +217,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 	}
 
-
 	public void updateBrickView() {
 		formulaEditorBrick.removeAllViews();
 
@@ -258,7 +258,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 
 		BottomBar.showBottomBar(activity);
 		BottomBar.showPlayButton(activity);
-
 	}
 
 	@Override
@@ -388,7 +387,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;
 					}
-
 				}
 				return false;
 			}
@@ -410,12 +408,14 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		currentMenu = menu;
+
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
 		}
 
 		MenuItem undo = menu.findItem(R.id.menu_undo);
-		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
+		if (formulaEditorEditText == null || !formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setIcon(R.drawable.icon_undo_disabled);
 			undo.setEnabled(false);
 		} else {
@@ -424,7 +424,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		}
 
 		MenuItem redo = menu.findItem(R.id.menu_redo);
-		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
+		if (formulaEditorEditText == null || !formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setIcon(R.drawable.icon_redo_disabled);
 			redo.setEnabled(false);
 		} else {
@@ -469,6 +469,13 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 						return;
 					}
 				}
+				MenuItem undo = currentMenu.findItem(R.id.menu_undo);
+				undo.setIcon(R.drawable.icon_undo_disabled);
+				undo.setEnabled(false);
+
+				MenuItem redo = currentMenu.findItem(R.id.menu_redo);
+				redo.setIcon(R.drawable.icon_redo_disabled);
+				redo.setEnabled(false);
 
 				formulaEditorEditText.endEdit();
 				currentBrickField = brickField;
@@ -525,7 +532,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 			}
 			return false;
 		}
-
 	}
 
 	/*
@@ -557,16 +563,16 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 									currentFormula.setDisplayText(null);
 									onUserDismiss();
 								}
-							}).setPositiveButton(R.string.yes, new OnClickListener() {
+							})
+							.setPositiveButton(R.string.yes, new OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							if (saveFormulaIfPossible()) {
-								onUserDismiss();
-							}
-						}
-					}).create().show();
-
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									if (saveFormulaIfPossible()) {
+										onUserDismiss();
+									}
+								}
+							}).create().show();
 				} else {
 					onUserDismiss();
 				}
@@ -593,7 +599,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		currentFormula.setDisplayText(newString);
 		updateBrickView();
 		currentFormula.refreshTextField(brickView, newString);
-		if (showCustomView == false) {
+		if (!showCustomView) {
 			currentFormula.highlightTextField(brickView);
 		}
 	}
@@ -635,8 +641,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		if (fragment == null) {
 			if (getActivity().getClass().equals(ScriptActivity.class)) {
 				fragment = new FormulaEditorDataFragment(false);
-			}
-			else {
+			} else {
 				fragment = new FormulaEditorDataFragment(true);
 			}
 			Bundle bundle = new Bundle();
@@ -649,7 +654,6 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 		((FormulaEditorDataFragment) fragment).setAddButtonListener(getSupportActivity());
 		((FormulaEditorDataFragment) fragment).showFragment(context);
 	}
-
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -710,6 +714,7 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 
 		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
 
+		// TODO have a lok here !!!
 		BottomBar.hideBottomBar(getActivity());
 		filterVariableDeleted.addAction(ScriptActivity.ACTION_USERLIST_DELETED);
 		getActivity().registerReceiver(variableOrUserListDeletedReceiver, filterVariableDeleted);
@@ -732,42 +737,5 @@ public class FormulaEditorFragment extends BaseFragment implements OnKeyListener
 			backspaceOnKeyboard.setEnabled(true);
 		}
 	}
-
-	//???
-/*
-	public void updateButtonViewOnKeyboard() {
-
-		ImageButton undo = (ImageButton) getSupportActivity().findViewById(R.id.formula_editor_keyboard_undo);
-		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
-			undo.setImageResource(R.drawable.icon_undo_disabled);
-			undo.setEnabled(false);
-		} else {
-			undo.setImageResource(R.drawable.icon_undo);
-			undo.setEnabled(true);
-		}
-
-		ImageButton redo = (ImageButton) getSupportActivity().findViewById(R.id.formula_editor_keyboard_redo);
-		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
-			redo.setImageResource(R.drawable.icon_redo_disabled);
-			redo.setEnabled(false);
-		} else {
-			redo.setImageResource(R.drawable.icon_redo);
-			redo.setEnabled(true);
-		}
-
-		ImageButton backspace = (ImageButton) getSupportActivity().findViewById(R.id.formula_editor_edit_field_clear);
-
-		if (!formulaEditorEditText.isThereSomethingToDelete()) {
-			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
-			backspaceEditText.setEnabled(false);
-			backspaceOnKeyboard.setAlpha(255 / 3);
-			backspaceOnKeyboard.setEnabled(false);
-		} else {
-			backspaceEditText.setImageResource(R.drawable.icon_backspace);
-			backspaceEditText.setEnabled(true);
-			backspaceOnKeyboard.setAlpha(255);
-			backspaceOnKeyboard.setEnabled(true);
-		}
-	}*/
 
 }

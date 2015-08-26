@@ -140,13 +140,15 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList =  setupDataCategoryList();
+			tempList = setupDataCategoryList();
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			tempList = setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
+		} else if (category.equals(context.getString(R.string.category_chromecast))) {
+			tempList = setupChromecastCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -163,13 +165,10 @@ public class CategoryBricksFactory {
 		return toReturn;
 	}
 
-
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
-		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
-			controlBrickList.add(new WhenGampadButtonBrick(null));
-		}
+
 		controlBrickList.add(new WhenBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
@@ -185,6 +184,10 @@ public class CategoryBricksFactory {
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
+		}
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new WhenGampadButtonBrick(null));
 		}
 
 		return controlBrickList;
@@ -325,7 +328,6 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		return dataBrickList;
-
 	}
 
 	private List<Brick> setupLegoNxtCategoryList() {
@@ -379,6 +381,18 @@ public class CategoryBricksFactory {
 		return phiroProBrickList;
 	}
 
+	private List<Brick> setupChromecastCategoryList() {
+		List<Brick> chromecastBrickList = new ArrayList<Brick>();
+		chromecastBrickList.add((new WhenGampadButtonBrick(null)));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_A_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_B_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_UP_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_DOWN_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_LEFT_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_RIGHT_PRESSED));
+
+		return chromecastBrickList;
+	}
 
 	private boolean isBackground(Sprite sprite) {
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {

@@ -94,7 +94,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+		if (spritesListFragment != null && !spritesListFragment.isLoading) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -139,7 +139,6 @@ public class ProjectActivity extends BaseActivity {
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
-
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -150,10 +149,6 @@ public class ProjectActivity extends BaseActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-					!CastManager.getInstance().isCastServiceRunning()) {
-				CastManager.getInstance().startCastService(this);
-			}
 
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
@@ -193,12 +188,6 @@ public class ProjectActivity extends BaseActivity {
 
 	public void handlePlayButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-				!CastManager.getInstance().isConnected()) {
-			Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
 			return;
 		}
 

@@ -26,12 +26,10 @@ import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -91,10 +89,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				break;
 			case R.id.stage_dialog_button_restart:
 				if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
-					Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_error_not_connected_msg),
-							Toast.LENGTH_SHORT);
-					t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-					t.show();
+					ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 					break;
 				}
 				clearBroadcastMaps();
@@ -119,11 +114,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	private void handleContinueButton() {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
-
-			Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_error_not_connected_msg),
-					Toast.LENGTH_LONG);
-			t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-			t.show();
+			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
 		dismiss();

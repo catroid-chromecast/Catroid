@@ -169,7 +169,6 @@ public class NewDataDialog extends DialogFragment {
 				addUserVariable(name, local, global);
 				break;
 		}
-
 	}
 
 	private void addUserList(String name, RadioButton local, RadioButton global) {
@@ -208,8 +207,7 @@ public class NewDataDialog extends DialogFragment {
 
 		final CheckBox isListCheckbox = (CheckBox) dialogNewUserList.findViewById(R.id.dialog_formula_editor_data_is_list_checkbox);
 
-		switch(dialogType)
-		{
+		switch (dialogType) {
 			case SHOW_LIST_CHECKBOX:
 				isListCheckbox.setVisibility(View.VISIBLE);
 				break;
@@ -243,7 +241,7 @@ public class NewDataDialog extends DialogFragment {
 			@Override
 			public void afterTextChanged(Editable editable) {
 				String name = editable.toString();
-				checkName(name,positiveButton,isListCheckbox);
+				checkName(name, positiveButton, isListCheckbox);
 			}
 		});
 
@@ -313,5 +311,4 @@ public class NewDataDialog extends DialogFragment {
 		}
 		return true;
 	}
-
 }

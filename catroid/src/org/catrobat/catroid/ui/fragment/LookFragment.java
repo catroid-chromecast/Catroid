@@ -74,6 +74,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
@@ -89,6 +90,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -238,7 +240,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		super.onActivityCreated(savedInstanceState);
 
 		listView = getListView();
-		
+
 		if (listView != null) {
 			registerForContextMenu(listView);
 		}
@@ -286,12 +288,15 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.findItem(R.id.rename).setVisible(true);
 		menu.findItem(R.id.show_details).setVisible(true);
 		menu.findItem(R.id.settings).setVisible(true);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
 
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.unpacking).setVisible(false);
 		}
-
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -311,6 +316,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public void onResume() {
+
 		super.onResume();
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
@@ -421,6 +427,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					LookController.getInstance().loadPictureFromCameraIntoCatroid(lookFromCameraUri, getActivity(),
 							lookDataList, this);
 					break;
+				case LookController.REQUEST_MEDIA_LIBRARY:
+					String filePath = data.getStringExtra(WebViewActivity.MEDIA_FILE_PATH);
+					LookController.getInstance().loadPictureFromLibraryIntoCatroid(filePath, getActivity(),
+							lookDataList, this);
 			}
 			isResultHandled = true;
 		}
@@ -441,6 +451,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
+
+		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedLookPosition != lookDataList.size() - 1);
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedLookPosition != lookDataList.size() - 1);
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedLookPosition != 0);
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedLookPosition != 0);
 	}
 
 	@Override
@@ -468,7 +488,17 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-
+			case R.id.context_menu_move_down:
+				moveLookDataDown();
+				break;
+			case R.id.context_menu_move_up:
+				moveLookDataUp();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveLookDataToBottom();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveLookDataToTop();
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -528,6 +558,19 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		Intent chooser = Intent.createChooser(intent, getString(R.string.select_look_from_gallery));
 		startActivityForResult(chooser, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
+	}
+
+	public void addLookMediaLibrary() {
+		Intent intent = new Intent(getActivity(), WebViewActivity.class);
+		String url = null;
+		if (ProjectManager.getInstance().getCurrentSprite().getName().compareTo(getString(R.string.background)) == 0) {
+			url = Constants.LIBRARY_BACKGROUNDS_URL;
+		} else {
+			url = Constants.LIBRARY_LOOKS_URL;
+		}
+		intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
+		intent.putExtra(WebViewActivity.CALLING_ACTIVITY, TAG);
+		startActivityForResult(intent, LookController.REQUEST_MEDIA_LIBRARY);
 	}
 
 	@Override
@@ -594,6 +637,17 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 		NewLookDialog dialog = NewLookDialog.newInstance();
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (ProjectManager.getInstance().getComingFromScriptFragmentToLooksFragment()) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToLooksFragment(false);
+					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+					isResultHandled = true;
+					LookController.getInstance().switchToScriptFragment(LookFragment.this);
+				}
+			}
+		});
 		dialog.showDialog(this);
 	}
 
@@ -700,7 +754,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 			ToastUtil.showError(getActivity(), R.string.error_load_image);
 		}
-
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
@@ -715,7 +768,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				adapter.notifyDataSetChanged();
 				onLookChecked();
 			}
-
 		});
 	}
 
@@ -777,6 +829,30 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	protected void showDeleteDialog() {
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedLookPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void moveLookDataDown() {
+		Collections.swap(lookDataList, selectedLookPosition + 1, selectedLookPosition);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveLookDataUp() {
+		Collections.swap(lookDataList, selectedLookPosition - 1, selectedLookPosition);
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveLookDataToBottom() {
+		for (int i = selectedLookPosition; i < lookDataList.size() - 1; i++) {
+			Collections.swap(lookDataList, i, i + 1);
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveLookDataToTop() {
+		for (int i = selectedLookPosition; i > 0; i--) {
+			Collections.swap(lookDataList, i, i - 1);
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -862,7 +938,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public interface OnLookDataListChangedAfterNewListener {
 
 		void onLookDataListChangedAfterNew(LookData soundInfo);
-
 	}
 
 	private class LookDeletedReceiver extends BroadcastReceiver {

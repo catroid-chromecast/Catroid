@@ -54,10 +54,9 @@ public class Project implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
-
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<Setting>();
-	
+
 	public Project(Context context, String name, boolean landscape) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
@@ -118,12 +117,10 @@ public class Project implements Serializable {
 			return;
 		}
 		spriteList.add(sprite);
-
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
-
 	}
 
 	public List<Sprite> getSpriteList() {
@@ -180,7 +177,7 @@ public class Project implements Serializable {
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
-		xmlHeader.setPlatformVersion((double)Build.VERSION.SDK_INT);
+		xmlHeader.setPlatformVersion((double) Build.VERSION.SDK_INT);
 		xmlHeader.setDeviceName(Build.MODEL);
 
 		xmlHeader.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
@@ -300,15 +297,6 @@ public class Project implements Serializable {
 	}
 
 	public boolean isCastProject() {
-
 		return xmlHeader.isCastProject();
-
-//		for (Sprite sprite : spriteList) {
-//			for (Script script : sprite.getScriptList()) {
-//				if (script instanceof  WhenGamepadButtonScript)
-//					return true;
-//			}
-//		}
-//		return false;
 	}
 }

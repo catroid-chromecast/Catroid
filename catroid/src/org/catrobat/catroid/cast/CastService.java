@@ -29,12 +29,12 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Display;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.cast.CastPresentation;
 import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.ToastUtil;
 
 /**
  * Service to keep the remote display running even when the app goes into the background
@@ -78,7 +78,7 @@ public class CastService extends CastRemoteDisplayLocalService {
         try {
             presentation.show();
         } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
+            ToastUtil.showError(getApplicationContext(), getString(R.string.cast_error_not_connected_msg));
             dismissPresentation();
         }
     }

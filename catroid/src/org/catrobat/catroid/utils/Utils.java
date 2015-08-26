@@ -119,7 +119,6 @@ public final class Utils {
 			//a null-context should never be passed. However, an educated guess is needed in that case.
 			ScreenValues.setToDefaultSreenSize();
 		}
-
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -132,11 +131,9 @@ public final class Utils {
 
 	/**
 	 * Constructs a path out of the pathElements.
-	 * 
-	 * @param pathElements
-	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
-	 * @return
-	 *         the path that was constructed.
+	 *
+	 * @param pathElements the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return the path that was constructed.
 	 */
 	public static String buildPath(String... pathElements) {
 		StringBuilder result = new StringBuilder("/");
@@ -184,6 +181,19 @@ public final class Utils {
 		errorDialog.show();
 	}
 
+	public static void showErrorDialog(Context context, int errorTitleId, int errorMessageId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(errorTitleId);
+		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
+	}
+
 	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
 		MenuItem item = menu.findItem(R.id.select_all);
@@ -201,9 +211,9 @@ public final class Utils {
 		if (!file.isFile()) {
 			Log.e(TAG, String.format("md5Checksum() Error with file %s isFile: %s isDirectory: %s exists: %s",
 					file.getName(),
-						Boolean.valueOf(file.isFile()),
-							Boolean.valueOf(file.isDirectory()),
-								Boolean.valueOf(file.exists())));
+					Boolean.valueOf(file.isFile()),
+					Boolean.valueOf(file.isDirectory()),
+					Boolean.valueOf(file.exists())));
 			return null;
 		}
 
@@ -245,9 +255,10 @@ public final class Utils {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
 		char[] hexBuffer = new char[messageDigest.length * 2];
-		for (int i = 0, j = 0; i < messageDigest.length; i++) {
-			hexBuffer[j++] = hexChars[(messageDigest[i] & 0xF0) >> 4];
-			hexBuffer[j++] = hexChars[messageDigest[i] & 0x0F];
+		int j = 0;
+		for (byte c : messageDigest) {
+			hexBuffer[j++] = hexChars[(c & 0xF0) >> 4];
+			hexBuffer[j++] = hexChars[c & 0x0F];
 		}
 
 		return String.valueOf(hexBuffer);
@@ -311,7 +322,6 @@ public final class Utils {
 				Log.e(TAG, "Project cannot load", projectException);
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
-
 		}
 	}
 
@@ -437,6 +447,7 @@ public final class Utils {
 			if (pixmap == null) {
 				Utils.showErrorDialog(context, R.string.error_load_image);
 				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
+				Log.d("testitest", "path: " + lookFile.getAbsolutePath());
 				throw new IOException("Pixmap could not be fixed");
 			}
 		}
@@ -475,7 +486,6 @@ public final class Utils {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return true;
-
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {
@@ -500,6 +510,24 @@ public final class Utils {
 
 		File projectDirectory = new File(Utils.buildProjectPath(programName));
 		return projectDirectory.exists();
+	}
+
+	public static boolean checkIfLookExists(String name) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
+			if (lookData.getLookName().compareTo(name) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean checkIfSoundExists(String name) {
+		for (SoundInfo soundInfo : ProjectManager.getInstance().getCurrentSprite().getSoundList()) {
+			if (soundInfo.getTitle().compareTo(name) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void setSelectAllActionModeButtonVisibility(View selectAllActionModeButton, boolean setVisible) {

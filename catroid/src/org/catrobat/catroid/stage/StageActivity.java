@@ -96,12 +96,10 @@ public class StageActivity extends AndroidApplication {
 
 		CastManager.getInstance().setStageActivity(this);
 
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
-		if (virtualScreenHeight > virtualScreenWidth) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		} else {
+		if (ProjectManager.getInstance().isCurrentProjectLandscape()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		} else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -188,8 +186,6 @@ public class StageActivity extends AndroidApplication {
 		stageAudioFocus.releaseAudioFocus();
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
-
-
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -201,8 +197,9 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onResume() {
-		if (!stageDialog.isShowing())
+		if (!stageDialog.isShowing()) {
 			CastManager.getInstance().removePausedScreen();
+		}
 		SensorHandler.startSensorListener(this);
 		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
@@ -244,6 +241,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	private void calculateScreenSizes() {
+		ifLandscapeSwitchWidthAndHeight();
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		if (virtualScreenHeight > virtualScreenWidth) {
@@ -273,7 +271,6 @@ public class StageActivity extends AndroidApplication {
 			stageListener.maximizeViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
 			stageListener.maximizeViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2f);
 			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
-
 		} else if (aspectRatio > screenAspectRatio) {
 			scale = ratioWidth / ratioHeight;
 			stageListener.maximizeViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
@@ -300,7 +297,6 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
-
 		if (droneConnection != null) {
 			droneConnection.destroy();
 		}

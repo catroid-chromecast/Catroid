@@ -208,7 +208,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 
 		startWebViewActivity(Constants.BASE_URL_HTTPS);
-
 	}
 
 	public void startWebViewActivity(String url) {
@@ -227,7 +226,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 			startActivity(intent);
 		}
-
 	}
 
 	private void showWebWarningDialog() {
@@ -272,7 +270,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
 		String scheme = loadExternalProjectUri.getScheme();
-		if (scheme.startsWith((TYPE_HTTP))) {
+		if (scheme.startsWith(TYPE_HTTP)) {
 			String url = loadExternalProjectUri.toString();
 			DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(this, url);
 		} else if (scheme.equals(TYPE_FILE)) {
@@ -305,6 +303,5 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectFailure() {
-
 	}
 }

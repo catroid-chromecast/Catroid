@@ -48,7 +48,7 @@ public class NewStringDialog extends DialogFragment {
 	public NewStringDialog() {
 	}
 
-	public static NewStringDialog newInstance(){
+	public static NewStringDialog newInstance() {
 		return new NewStringDialog();
 	}
 

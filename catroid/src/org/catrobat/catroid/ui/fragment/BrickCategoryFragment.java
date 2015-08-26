@@ -163,6 +163,10 @@ public class BrickCategoryFragment extends BaseListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
 		}
 
+		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
+			categories.add(inflater.inflate(R.layout.brick_category_chromecast, null));
+		}
+
 		adapter = new BrickCategoryAdapter(categories);
 		this.setListAdapter(adapter);
 	}
@@ -170,6 +174,5 @@ public class BrickCategoryFragment extends BaseListFragment {
 	public interface OnCategorySelectedListener {
 
 		void onCategorySelected(String category);
-
 	}
 }

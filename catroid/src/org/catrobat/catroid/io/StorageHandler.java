@@ -176,7 +176,6 @@ public final class StorageHandler {
 	private FileInputStream fileInputStream;
 
 	private Lock loadSaveLock = new ReentrantLock();
-
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -186,7 +185,6 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
-
 	private StorageHandler() throws IOException {
 		xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
@@ -388,7 +386,6 @@ public final class StorageHandler {
 		return false;
 	}
 
-
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
@@ -422,7 +419,6 @@ public final class StorageHandler {
 					}
 					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
-
 				} catch (Exception exception) {
 					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
 					return false;
@@ -461,7 +457,6 @@ public final class StorageHandler {
 					if (!tmpCodeFile.renameTo(currentCodeFile)) {
 						Log.e(TAG, "Could not rename " + currentCodeFile.getName());
 					}
-
 				} catch (IOException ioException) {
 					Log.e(TAG, "Failed closing the buffered writer", ioException);
 				}
@@ -489,13 +484,12 @@ public final class StorageHandler {
 					return;
 				}
 
-				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP +
-						" to " + PROJECTCODE_NAME);
+				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
+						+ " to " + PROJECTCODE_NAME);
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
 				}
-
 			}
 		} catch (Exception exception) {
 			Log.e(TAG, "Exception " + exception);
@@ -554,7 +548,6 @@ public final class StorageHandler {
 		}
 	}
 
-
 	public boolean deleteProject(String projectName) {
 		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
 	}
@@ -569,7 +562,7 @@ public final class StorageHandler {
 	public boolean projectExists(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
-			if ((projectNameIterator.equals(projectName))) {
+			if (projectNameIterator.equals(projectName)) {
 				return true;
 			}
 		}
@@ -629,7 +622,7 @@ public final class StorageHandler {
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
-		if (outputFileDirectory.exists() == false) {
+		if (!outputFileDirectory.exists()) {
 			outputFileDirectory.mkdirs();
 		}
 
@@ -666,7 +659,7 @@ public final class StorageHandler {
 		}
 
 		File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
-		if (outputFileDirectory.exists() == false) {
+		if (!outputFileDirectory.exists()) {
 			outputFileDirectory.mkdirs();
 		}
 
@@ -817,7 +810,7 @@ public final class StorageHandler {
 		return copyFiles(targetProject, sourceProject, true);
 	}
 
-	private boolean copyFiles (String targetProject, String sourceProject, boolean copySoundFiles) {
+	private boolean copyFiles(String targetProject, String sourceProject, boolean copySoundFiles) {
 		String type = IMAGE_DIRECTORY;
 		if (copySoundFiles) {
 			type = SOUND_DIRECTORY;

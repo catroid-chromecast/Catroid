@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -95,7 +96,7 @@ public final class UtilFile {
 		 * log(a) / log(b) == logarithm of a to the base of b
 		 */
 		int exponent = (int) (Math.log(bytes) / Math.log(unit));
-		char prefix = ("KMGTPE").charAt(exponent - 1);
+		char prefix = "KMGTPE".charAt(exponent - 1);
 
 		return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
@@ -191,6 +192,18 @@ public final class UtilFile {
 			//ProjectManager.getInstance().initializeDefaultProject(context);
 			ProjectManager.getInstance().initializeDefaultCastProject(context);
 		}
+
+		//TODO Remove this after drop for Google
+		if (BuildConfig.FEATURE_CAST_ENABLED && !getProjectNames(rootDirectory).contains("lunar landing")) {
+			try {
+				InputStream raw = context.getAssets().open("lunarlanding.zip");
+				UtilZip.unzipFromInputStream(raw, rootDirectory);
+			} catch (IOException e) {
+
+			}
+
+		}
+
 	}
 
 	public static void loadExistingOrCreateStandardDroneProject(Context context) {

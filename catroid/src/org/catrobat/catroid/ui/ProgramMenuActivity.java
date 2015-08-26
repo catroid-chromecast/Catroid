@@ -130,12 +130,6 @@ public class ProgramMenuActivity extends BaseActivity {
 			return;
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
-				!CastManager.getInstance().isConnected()) {
-			Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
-			return;
-		}
-
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);

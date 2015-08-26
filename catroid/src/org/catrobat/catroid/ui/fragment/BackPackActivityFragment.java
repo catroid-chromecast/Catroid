@@ -47,5 +47,4 @@ public abstract class BackPackActivityFragment extends BaseListFragment {
 	protected abstract void showDeleteDialog();
 
 	public abstract void startUnPackingActionMode();
-
 }

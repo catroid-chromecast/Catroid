@@ -34,12 +34,14 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -107,6 +109,16 @@ public class PreStageActivity extends BaseActivity {
 			droneInitializer.initialise();
 		}
 
+		if ((requiredResources & Brick.CHROMECAST_REQUIRED) > 0) {
+
+			if (CastManager.getInstance().isConnected()) {
+				resourceInitialized();
+			} else {
+				ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
+				resourceFailed();
+			}
+		}
+
 		FaceDetectionHandler.resetFaceDedection();
 		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 			boolean success = FaceDetectionHandler.startFaceDetection(this);
@@ -117,7 +129,7 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
+		if ((requiredResources & Brick.CAMERA_LED) > 0) {
 			if (!CameraManager.getInstance().isFacingBack()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
@@ -196,8 +208,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
-				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+		if (supportedFlashModes == null || supportedFlashModes.isEmpty()
+				|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
 			return false;
 		}
 
@@ -339,13 +351,14 @@ public class PreStageActivity extends BaseActivity {
 									startActivity(installIntent);
 									resourceFailed();
 								}
-							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							resourceFailed();
-						}
-					});
+							})
+							.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+									resourceFailed();
+								}
+							});
 					AlertDialog alert = builder.create();
 					alert.show();
 				}
@@ -372,7 +385,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void ledInitialize() {
-		if ( hasFlash() ) {
+		if (hasFlash()) {
 			resourceInitialized();
 			LedUtil.activateLedThread();
 		} else {
@@ -380,5 +393,4 @@ public class PreStageActivity extends BaseActivity {
 			resourceFailed();
 		}
 	}
-
 }

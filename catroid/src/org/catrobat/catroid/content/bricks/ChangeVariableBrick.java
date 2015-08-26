@@ -132,7 +132,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
-
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
 			variableSpinner.setEnabled(true);
@@ -156,7 +155,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 
 					return true;
-
 				}
 				return false;
 			}
@@ -193,6 +191,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+		variableSpinner.setEnabled(false);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
@@ -235,8 +234,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}
@@ -252,7 +250,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	@Override
 	public ChangeVariableBrick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), null, inUserBrick);
+				BrickField.VARIABLE_CHANGE).clone(), userVariable, inUserBrick);
 		return clonedBrick;
 	}
 
@@ -266,5 +264,4 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE_CHANGE);
 	}
-
 }

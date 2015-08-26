@@ -107,7 +107,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_brick_editor_edit_element,
-				(ViewGroup)fragmentView, false);
+				(ViewGroup) fragmentView, false);
 
 		EditText textField = (EditText) dialogView.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
 		textField.setText(text);
@@ -149,11 +149,11 @@ public class UserBrickEditElementDialog extends DialogFragment {
 	}
 
 	private void handleOkButton(View dialogView) {
-			EditText elementTextEditText = (EditText) dialogView
-					.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
+		EditText elementTextEditText = (EditText) dialogView
+				.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
 
-			CharSequence elementText = elementTextEditText.getText();
-			finishDialog(elementText);
+		CharSequence elementText = elementTextEditText.getText();
+		finishDialog(elementText);
 	}
 
 	private void handleOnShow(final Dialog dialogNewVariable) {
@@ -192,9 +192,7 @@ public class UserBrickEditElementDialog extends DialogFragment {
 						break;
 					}
 				}
-
 			}
 		});
 	}
-
 }

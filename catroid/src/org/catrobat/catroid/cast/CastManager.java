@@ -241,7 +241,9 @@ public final class CastManager {
 				stageActivity.onBackPressed();
 			}
 
-			CastRemoteDisplayLocalService.stopService();
+			if (isCastServiceRunning()) {
+				CastRemoteDisplayLocalService.stopService();
+			}
 		}
 	}
 
