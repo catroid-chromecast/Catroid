@@ -190,6 +190,13 @@ public class CategoryBricksFactory {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
+<<<<<<< Updated upstream
+=======
+		if (SettingsActivity.isCastSharedPreferenceEnabled(context) && ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			controlBrickList.add(new WhenGampadButtonBrick(null));
+		}
+
+>>>>>>> Stashed changes
 		return controlBrickList;
 	}
 
