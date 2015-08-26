@@ -27,7 +27,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -52,17 +55,21 @@ public class OrientationDialog extends DialogFragment {
 	private Dialog orientationDialog;
 	private String projectName;
 	private RadioButton landscape;
+	private RadioButton chromecast;
 	private boolean shouldBeEmpty;
 	private boolean shouldBeLandscape = false;
+	private boolean shouldBeChromecast = false;
 
 	private boolean openedFromProjectList = false;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		boolean chromecastEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		int title = chromecastEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_orientation_title)
+				.setTitle(title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -90,16 +97,23 @@ public class OrientationDialog extends DialogFragment {
 				});
 			}
 		});
+
 		landscape = (RadioButton) dialogView.findViewById(R.id.landscape);
+		chromecast = (RadioButton) dialogView.findViewById(R.id.chromecast);
+
+		if (chromecastEnabled) {
+			chromecast.setVisibility(View.VISIBLE);
+		}
 
 		return orientationDialog;
 	}
 
 	protected void handleOkButtonClick() {
 		shouldBeLandscape = landscape.isChecked();
+		shouldBeChromecast = chromecast.isChecked();
 
 		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape);
+			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape, shouldBeChromecast);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
