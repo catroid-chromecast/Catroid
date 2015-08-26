@@ -169,10 +169,6 @@ public class CategoryBricksFactory {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
 		controlBrickList.add(new WhenStartedBrick(null));
 
-		/*if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
-			controlBrickList.add(new WhenGampadButtonBrick(null));
-		}
-		*/
 		controlBrickList.add(new WhenBrick(null));
 		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
@@ -188,6 +184,10 @@ public class CategoryBricksFactory {
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
+		}
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new WhenGampadButtonBrick(null));
 		}
 
 		return controlBrickList;

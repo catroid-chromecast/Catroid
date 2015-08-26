@@ -65,9 +65,11 @@ public class OrientationDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_orientation_new_project, null);
+		boolean chromecastEnabled = SettingsActivity.isCastSharedPreferenceEnabled(getActivity());
+		int title = chromecastEnabled ? R.string.project_select_screen_title : R.string.project_orientation_title;
 
 		orientationDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
-				.setTitle(R.string.project_select_screen_title)
+				.setTitle(title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -95,10 +97,11 @@ public class OrientationDialog extends DialogFragment {
 				});
 			}
 		});
-		landscape = (RadioButton) dialogView.findViewById(R.id.landscape);
 
+		landscape = (RadioButton) dialogView.findViewById(R.id.landscape);
 		chromecast = (RadioButton) dialogView.findViewById(R.id.chromecast);
-		if (SettingsActivity.isCastSharedPreferenceEnabled(getActivity())) {
+
+		if (chromecastEnabled) {
 			chromecast.setVisibility(View.VISIBLE);
 		}
 
