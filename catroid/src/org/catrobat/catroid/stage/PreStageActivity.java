@@ -114,7 +114,7 @@ public class PreStageActivity extends BaseActivity {
 			if (CastManager.getInstance().isConnected()) {
 				resourceInitialized();
 			} else {
-				Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
+				ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
 				resourceFailed();
 			}
 		}
