@@ -48,7 +48,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
-	public static final String SETTINGS_SHOW_CAST_BRICKS = "setting_enable_cast_bricks";
+	public static final String SETTINGS_CAST_BRICKS_ENABLED = "settings_cast_bricks_enabled";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -104,7 +104,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
-			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_CAST_BRICKS);
+			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
 			castPreference.setEnabled(false);
 			screen.removePreference(castPreference);
 		}
@@ -176,11 +176,11 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SHOW_CAST_BRICKS, context);
+		return getBooleanSharedPreference(false, SETTINGS_CAST_BRICKS_ENABLED, context);
 	}
 
 	public static void setCastSharedPreferenceEnabled(Context context, boolean value) {
-		setBooleanSharedPreference(value, SETTINGS_SHOW_CAST_BRICKS, context);
+		setBooleanSharedPreference(value, SETTINGS_CAST_BRICKS_ENABLED, context);
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
