@@ -45,6 +45,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -87,7 +88,8 @@ public class PreStageActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_prestage);
 
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		int requiredResources = currentProject.getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
@@ -114,7 +116,11 @@ public class PreStageActivity extends BaseActivity {
 			if (CastManager.getInstance().isConnected()) {
 				resourceInitialized();
 			} else {
-				ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
+				if (currentProject.isCastProject()) {
+					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
+				} else {
+					ToastUtil.showError(this, getString(R.string.cast_error_cast_bricks_in_no_cast_project));
+				}
 				resourceFailed();
 			}
 		}

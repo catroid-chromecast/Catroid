@@ -32,13 +32,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -48,7 +51,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
-	public static final String SETTINGS_CAST_BRICKS_ENABLED = "settings_cast_bricks_enabled";
+	public static final String SETTINGS_CAST_BRICKS_ENABLED = "setting_enable_cast_bricks";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -83,6 +86,19 @@ public class SettingsActivity extends PreferenceActivity {
 					Log.d("CAMERA", "No Camera detected");
 			}
 		}
+		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		final CheckBoxPreference castProjectPreference = (CheckBoxPreference) findPreference("setting_current_project_cast_enabled");
+		castProjectPreference.setChecked(currentProject.isCastProject());
+		castProjectPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				currentProject.setIsCastProject(castProjectPreference.isChecked());
+				Log.d("CAST", "Set isCastProject to " + Boolean.toString(castProjectPreference.isChecked()));
+				return true;
+			}
+		});
+
+
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
 		

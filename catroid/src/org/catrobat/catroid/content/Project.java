@@ -92,6 +92,10 @@ public class Project implements Serializable {
 		xmlHeader.setIsCastProject(true);
 	}
 
+	public void setIsCastProject(boolean b) {
+		xmlHeader.setIsCastProject(b);
+	}
+
 	public Project(Context context, String name) {
 		this(context, name, false);
 	}
@@ -160,7 +164,7 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
+		int resources = isCastProject() ? Brick.CHROMECAST_REQUIRED : Brick.NO_RESOURCES;
 
 		for (Sprite sprite : spriteList) {
 			resources |= sprite.getRequiredResources();
