@@ -156,6 +156,9 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		String castPreferenceString = solo.getString(R.string.preference_description_cast_bricks);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+		//create cast project
+		//UiTestUtils.clickOnButton(solo.getButton(R.string.main_menu_new));
+
 		//disable cast bricks if enabled
 		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_CAST_BRICKS, false)) {
 			solo.clickOnMenuItem(settings);
