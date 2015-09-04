@@ -303,4 +303,12 @@ public class Project implements Serializable {
 	public boolean isCastProject() {
 		return xmlHeader.isCastProject();
 	}
+
+	public int getScreenHeight(){
+		return xmlHeader.getVirtualScreenHeight();
+	}
+
+	public int getScreenWidth(){
+		return xmlHeader.getVirtualScreenWidth();
+	}
 }
