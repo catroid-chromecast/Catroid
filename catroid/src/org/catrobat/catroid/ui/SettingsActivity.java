@@ -30,6 +30,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -41,8 +42,12 @@ import android.util.Log;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -86,19 +91,25 @@ public class SettingsActivity extends PreferenceActivity {
 					Log.d("CAMERA", "No Camera detected");
 			}
 		}
+
+
+		Utils.loadProjectIfNeeded(this); // Haare ausgerissen um die Methode zu finden!!!!!!!!!!!!
 		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		final CheckBoxPreference castProjectPreference = (CheckBoxPreference) findPreference("setting_current_project_cast_enabled");
 		castProjectPreference.setChecked(currentProject.isCastProject());
-		castProjectPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				currentProject.setIsCastProject(castProjectPreference.isChecked());
-				Log.d("CAST", "Set isCastProject to " + Boolean.toString(castProjectPreference.isChecked()));
-				return true;
-			}
-		});
-
-
+		if(currentProject.getScreenHeight() < currentProject.getScreenWidth()) { // Cast Checkbox ist nur für Landscapes verfügbar
+			castProjectPreference.setEnabled(true);
+			castProjectPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					currentProject.setIsCastProject(castProjectPreference.isChecked());
+					Log.d("CAST", "Set isCastProject to " + Boolean.toString(castProjectPreference.isChecked()));
+					return true;
+				}
+			});
+		} else {
+			castProjectPreference.setEnabled(false);
+		}
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
 		
@@ -121,7 +132,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
 			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
-			castPreference.setEnabled(false);
+			castPreference.setEnabled(currentProject.isCastProject());
 			screen.removePreference(castPreference);
 		}
 	}
