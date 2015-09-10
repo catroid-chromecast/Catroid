@@ -36,6 +36,7 @@ import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -169,6 +170,9 @@ public class CastManager {
 
 		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
 			this.layout.addView(pausedView);
+			RelativeLayout.LayoutParams layoutParams =	(RelativeLayout.LayoutParams)pausedView.getLayoutParams();
+			layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			pausedView.setLayoutParams(layoutParams);
 		}
 	}
 
@@ -262,7 +266,6 @@ public class CastManager {
 			if (serviceView != null && serviceView.getClass().getName().equals(GLSurfaceView20.class.getName())) {
 				GLSurfaceView20 surfaceView = (GLSurfaceView20) serviceView;
 				surfaceView.surfaceChanged(surfaceView.getHolder(), 0, 1280, 720);
-
 			}
 		}
 	}

@@ -158,10 +158,18 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus && ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			setFullScreen();
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
 		pause();
-		stageDialog.show();
 		CastManager.getInstance().setPausedScreen();
+		stageDialog.show();
 	}
 
 	public void manageLoadAndFinish() {
@@ -173,6 +181,7 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
+		CastManager.getInstance().removePausedScreen();
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
@@ -214,12 +223,12 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void resume() {
+		CastManager.getInstance().removePausedScreen();
 		stageListener.menuResume();
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
 		FaceDetectionHandler.startFaceDetection(this);
-		CastManager.getInstance().removePausedScreen();
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 	}
@@ -285,6 +294,7 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
+
 		if (droneConnection != null) {
 			droneConnection.destroy();
 		}
