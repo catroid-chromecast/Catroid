@@ -139,7 +139,9 @@ public class StageActivity extends AndroidApplication {
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 
 		stageAudioFocus = new StageAudioFocus(this);
-		initGamepadListeners();
+
+		if(ProjectManager.getInstance().getCurrentProject().isCastProject())
+			initGamepadListeners();
 
 	}
 
