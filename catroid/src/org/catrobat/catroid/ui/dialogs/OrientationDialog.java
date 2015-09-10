@@ -42,6 +42,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -54,6 +55,7 @@ public class OrientationDialog extends DialogFragment {
 
 	private Dialog orientationDialog;
 	private String projectName;
+    private RadioButton portrait;
 	private RadioButton landscape;
 	private RadioButton chromecast;
 	private boolean shouldBeEmpty;
@@ -98,6 +100,7 @@ public class OrientationDialog extends DialogFragment {
 			}
 		});
 
+        portrait = (RadioButton) dialogView.findViewById(R.id.portrait);
 		landscape = (RadioButton) dialogView.findViewById(R.id.landscape);
 		chromecast = (RadioButton) dialogView.findViewById(R.id.chromecast);
 
@@ -109,33 +112,41 @@ public class OrientationDialog extends DialogFragment {
 	}
 
 	protected void handleOkButtonClick() {
-		shouldBeLandscape = landscape.isChecked();
-		shouldBeChromecast = chromecast.isChecked();
 
-		try {
-			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape, shouldBeChromecast);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
-			return;
-		} catch (IOException ioException) {
-			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			dismiss();
-			return;
-		}
+        if(!landscape.isChecked() && !portrait.isChecked() &&!chromecast.isChecked()){
+            ToastUtil.showError(getActivity(), getString(R.string.cast_error_select_screen_mode));
 
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+        } else {
 
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+            shouldBeLandscape = landscape.isChecked();
+            shouldBeChromecast = chromecast.isChecked();
 
-		if (isOpenedFromProjectList()) {
-			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
-		}
+            try {
+                ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty, shouldBeLandscape, shouldBeChromecast);
+            } catch (IllegalArgumentException illegalArgumentException) {
+                Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+                return;
+            } catch (IOException ioException) {
+                Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+                Log.e(TAG, Log.getStackTraceString(ioException));
+                dismiss();
+                return;
+            }
 
-		getActivity().startActivity(intent);
+            Intent intent = new Intent(getActivity(), ProjectActivity.class);
 
-		dismiss();
-	}
+            intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+            if (isOpenedFromProjectList()) {
+                intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+            }
+
+            getActivity().startActivity(intent);
+
+            dismiss();
+        }
+
+    }
 
 	public boolean isOpenedFromProjectList() {
 		return openedFromProjectList;
