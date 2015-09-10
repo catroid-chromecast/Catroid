@@ -91,7 +91,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				break;
 			case R.id.stage_dialog_button_restart:
 				if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
-					Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_not_connected_msg),
+					Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_error_not_connected_msg),
 							Toast.LENGTH_SHORT);
 					t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
 					t.show();
@@ -120,7 +120,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
 
-			Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_not_connected_msg),
+			Toast t = Toast.makeText(stageActivity, stageActivity.getResources().getString(R.string.cast_error_not_connected_msg),
 					Toast.LENGTH_LONG);
 			t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
 			t.show();

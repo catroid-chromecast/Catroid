@@ -864,7 +864,8 @@
     <string name="and">and</string>
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
-    <string name="variable">Variable</string><string name="REMOTE_DISPLAY_APP_ID">CEBB9229</string>
+    <string name="variable">Variable</string>
+
     <!-- -->
 
     <!-- Chromecast Strings -->
@@ -875,8 +876,10 @@
     <string name="cast_gamepad_down">down</string>
     <string name="cast_gamepad_left">left</string>
     <string name="cast_gamepad_right">right</string>
-    <string name="cast_not_connected_msg">Please connect to your Chromecast</string>
-    <string name="cast_connection_error_msg">There was an error connecting to the Chromecast</string>
+    <string name="cast_paused_text">PAUSED</string>
+    <string name="cast_error_mediarouter_msg">No media router button found</string>
+    <string name="cast_error_not_connected_msg">Please connect to your Chromecast</string>
+    <string name="cast_error_connection_msg">There was an error connecting to the Chromecast</string>
     <string name="cast_screenshots_unsupported_msg">Screenshots are not supported in Chromecast projects</string>
     <!-- -->
 

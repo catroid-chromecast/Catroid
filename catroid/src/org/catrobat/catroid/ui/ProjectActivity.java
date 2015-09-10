@@ -196,7 +196,7 @@ public class ProjectActivity extends BaseActivity {
 
 		if(ProjectManager.getInstance().getCurrentProject().isCastProject() &&
 				!CastManager.getInstance().isConnected()) {
-			Toast.makeText(getApplicationContext(), getString(R.string.cast_not_connected_msg), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
 			return;
 		}
 

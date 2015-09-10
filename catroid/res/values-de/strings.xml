@@ -665,6 +665,10 @@
   <string name="abort">Abbruch</string>
   <string name="variable">Variable</string>
 
-  <string name="cast_not_connected_msg">Bitte verbinde dich zum Chromecast</string>
-  <string name="cast_connection_error_msg">Beim Verbinden zum Chromecast ist ein Fehler aufgetreten</string>
+  <!-- Chromecast Strings -->
+  <string name="cast_error_mediarouter_msg">Kein Mediarouter Knopf gefunden</string>
+  <string name="cast_error_not_connected_msg">Bitte verbinde dich zum Chromecast</string>
+  <string name="cast_error_connection_msg">Beim Verbinden zum Chromecast ist ein Fehler aufgetreten</string>
+  <string name="cast_screenshots_unsupported_msg">Screenshots werdem derzeit in Chromecast Projekten nicht unterstützt</string>
+
 </resources>

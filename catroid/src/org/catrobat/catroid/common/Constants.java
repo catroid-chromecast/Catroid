@@ -115,6 +115,9 @@ public final class Constants {
 	public static final int DOWNLOAD_NOTIFICATION = 103;
 	public static final int COPY_NOTIFICATION = 104;
 
+	public static final String REMOTE_DISPLAY_APP_ID ="CEBB9229";
+
+
 	// Suppress default constructor for noninstantiability
 	private Constants() {
 		throw new AssertionError();

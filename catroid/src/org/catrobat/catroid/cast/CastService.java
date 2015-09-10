@@ -43,7 +43,6 @@ import org.catrobat.catroid.R;
  */
 public class CastService extends CastRemoteDisplayLocalService {
 
-    private static final String TAG = "PresentationService";
     private Display display;
 
     // First screen
@@ -79,16 +78,13 @@ public class CastService extends CastRemoteDisplayLocalService {
 
         try {
             mPresentation.show();
-        } catch (WindowManager.InvalidDisplayException ex) {
-            Log.e(TAG, "Unable to show presentation, display was removed.", ex);
-            Toast.makeText(getApplicationContext(), getString(R.string.cast_connection_error_msg), Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(), getString(R.string.cast_error_not_connected_msg), Toast.LENGTH_SHORT).show();
             dismissPresentation();
         }
     }
 
     public class FirstScreenPresentation extends CastPresentation {
-
-        private final String TAG = "FirstScreenPresentation";
 
         public FirstScreenPresentation(Context context, Display display) {
             super(context, display);

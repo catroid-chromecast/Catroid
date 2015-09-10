@@ -117,7 +117,7 @@ public class StageActivity extends AndroidApplication {
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if(project != null && project.isCastProject()) {
-			CastManager.getInstance().setServiceView(initializeForView(stageListener, config));
+			CastManager.getInstance().addStageViewToLayout(initializeForView(stageListener, config));
 
 			setFullScreen();
 			setContentView(R.layout.activity_stage_gamepad);
