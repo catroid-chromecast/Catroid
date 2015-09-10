@@ -30,16 +30,26 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -48,7 +58,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
-	public static final String SETTINGS_SHOW_CAST_BRICKS = "setting_enable_cast_bricks";
+	public static final String SETTINGS_CAST_BRICKS_ENABLED = "setting_enable_cast_bricks";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -83,6 +93,7 @@ public class SettingsActivity extends PreferenceActivity {
 					Log.d("CAMERA", "No Camera detected");
 			}
 		}
+
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
 		
@@ -98,15 +109,36 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+
 			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
 		}
 
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
-			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_CAST_BRICKS);
-			castPreference.setEnabled(false);
+
+			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
 			screen.removePreference(castPreference);
+		}else{
+
+			Utils.loadProjectIfNeeded(this); // Haare ausgerissen um die Methode zu finden !!!!!!!!!!!!
+			final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			final CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
+			castPreference.setChecked(currentProject.isCastProject());
+			if(currentProject.getScreenHeight() < currentProject.getScreenWidth()) { // Cast Checkbox ist nur fuer Landscapes verfuegbar
+				castPreference.setEnabled(true);
+				castPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						currentProject.setIsCastProject(castPreference.isChecked());
+						Log.d("CAST", "Set isCastProject to " + Boolean.toString(castPreference.isChecked()));
+						return true;
+					}
+				});
+			} else {
+				castPreference.setEnabled(false);
+				castPreference.setSummary(R.string.cast_error_portrait_conversion_msg);
+			}
 		}
 	}
 
@@ -176,11 +208,11 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SHOW_CAST_BRICKS, context);
+		return getBooleanSharedPreference(false, SETTINGS_CAST_BRICKS_ENABLED, context);
 	}
 
 	public static void setCastSharedPreferenceEnabled(Context context, boolean value) {
-		setBooleanSharedPreference(value, SETTINGS_SHOW_CAST_BRICKS, context);
+		setBooleanSharedPreference(value, SETTINGS_CAST_BRICKS_ENABLED, context);
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
