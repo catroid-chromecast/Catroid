@@ -161,6 +161,14 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus && ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			setFullScreen();
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
 		pause();
 		stageDialog.show();
