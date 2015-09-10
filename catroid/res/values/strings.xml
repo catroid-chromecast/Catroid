@@ -920,6 +920,7 @@
     <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses chromecast bricks and can\'t be started locally</string>
     <string name="cast_error_connection_msg">There was an error connecting to the Chromecast</string>
     <string name="cast_screenshots_unsupported_msg">Screenshots are not supported in Chromecast projects</string>
+    <string name="cast_error_portrait_conversion_msg">Cannot convert Portrait to Cast Project</string>
     <!-- -->
 
 </resources>

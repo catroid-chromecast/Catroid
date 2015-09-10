@@ -38,6 +38,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -47,6 +48,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -107,33 +109,36 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+
 			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
 		}
 
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
-			Utils.loadProjectIfNeeded(this); // Haare ausgerissen um die Methode zu finden!!!!!!!!!!!!
+
+			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
+			screen.removePreference(castPreference);
+		}else{
+
+			Utils.loadProjectIfNeeded(this); // Haare ausgerissen um die Methode zu finden !!!!!!!!!!!!
 			final Project currentProject = ProjectManager.getInstance().getCurrentProject();
-			final CheckBoxPreference castProjectPreference = (CheckBoxPreference) findPreference("setting_current_project_cast_enabled");
-			castProjectPreference.setChecked(currentProject.isCastProject());
+			final CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
+			castPreference.setChecked(currentProject.isCastProject());
 			if(currentProject.getScreenHeight() < currentProject.getScreenWidth()) { // Cast Checkbox ist nur fuer Landscapes verfuegbar
-				castProjectPreference.setEnabled(true);
-				castProjectPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				castPreference.setEnabled(true);
+				castPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
-						currentProject.setIsCastProject(castProjectPreference.isChecked());
-						Log.d("CAST", "Set isCastProject to " + Boolean.toString(castProjectPreference.isChecked()));
+						currentProject.setIsCastProject(castPreference.isChecked());
+						Log.d("CAST", "Set isCastProject to " + Boolean.toString(castPreference.isChecked()));
 						return true;
 					}
 				});
 			} else {
-				castProjectPreference.setEnabled(false);
+				castPreference.setEnabled(false);
+				castPreference.setSummary(R.string.cast_error_portrait_conversion_msg);
 			}
-
-			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
-			castPreference.setEnabled(castProjectPreference.isEnabled());
-			screen.removePreference(castPreference);
 		}
 	}
 

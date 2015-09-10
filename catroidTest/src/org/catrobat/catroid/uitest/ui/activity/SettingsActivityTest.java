@@ -157,7 +157,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable cast bricks if enabled
-		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_CAST_BRICKS, false)) {
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_CAST_BRICKS_ENABLED, false)) {
 			solo.clickOnMenuItem(settings);
 			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
 			solo.clickOnText(castPreferenceString);
@@ -191,7 +191,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 
 		assertTrue("Cast preference should now be enabled",
-				preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_CAST_BRICKS, false));
+				preferences.getBoolean(SettingsActivity.SETTINGS_CAST_BRICKS_ENABLED, false));
 
 		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -203,7 +203,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
 
-		assertTrue("Cast brick is not showing!", solo.waitForText(solo.getString(R.string.brick_when_gamepad_button)));
+		assertTrue("Cast brick is showing", solo.waitForText(solo.getString(R.string.brick_when_gamepad_button)));
 	}
 
 	public void testOrientation() throws NameNotFoundException {

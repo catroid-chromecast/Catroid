@@ -60,23 +60,13 @@
         </PreferenceCategory>
 
     </PreferenceScreen>
-    <PreferenceScreen
-        android:key="setting_cast_bricks"
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="setting_enable_cast_bricks"
         android:summary="@string/preference_description_cast_bricks"
-        android:title="@string/preference_title_enable_cast_bricks">
+        android:title="@string/preference_title_enable_cast_bricks" />
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="setting_enable_cast_bricks"
-            android:summary="@string/preference_description_cast_bricks"
-            android:title="@string/preference_title_enable_cast_bricks" />
-
-        <CheckBoxPreference
-            android:key="setting_current_project_cast_enabled"
-            android:summary="@string/preference_description_cast_current_project"
-            android:title="@string/preference_title_cast_current_project" />
-
-    </PreferenceScreen>
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_parrot_ar_drone_bricks"
