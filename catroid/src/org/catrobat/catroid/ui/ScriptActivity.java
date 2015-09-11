@@ -297,7 +297,8 @@ public class ScriptActivity extends BaseActivity {
 		updateHandleAddButtonClickListener();
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if(ProjectManager.getInstance().getCurrentProject().isCastProject() && CastManager.getInstance().isCastServiceRunning(this) == false)
+			if(ProjectManager.getInstance().getCurrentProject().isCastProject() &&
+					!CastManager.getInstance().isCastServiceRunning())
 				CastManager.getInstance().startCastService(this);
 
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);

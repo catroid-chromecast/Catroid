@@ -105,7 +105,7 @@ public class CastManager {
 				.addControlCategory(CastMediaControlIntent.categoryForCast(Constants.REMOTE_DISPLAY_APP_ID))
 				.build();
 
-		if(isCastServiceRunning(activity))
+		if(isCastServiceRunning())
 			CastRemoteDisplayLocalService.stopService();
 
 	}
@@ -131,7 +131,7 @@ public class CastManager {
 
 	public void setIdleCastScreen() {
 
-		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
+		if(this.layout != null && this.context != null && isCastServiceRunning()) {
 			this.layout.removeAllViews();
 			Drawable drawable = ContextCompat.getDrawable(context, R.drawable.idle_screen_1);
 			this.layout.setBackground(drawable);
@@ -140,7 +140,7 @@ public class CastManager {
 
 	public void setPausedScreen() {
 
-		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
+		if(this.layout != null && this.context != null && isCastServiceRunning()) {
 			this.layout.addView(pausedView);
 			RelativeLayout.LayoutParams layoutParams =	(RelativeLayout.LayoutParams)pausedView.getLayoutParams();
 			layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
@@ -150,7 +150,7 @@ public class CastManager {
 
 	public void removePausedScreen() {
 
-		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
+		if(this.layout != null && this.context != null && isCastServiceRunning()) {
 			this.layout.removeView(pausedView);
 		}
 	}
@@ -181,20 +181,14 @@ public class CastManager {
 				});
 	}
 
-	public boolean isCastServiceRunning(Activity activity) {
-		ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
-		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-			if (CastService.class.getName().equals(service.service.getClassName())) {
-				return true;
-			}
-		}
-		return false;
+	public boolean isCastServiceRunning() {
+		return CastRemoteDisplayLocalService.getInstance() != null;
 	}
 
 	public void addStageViewToLayout(View stageView) {
 		this.serviceView = stageView;
 
-		if(this.layout != null && this.context != null && isCastServiceRunning(this.activity)) {
+		if(this.layout != null && this.context != null && isCastServiceRunning()) {
 
 			this.layout.removeAllViews();
 			this.layout.addView(this.serviceView);

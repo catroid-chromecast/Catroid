@@ -666,6 +666,7 @@
   <string name="variable">Variable</string>
 
   <!-- Chromecast Strings -->
+  <string name="cast_paused_text">PAUSE</string>
   <string name="cast_error_mediarouter_msg">Kein Mediarouter Knopf gefunden</string>
   <string name="cast_error_not_connected_msg">Bitte verbinde dich zum Chromecast</string>
   <string name="cast_error_connection_msg">Beim Verbinden zum Chromecast ist ein Fehler aufgetreten</string>
