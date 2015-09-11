@@ -51,6 +51,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 
@@ -125,11 +126,20 @@ public final class CastManager {
 
 	public void addCastButtonActionbar(Menu menu) {
 
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+
 		try {
 			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
 			MediaRouteActionProvider mediaRouteActionProvider =
 					(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
 			mediaRouteActionProvider.setRouteSelector(mediaRouteSelector);
+			if (currentProject.getScreenHeight() > currentProject.getScreenWidth())
+			{
+				CastService.stopService();
+				mediaRouteMenuItem.setVisible(false);
+			} else{
+				mediaRouteMenuItem.setVisible(true);
+			}
 		}catch (Exception e) {
 			Log.e(CAST_TAG, activity.getString(R.string.cast_error_mediarouter_msg), e);
 		}
