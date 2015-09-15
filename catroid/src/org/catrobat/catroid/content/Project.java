@@ -311,4 +311,8 @@ public class Project implements Serializable {
 	public int getScreenWidth(){
 		return xmlHeader.getVirtualScreenWidth();
 	}
+
+	public int getScreenHeight(){ return xmlHeader.getVirtualScreenHeight();}
+
+	public int getScreenWidth() {return xmlHeader.getVirtualScreenWidth();}
 }
