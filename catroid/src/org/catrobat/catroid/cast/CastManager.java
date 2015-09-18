@@ -54,6 +54,9 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 
 import java.util.EnumMap;
 
@@ -124,23 +127,28 @@ public final class CastManager {
 		callbackAdded = false;
 	}
 
-	public void addCastButtonActionbar(Menu menu) {
+	public void hideChromecastButtonAndStopService(Menu menu) {
+		menu.findItem(R.id.media_route_menu_item).setVisible(false);
+		CastService.stopService();
+	}
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+	public void addCastButtonActionbar(Activity activity, Menu menu) {
+
+		if (activity instanceof ProjectActivity || activity instanceof ScriptActivity ||
+				activity instanceof ProgramMenuActivity) {
+			if (!ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				CastService.stopService();
+				return;
+			}
+		}
 
 		try {
 			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
 			MediaRouteActionProvider mediaRouteActionProvider =
 					(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
 			mediaRouteActionProvider.setRouteSelector(mediaRouteSelector);
-			if (currentProject.getScreenHeight() > currentProject.getScreenWidth())
-			{
-				CastService.stopService();
-				mediaRouteMenuItem.setVisible(false);
-			} else{
-				mediaRouteMenuItem.setVisible(true);
-			}
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			Log.e(CAST_TAG, activity.getString(R.string.cast_error_mediarouter_msg), e);
 		}
 	}

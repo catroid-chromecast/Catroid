@@ -104,10 +104,6 @@ public class OrientationDialog extends DialogFragment {
 		landscape = (RadioButton) dialogView.findViewById(R.id.landscape);
 		chromecast = (RadioButton) dialogView.findViewById(R.id.chromecast);
 
-		if (chromecastEnabled) {
-			chromecast.setVisibility(View.VISIBLE);
-		}
-
 		return orientationDialog;
 	}
 
