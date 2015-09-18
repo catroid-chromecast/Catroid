@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -86,6 +85,12 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (!CastManager.getInstance().isConnected()) {
+			CastManager.getInstance().openCastSelectDeviceDialog(this);
+			return;
+		}
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
 					!CastManager.getInstance().isCastServiceRunning()) {

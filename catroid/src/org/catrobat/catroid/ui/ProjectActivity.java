@@ -32,7 +32,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -146,6 +146,11 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		if (!CastManager.getInstance().isConnected()) {
+			CastManager.getInstance().openCastSelectDeviceDialog(this);
+			return;
+		}
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 

@@ -28,9 +28,13 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteChooserDialogFragment;
+import android.support.v7.app.MediaRouteDialogFactory;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.util.Log;
@@ -57,6 +61,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.EnumMap;
 
@@ -109,6 +114,14 @@ public final class CastManager {
 		if (isCastServiceRunning()) {
 			CastRemoteDisplayLocalService.stopService();
 		}
+	}
+
+	public void openCastSelectDeviceDialog(FragmentActivity fragmentActivity) {
+		MediaRouteChooserDialogFragment f = MediaRouteDialogFactory.getDefault().onCreateChooserDialogFragment();
+		FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+		f.setRouteSelector(mediaRouteSelector);
+		f.show(fm, "android.support.v7.mediarouter:MediaRouteChooserDialogFragment");
+		ToastUtil.showError(fragmentActivity, fragmentActivity.getString(R.string.cast_error_not_connected_msg));
 	}
 
 	public void addMediaRouterCallback() {

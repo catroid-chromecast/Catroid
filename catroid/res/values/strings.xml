@@ -916,7 +916,7 @@
     <string name="cast_gamepad_right">right</string>
     <string name="cast_paused_text">PAUSED</string>
     <string name="cast_error_mediarouter_msg">No media router button found</string>
-    <string name="cast_error_not_connected_msg">Please connect to your Chromecast</string>
+    <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
     <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses chromecast bricks and can\'t be started locally</string>
     <string name="cast_error_connection_msg">There was an error connecting to the Chromecast</string>
     <string name="cast_error_select_screen_mode">Please select screen mode!</string>

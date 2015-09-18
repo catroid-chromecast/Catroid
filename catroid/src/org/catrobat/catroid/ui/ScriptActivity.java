@@ -37,7 +37,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -295,6 +294,11 @@ public class ScriptActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		updateHandleAddButtonClickListener();
+
+		if (!CastManager.getInstance().isConnected()) {
+			CastManager.getInstance().openCastSelectDeviceDialog(this);
+			return;
+		}
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 
