@@ -295,7 +295,7 @@ public class ScriptActivity extends BaseActivity {
 
 		updateHandleAddButtonClickListener();
 
-		if (!CastManager.getInstance().isConnected()) {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
 			CastManager.getInstance().openCastSelectDeviceDialog(this);
 			return;
 		}

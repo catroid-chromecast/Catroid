@@ -86,7 +86,7 @@ public class ProgramMenuActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (!CastManager.getInstance().isConnected()) {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
 			CastManager.getInstance().openCastSelectDeviceDialog(this);
 			return;
 		}

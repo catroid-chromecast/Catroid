@@ -147,7 +147,7 @@ public class ProjectActivity extends BaseActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (!CastManager.getInstance().isConnected()) {
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
 			CastManager.getInstance().openCastSelectDeviceDialog(this);
 			return;
 		}
