@@ -295,12 +295,10 @@ public class ScriptActivity extends BaseActivity {
 
 		updateHandleAddButtonClickListener();
 
-		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+			if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected() && requestCode == PreStageActivity.REQUEST_RESOURCES_INIT) {
 				CastManager.getInstance().openCastSelectDeviceDialog(this);
 				return;
 			}
-		}
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 
