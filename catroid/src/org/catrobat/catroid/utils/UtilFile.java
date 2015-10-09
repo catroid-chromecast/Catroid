@@ -193,17 +193,6 @@ public final class UtilFile {
 			ProjectManager.getInstance().initializeDefaultCastProject(context);
 		}
 
-		//TODO Remove this after drop for Google
-		if (BuildConfig.FEATURE_CAST_ENABLED && !getProjectNames(rootDirectory).contains("lunar landing")) {
-			try {
-				InputStream raw = context.getAssets().open("lunarlanding.zip");
-				UtilZip.unzipFromInputStream(raw, rootDirectory);
-			} catch (IOException e) {
-
-			}
-
-		}
-
 	}
 
 	public static void loadExistingOrCreateStandardDroneProject(Context context) {

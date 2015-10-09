@@ -24,7 +24,6 @@ package org.catrobat.catroid.utils;
 
 import android.util.Log;
 
-import org.apache.commons.io.IOUtils;
 import org.catrobat.catroid.common.Constants;
 
 import java.io.BufferedInputStream;
@@ -34,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -168,50 +166,4 @@ public final class UtilZip {
 		}
 		return false;
 	}
-
-	public static void unzipFromInputStream(InputStream is, File path) {
-		checkDir(path);
-		ZipInputStream zis = null;
-		FileOutputStream fos = null;
-		try {
-			zis = new ZipInputStream(is);
-			ZipEntry ze;
-			while ((ze = zis.getNextEntry()) != null) {
-				File entryFile = new File(path, ze.getName());
-				if (ze.isDirectory()) {
-					checkDir(entryFile);
-				} else {
-					fos = new FileOutputStream(entryFile);
-					IOUtils.copy(zis, fos);
-					fos.close();
-					fos = null;
-				}
-				zis.closeEntry();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (zis != null) {
-				try {
-					zis.close();
-				} catch (IOException ignore) {
-				}
-			}
-			if (fos != null) {
-				try {
-					fos.close();
-				} catch (IOException ignore) {
-				}
-			}
-		}
-	}
-
-	private static void checkDir(File path) {
-		if (!path.exists()) {
-			path.mkdirs();
-		} else if (!path.isDirectory()) {
-			throw new IllegalArgumentException("Path is not directory");
-		}
-	}
-
 }
