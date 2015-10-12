@@ -494,6 +494,25 @@
     <string name="default_project_var_random_from">random from</string>
     <string name="default_project_var_random_to">random to</string>
 
+    <!-- defaultCastValues -->
+    <string name="default_cast_project_name">My first cast program</string>
+    <string name="default_cast_project_sprites_android">Android</string>
+    <string name="default_cast_project_sprites_teleport">Teleport</string>
+    <string name="default_cast_project_sprites_start">Start</string>
+    <string name="default_cast_project_sprites_plate">Plate</string>
+    <string name="default_cast_project_sprites_coin">Coin</string>
+    <string name="default_cast_project_background_sound">Game of Thrones</string>
+    <string name="default_cast_project_coin_sound">Ca Ching</string>
+    <string name="default_cast_project_teleport_sound">Teleport</string>
+    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_var_android_x">androidX</string>
+    <string name="default_cast_project_var_android_Y">androidY</string>
+    <string name="default_cast_project_var_plate_x">plateX</string>
+    <string name="default_cast_project_var_plate_y">plateY</string>
+    <string name="default_cast_project_var_coin_x">coinX</string>
+    <string name="default_cast_project_var_coin_y">coinY</string>
+    <string name="default_cast_project_var_not_running">not running</string>
+
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
