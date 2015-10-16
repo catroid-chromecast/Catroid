@@ -31,7 +31,9 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.stage.StageActivity;
@@ -69,7 +71,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		((Button) findViewById(R.id.stage_dialog_button_restart)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_toggle_axes)).setOnClickListener(this);
 		((Button) findViewById(R.id.stage_dialog_button_screenshot)).setOnClickListener(this);
-		if (stageActivity.getResizePossible()) {
+		if (stageActivity.getResizePossible() && !ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setOnClickListener(this);
 		} else {
 			((ImageButton) findViewById(R.id.stage_dialog_button_maximize)).setVisibility(View.GONE);
@@ -83,10 +85,13 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				onBackPressed();
 				break;
 			case R.id.stage_dialog_button_continue:
-				dismiss();
-				stageActivity.resume();
+				handleContinueButton();
 				break;
 			case R.id.stage_dialog_button_restart:
+				if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+					ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+					break;
+				}
 				clearBroadcastMaps();
 				dismiss();
 				restartProject();
@@ -106,6 +111,16 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		}
 	}
 
+	private void handleContinueButton() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
+			return;
+		}
+		dismiss();
+		stageActivity.resume();
+	}
+
 	@Override
 	public void onBackPressed() {
 		clearBroadcastMaps();
@@ -115,6 +130,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void makeScreenshot() {
+
 		if (stageListener.makeManualScreenshot()) {
 			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
@@ -123,6 +139,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void restartProject() {
+
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
 			try {
@@ -135,6 +152,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void toggleAxes() {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+			return;
+		}
+
 		Button axesToggleButton = (Button) findViewById(R.id.stage_dialog_button_toggle_axes);
 		if (stageListener.axesOn) {
 			stageListener.axesOn = false;

@@ -23,10 +23,10 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
      <item
-        android:id="@+id/menu_undo"
-        android:title="@string/undo"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/icon_undo" />
+         android:id="@+id/menu_undo"
+         android:title="@string/undo"
+         android:showAsAction="ifRoom"
+         android:icon="@drawable/icon_undo" />
     
     <item
         android:id="@+id/menu_redo"

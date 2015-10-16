@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
 
@@ -98,7 +99,7 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 	private static final int[] DEFAULT_SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness};
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
 
 	private static final int[] NXT_SENSOR_ITEMS = { R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
@@ -115,6 +116,12 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 	private static final int[] ARDUINO_SENSOR_ITEMS = {R.string.formula_editor_function_arduino_read_pin_value_analog,
 			R.string.formula_editor_function_arduino_read_pin_value_digital};
+
+	private static final int[] CHROMECAST_GAMEPAD_SENSOR_ITEMS = {R.string.formula_editor_sensor_gamepad_a_pressed,
+			R.string.formula_editor_sensor_gamepad_b_pressed, R.string.formula_editor_sensor_gamepad_up_pressed,
+			R.string.formula_editor_sensor_gamepad_down_pressed, R.string.formula_editor_sensor_gamepad_left_pressed,
+			R.string.formula_editor_sensor_gamepad_right_pressed
+	};
 
 	private String actionBarTitle;
 	private int[] itemsIds;
@@ -174,6 +181,10 @@ public class FormulaEditorListFragment extends ListFragment implements Dialog.On
 
 			if (SettingsActivity.isArduinoSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, ARDUINO_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, CHROMECAST_GAMEPAD_SENSOR_ITEMS);
 			}
 		}
 

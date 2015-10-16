@@ -272,6 +272,21 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
+	public boolean initializeDefaultCastProject(Context context) {
+		try {
+			fileChecksumContainer = new FileChecksumContainer();
+			project = StandardProjectHandler.createAndSaveStandardProjectCast("My first cast program", context);
+
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (Exception exception) {
+			Log.e(TAG, "Cannot initialize default project.", exception);
+			Utils.showErrorDialog(context, R.string.error_load_project);
+			return false;
+		}
+	}
+
 	public boolean initializeDroneProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
@@ -287,14 +302,18 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape)
+	public void initializeNewProject(String projectName, Context context, boolean empty, boolean landscape, boolean chromecast)
 			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {
-			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape);
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context, landscape, chromecast);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			if (chromecast) {
+				project = StandardProjectHandler.createAndSaveStandardProjectCast(projectName, context);
+			} else {
+				project = StandardProjectHandler.createAndSaveStandardProject(projectName, context, landscape);
+			}
 		}
 
 		currentSprite = null;
@@ -303,7 +322,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	public void initializeNewProject(String projectName, Context context, boolean empty)
 			throws IllegalArgumentException, IOException {
-		initializeNewProject(projectName, context, empty, false);
+		initializeNewProject(projectName, context, empty, false, false);
 	}
 
 	public Project getCurrentProject() {

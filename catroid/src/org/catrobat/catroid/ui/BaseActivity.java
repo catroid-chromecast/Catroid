@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
@@ -49,6 +50,21 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		CastManager.getInstance().initMediaRouter(this);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().addMediaRouterCallback();
+			CastManager.getInstance().setIdleCastScreen();
+		}
+		else {
+			CastManager.getInstance().removeMediaRouterCallback();
+		}
 	}
 
 	@Override
@@ -72,6 +88,7 @@ public class BaseActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		CastManager.getInstance().addCastButtonActionbar(this, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

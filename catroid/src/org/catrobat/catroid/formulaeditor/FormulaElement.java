@@ -940,6 +940,14 @@ public class FormulaElement implements Serializable {
 					resources |= Brick.BLUETOOTH_SENSORS_ARDUINO;
 					break;
 
+				case GAMEPAD_A_PRESSED:
+				case GAMEPAD_B_PRESSED:
+				case GAMEPAD_DOWN_PRESSED:
+				case GAMEPAD_UP_PRESSED:
+				case GAMEPAD_LEFT_PRESSED:
+				case GAMEPAD_RIGHT_PRESSED:
+					resources |= Brick.CHROMECAST_REQUIRED;
+					break;
 				default:
 			}
 		}

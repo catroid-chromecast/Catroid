@@ -90,6 +90,9 @@
     <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
     <!-- -->
 
+    <string name="preference_description_cast_current_project">Run currently loaded project on Chromecast</string>
+    <string name="preference_title_cast_current_project">Current project Cast enabled</string>
+    <!--  -->
 
     <!-- New Object Dialog -->
     <string name="dialog_new_object_pocketpaint">Draw Image</string>
@@ -293,6 +296,8 @@
     <string name="new_project_name">Program name</string>
     <string name="new_project_empty">Create empty program</string>
     <string name="project_orientation_title">Orientation:</string>
+    <string name="project_select_screen_title">Screen:</string>
+
     <!--  -->
 
 
@@ -367,6 +372,7 @@
     <string name="category_drone">ARDrone</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
+    <string name="category_chromecast">Chromecast</string>
     <!--  -->
 
     
@@ -438,6 +444,8 @@
     <!-- Control bricks -->
     <string name="brick_when_started" >When program started</string >
     <string name="brick_when" >When tapped</string >
+    <string name="brick_when_gamepad_button" >When gamepad button</string >
+    <string name="brick_when_gamepad_button_pressed" >pressed</string >
     <string name="brick_wait" >Wait</string >
 
     <plurals name="second_plural" >
@@ -489,6 +497,25 @@
     <string name="default_project_backgroundname">Background</string>
     <string name="default_project_var_random_from">random from</string>
     <string name="default_project_var_random_to">random to</string>
+
+    <!-- defaultCastValues -->
+    <string name="default_cast_project_name">My first cast program</string>
+    <string name="default_cast_project_sprites_android">Android</string>
+    <string name="default_cast_project_sprites_teleport">Teleport</string>
+    <string name="default_cast_project_sprites_start">Start</string>
+    <string name="default_cast_project_sprites_plate">Plate</string>
+    <string name="default_cast_project_sprites_coin">Coin</string>
+    <string name="default_cast_project_background_sound">Game of Thrones</string>
+    <string name="default_cast_project_coin_sound">Ca Ching</string>
+    <string name="default_cast_project_teleport_sound">Teleport</string>
+    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_var_android_x">androidX</string>
+    <string name="default_cast_project_var_android_Y">androidY</string>
+    <string name="default_cast_project_var_plate_x">plateX</string>
+    <string name="default_cast_project_var_plate_y">plateY</string>
+    <string name="default_cast_project_var_coin_x">coinX</string>
+    <string name="default_cast_project_var_coin_y">coinY</string>
+    <string name="default_cast_project_var_not_running">not running</string>
 
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
@@ -795,6 +822,12 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
@@ -904,6 +937,25 @@
     <string name="warning">Warning</string>
     <string name="abort">Abort</string>
     <string name="variable">Variable</string>
+
+    <!-- -->
+
+    <!-- Chromecast Strings -->
+    <string name="chromecast_bottombar_play">Play</string>
+    <string name="cast_gamepad_A">A</string>
+    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_up">up</string>
+    <string name="cast_gamepad_down">down</string>
+    <string name="cast_gamepad_left">left</string>
+    <string name="cast_gamepad_right">right</string>
+    <string name="cast_paused_text">PAUSED</string>
+    <string name="cast_error_mediarouter_msg">No media router button found</string>
+    <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses chromecast bricks and can\'t be started locally</string>
+    <string name="cast_error_connection_msg">There was an error connecting to the Chromecast</string>
+    <string name="cast_error_select_screen_mode">Please select screen mode!</string>
+    <string name="cast_screenshots_unsupported_msg">Screenshots are not supported in Chromecast projects</string>
+    <string name="cast_error_portrait_conversion_msg">Cannot convert Portrait to Cast Project</string>
     <!-- -->
 
 </resources>

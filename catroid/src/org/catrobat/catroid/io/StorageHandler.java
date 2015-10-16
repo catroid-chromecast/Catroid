@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
@@ -130,6 +131,7 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenGampadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -243,6 +245,7 @@ public final class StorageHandler {
 
 		xstream.alias("script", StartScript.class);
 		xstream.alias("script", WhenScript.class);
+		xstream.alias("script", WhenGamepadButtonScript.class);
 		xstream.alias("script", BroadcastScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
@@ -306,6 +309,7 @@ public final class StorageHandler {
 		xstream.alias("brick", VibrationBrick.class);
 		xstream.alias("brick", WaitBrick.class);
 		xstream.alias("brick", WhenBrick.class);
+		xstream.alias("brick", WhenGampadButtonBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
 
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);

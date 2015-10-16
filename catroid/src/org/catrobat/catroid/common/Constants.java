@@ -141,6 +141,8 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
 
+	public static final String REMOTE_DISPLAY_APP_ID ="CEBB9229";
+
 	// Suppress default constructor for noninstantiability
 	private Constants() {
 		throw new AssertionError();

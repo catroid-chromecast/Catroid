@@ -58,7 +58,9 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -398,6 +400,10 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
+            if (ProjectManager.getInstance().getCurrentProject().isCastProject()){
+                screenshotWidth = 1280;
+                screenshotHeight = 720;
+            }
 			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
 					true);
 			makeScreenshot = false;
@@ -652,5 +658,24 @@ public class StageListener implements ApplicationListener {
 
 	public Stage getStage() {
 		return stage;
+	}
+	
+	public void gamepadPressed(String buttonType) {
+
+		for (Sprite sprite : sprites) {
+			if (hasSpriteGamepadScript(sprite)) {
+				sprite.createWhengamepadButtonScriptActionSequence(buttonType);
+			}
+		}
+	}
+
+	public static boolean hasSpriteGamepadScript(Sprite sprite) {
+
+		for (Script script : sprite.getScriptList()) {
+			if (script instanceof WhenGamepadButtonScript) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

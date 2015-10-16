@@ -34,15 +34,18 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -85,7 +88,8 @@ public class PreStageActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_prestage);
 
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		int requiredResources = currentProject.getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
@@ -109,6 +113,20 @@ public class PreStageActivity extends BaseActivity {
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			droneInitializer = getDroneInitializer();
 			droneInitializer.initialise();
+		}
+
+		if ((requiredResources & Brick.CHROMECAST_REQUIRED) > 0) {
+
+			if (CastManager.getInstance().isConnected()) {
+				resourceInitialized();
+			} else {
+				if (currentProject.isCastProject()) {
+					ToastUtil.showError(this, getString(R.string.cast_error_not_connected_msg));
+				} else {
+					ToastUtil.showError(this, getString(R.string.cast_error_cast_bricks_in_no_cast_project));
+				}
+				resourceFailed();
+			}
 		}
 
 		FaceDetectionHandler.resetFaceDedection();

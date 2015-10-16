@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -187,8 +188,11 @@ public final class UtilFile {
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		if (rootDirectory == null || rootDirectory.listFiles() == null || getProjectNames(rootDirectory).size() == 0) {
-			ProjectManager.getInstance().initializeDefaultProject(context);
+			// TODO remove later again and use default project
+			//ProjectManager.getInstance().initializeDefaultProject(context);
+			ProjectManager.getInstance().initializeDefaultCastProject(context);
 		}
+
 	}
 
 	public static void loadExistingOrCreateStandardDroneProject(Context context) {

@@ -34,6 +34,7 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -138,6 +139,11 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected() && requestCode == PreStageActivity.REQUEST_RESOURCES_INIT) {
+			//CastManager.getInstance().openCastSelectDeviceDialog(this);
+			return;
+		}
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);

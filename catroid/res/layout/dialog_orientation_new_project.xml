@@ -55,5 +55,14 @@
             android:drawablePadding="16dp"
             android:padding="20dp"></RadioButton>
 
+        <RadioButton
+            android:id="@+id/chromecast"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:drawableLeft="@drawable/ic_cast_dark"
+            android:drawablePadding="16dp"
+            android:padding="20dp"/>
+
     </RadioGroup>
 </ScrollView>

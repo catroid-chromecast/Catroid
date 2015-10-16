@@ -29,16 +29,25 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -50,6 +59,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String ARDUINO_SENSOR_ANALOG = "setting_arduino_sensor_analog";
 	public static final String ARDUINO_SENSOR_DIGITAL = "setting_arduino_sensor_digital";
+	public static final String SETTINGS_CAST_BRICKS_ENABLED = "setting_enable_cast_bricks";
 	PreferenceScreen screen = null;
 
 	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
@@ -104,10 +114,30 @@ public class SettingsActivity extends PreferenceActivity {
 			screen.removePreference(dronePreference);
 		}
 
-		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
-			PreferenceScreen phiroPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
-			phiroPreference.setEnabled(false);
-			screen.removePreference(phiroPreference);
+		if (!BuildConfig.FEATURE_CAST_ENABLED) {
+
+			CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
+			screen.removePreference(castPreference);
+		}else{
+
+			Utils.loadProjectIfNeeded(this); // Haare ausgerissen um die Methode zu finden !!!!!!!!!!!!
+			final Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			final CheckBoxPreference castPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_BRICKS_ENABLED);
+			castPreference.setChecked(currentProject.isCastProject());
+			if(currentProject.getScreenHeight() < currentProject.getScreenWidth()) { // Cast Checkbox ist nur fuer Landscapes verfuegbar
+				castPreference.setEnabled(true);
+				castPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						currentProject.setIsCastProject(castPreference.isChecked());
+						Log.d("CAST", "Set isCastProject to " + Boolean.toString(castPreference.isChecked()));
+						return true;
+					}
+				});
+			} else {
+				castPreference.setEnabled(false);
+				castPreference.setSummary(R.string.cast_error_portrait_conversion_msg);
+			}
 		}
 	}
 
@@ -172,6 +202,14 @@ public class SettingsActivity extends PreferenceActivity {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
 		editor.commit();
+	}
+
+	public static boolean isCastSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CAST_BRICKS_ENABLED, context);
+	}
+
+	public static void setCastSharedPreferenceEnabled(Context context, boolean value) {
+		setBooleanSharedPreference(value, SETTINGS_CAST_BRICKS_ENABLED, context);
 	}
 
 	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {

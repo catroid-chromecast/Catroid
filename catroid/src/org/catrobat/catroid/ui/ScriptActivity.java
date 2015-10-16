@@ -40,6 +40,7 @@ import android.widget.ListAdapter;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -136,6 +137,7 @@ public class ScriptActivity extends BaseActivity {
 		BottomBar.showAddButton(this);
 		BottomBar.showPlayButton(this);
 		updateHandleAddButtonClickListener();
+
 	}
 
 	public void setupActionBar() {
@@ -296,6 +298,11 @@ public class ScriptActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		updateHandleAddButtonClickListener();
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected() && requestCode == PreStageActivity.REQUEST_RESOURCES_INIT) {
+			//CastManager.getInstance().openCastSelectDeviceDialog(this);
+			return;
+		}
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);

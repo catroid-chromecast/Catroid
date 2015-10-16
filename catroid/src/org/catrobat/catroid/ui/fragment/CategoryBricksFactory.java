@@ -107,6 +107,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenGampadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -152,6 +153,8 @@ public class CategoryBricksFactory {
 			tempList = setupDroneCategoryList();
 		} else if (category.equals(context.getString(R.string.category_phiro))) {
 			tempList = setupPhiroProCategoryList();
+		} else if (category.equals(context.getString(R.string.category_chromecast))) {
+			tempList = setupChromecastCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -186,6 +189,10 @@ public class CategoryBricksFactory {
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
+		}
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new WhenGampadButtonBrick(null));
 		}
 
 		return controlBrickList;
@@ -386,6 +393,19 @@ public class CategoryBricksFactory {
 		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_BOTTOM_RIGHT));
 
 		return phiroProBrickList;
+	}
+
+	private List<Brick> setupChromecastCategoryList() {
+		List<Brick> chromecastBrickList = new ArrayList<Brick>();
+		chromecastBrickList.add((new WhenGampadButtonBrick(null)));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_A_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_B_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_UP_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_DOWN_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_LEFT_PRESSED));
+		chromecastBrickList.add(new SetVariableBrick(Sensors.GAMEPAD_RIGHT_PRESSED));
+
+		return chromecastBrickList;
 	}
 
 	private boolean isBackground(Sprite sprite) {

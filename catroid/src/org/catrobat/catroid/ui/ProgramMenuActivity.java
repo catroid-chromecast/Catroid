@@ -26,11 +26,13 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -42,7 +44,7 @@ public class ProgramMenuActivity extends BaseActivity {
 	public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 	private Lock viewSwitchLock = new ViewSwitchLock();
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,11 +85,28 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected()) {
+			//CastManager.getInstance().openCastSelectDeviceDialog(this);
+			return;
+		}
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			if (ProjectManager.getInstance().getCurrentProject().isCastProject() &&
+					!CastManager.getInstance().isCastServiceRunning()) {
+				CastManager.getInstance().startCastService(this);
+			}
+
 			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void handleScriptsButton(View view) {
@@ -115,6 +134,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
+
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 		Intent intent = new Intent(this, PreStageActivity.class);
 		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
