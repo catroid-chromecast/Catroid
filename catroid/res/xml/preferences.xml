@@ -64,8 +64,8 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="setting_enable_cast_bricks"
-        android:summary="@string/preference_description_cast_bricks"
-        android:title="@string/preference_title_enable_cast_bricks" />
+        android:summary="@string/preference_description_cast_current_project"
+        android:title="@string/preference_title_cast_current_project" />
 
     <CheckBoxPreference
         android:defaultValue="false"
