@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
 
 	private boolean returnToProjectsList;
 	private String titleActionBar;

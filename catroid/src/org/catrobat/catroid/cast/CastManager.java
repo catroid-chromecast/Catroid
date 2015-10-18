@@ -33,6 +33,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteButton;
 import android.support.v7.app.MediaRouteChooserDialogFragment;
 import android.support.v7.app.MediaRouteDialogFactory;
 import android.support.v7.media.MediaRouteSelector;
@@ -156,10 +157,20 @@ public final class CastManager {
 		}
 
 		try {
-			MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+			/*MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
 			MediaRouteActionProvider mediaRouteActionProvider =
 					(MediaRouteActionProvider) MenuItemCompat.getActionProvider(mediaRouteMenuItem);
-			mediaRouteActionProvider.setRouteSelector(mediaRouteSelector);
+			mediaRouteActionProvider.setRouteSelector(mediaRouteSelector);*/
+
+			MenuItem mediaRouteItem = menu.findItem( R.id.media_route_menu_item );
+			MediaRouteButton mMediaRouteButton = (MediaRouteButton) mediaRouteItem.getActionView();
+
+			//mCastContext = new CastContext( getApplicationContext() );
+			//MediaRouteHelper.registerMinimalMediaRouteProvider( mCastContext, this );
+			mediaRouter = MediaRouter.getInstance( activity.getApplicationContext() );
+			//mMediaRouteSelector = MediaRouteHelper.buildMediaRouteSelector( MediaRouteHelper.CATEGORY_CAST );
+			mMediaRouteButton.setRouteSelector( mediaRouteSelector );
+			//mMediaRouterCallback = new MyMediaRouterCallback();
 
 		} catch (Exception e) {
 			Log.e(CAST_TAG, activity.getString(R.string.cast_error_mediarouter_msg), e);

@@ -21,14 +21,14 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/media_route_menu_item"
-        android:title="CAST DEVICE"
-        app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
-        app:showAsAction="always"/>
+        android:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
+        android:actionViewClass="android.support.v7.app.MediaRouteButton"
+        android:showAsAction="always"
+        android:title="CAST DEVICE"/>
 
     <item
         android:id="@+id/menu_rate_app"
