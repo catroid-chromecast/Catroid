@@ -56,14 +56,16 @@ public class BaseActivity extends FragmentActivity {
 	protected void onStart() {
 		super.onStart();
 
-		CastManager.getInstance().initMediaRouter(this);
+		CastManager cm = CastManager.getInstance();
+
+		cm.initMediaRouter(this);
 
 		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().addMediaRouterCallback();
-			CastManager.getInstance().setIdleCastScreen();
+			cm.addMediaRouterCallback();
+			cm.setIdleCastScreen();
 		}
 		else {
-			CastManager.getInstance().removeMediaRouterCallback();
+			cm.removeMediaRouterCallback();
 		}
 	}
 
@@ -87,8 +89,15 @@ public class BaseActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+
 		getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		CastManager.getInstance().addCastButtonActionbar(this, menu);
+
+		if (SettingsActivity.isCastSharedPreferenceEnabled(this)) {
+			CastManager.getInstance().addCastButtonActionbar(this, menu);
+		} else {
+			CastManager.getInstance().hideChromecastButtonAndStopService(this, menu);
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 

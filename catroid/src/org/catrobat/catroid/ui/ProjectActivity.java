@@ -76,7 +76,7 @@ public class ProjectActivity extends BaseActivity {
 		}
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setHomeButtonEnabled(true);
+		//actionBar.setHomeButtonEnabled(true); TODO: necessary?
 		setTitleActionBar(programName);
 
 		spritesListFragment = (SpritesListFragment) getFragmentManager().findFragmentById(
@@ -141,7 +141,7 @@ public class ProjectActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject() && !CastManager.getInstance().isConnected() && requestCode == PreStageActivity.REQUEST_RESOURCES_INIT) {
-			//CastManager.getInstance().openCastSelectDeviceDialog(this);
+			CastManager.getInstance().openCastSelectDeviceDialog(this);
 			return;
 		}
 

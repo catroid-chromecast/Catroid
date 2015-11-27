@@ -90,9 +90,14 @@
     <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
     <!-- -->
 
+    <!-- Chromecast -->
+    <string name="preference_description_cast_feature_enabled">Show Chromecast button and allow Chromecast project
+        creation</string>
+    <string name="preference_title_cast_feature_enabled">Enable Chromecast features</string>
     <string name="preference_description_cast_current_project">Run currently loaded project on Chromecast</string>
-    <string name="preference_title_cast_current_project">Current project Cast enabled</string>
-    <!--  -->
+    <string name="preference_title_cast_current_project">Current project Chromecast enabled</string>
+
+
 
     <!-- New Object Dialog -->
     <string name="dialog_new_object_pocketpaint">Draw Image</string>

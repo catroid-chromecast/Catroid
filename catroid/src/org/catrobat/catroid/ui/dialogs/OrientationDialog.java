@@ -82,6 +82,10 @@ public class OrientationDialog extends DialogFragment {
 					}
 				}).create();
 
+		if (!chromecastEnabled) {
+			((RadioButton) dialogView.findViewById(R.id.chromecast)).setVisibility(View.INVISIBLE);
+		}
+
 		orientationDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {

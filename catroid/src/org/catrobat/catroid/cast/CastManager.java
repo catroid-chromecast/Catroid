@@ -100,10 +100,9 @@ public final class CastManager {
 
 	public void initMediaRouter(Activity activity) {
 
-		Activity oldActivity = this.activity;
 		this.activity = activity;
 
-		if (oldActivity != null && callbackAdded) {
+		if (callbackAdded) {
 			return;
 		}
 
@@ -141,8 +140,9 @@ public final class CastManager {
 		callbackAdded = false;
 	}
 
-	public void hideChromecastButtonAndStopService(Menu menu) {
+	public void hideChromecastButtonAndStopService(Activity activity, Menu menu) {
 		menu.findItem(R.id.media_route_menu_item).setVisible(false);
+		activity.invalidateOptionsMenu();
 		CastService.stopService();
 	}
 
@@ -171,6 +171,7 @@ public final class CastManager {
 			//mMediaRouteSelector = MediaRouteHelper.buildMediaRouteSelector( MediaRouteHelper.CATEGORY_CAST );
 			mMediaRouteButton.setRouteSelector( mediaRouteSelector );
 			//mMediaRouterCallback = new MyMediaRouterCallback();
+
 
 		} catch (Exception e) {
 			Log.e(CAST_TAG, activity.getString(R.string.cast_error_mediarouter_msg), e);
